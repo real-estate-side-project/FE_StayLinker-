@@ -1,9 +1,11 @@
 import Button from '@/components/Buttons/Button';
+import SingleIconButton from '@/components/Buttons/SingleIconButton';
+import TextButton from '@/components/Buttons/TextButton';
 import { IoAdd } from 'react-icons/io5';
 
 const page = () => {
     return (
-        <div className="p-20 flex items-start justify-start">
+        <div className="p-20 flex flex-col items-start justify-start gap-20">
             <div className="flex flex-row border-2 p-6 gap-10">
                 <div className="flex flex-col">
                     <h1 className="text-3xl font-bold pb-1">Button</h1>
@@ -186,6 +188,92 @@ const page = () => {
                         <Button size={'lg'} fullWidth isDisabled icon={<IoAdd />} iconPosition="right" />
                         <Button size={'lg'} outline fullWidth icon={<IoAdd />} iconPosition="right" />
                         <Button size={'lg'} outline fullWidth isDisabled icon={<IoAdd />} iconPosition="right" />
+                    </div>
+                </div>
+            </div>
+            <div className="flex flex-col border-2 p-6 gap-10">
+                <div className="flex flex-col">
+                    <h1 className="text-3xl font-bold pb-1">Text Button</h1>
+                    <div className="flex gap-2 items-center pb-2">
+                        <TextButton size={'sm'} />
+                        <TextButton />
+                        <TextButton size={'lg'} />
+                    </div>
+                    <div className="flex gap-2 items-center pb-2">
+                        <TextButton size={'sm'} isDisabled />
+                        <TextButton isDisabled />
+                        <TextButton size={'lg'} isDisabled />
+                    </div>
+                    <div className="flex gap-2 items-center pb-2">
+                        <TextButton size={'sm'} icon={<IoAdd />} />
+                        <TextButton icon={<IoAdd />} />
+                        <TextButton size={'lg'} icon={<IoAdd />} />
+                    </div>
+                    <div className="flex gap-2 items-center pb-2">
+                        <TextButton size={'sm'} isDisabled icon={<IoAdd />} />
+                        <TextButton isDisabled icon={<IoAdd />} />
+                        <TextButton size={'lg'} isDisabled icon={<IoAdd />} />
+                    </div>
+                    <div className="flex gap-2 items-center pb-2">
+                        <TextButton size={'sm'} icon={<IoAdd />} iconPosition="right" />
+                        <TextButton icon={<IoAdd />} iconPosition="right" />
+                        <TextButton size={'lg'} icon={<IoAdd />} iconPosition="right" />
+                    </div>
+                    <div className="flex gap-2 items-center">
+                        <TextButton size={'sm'} isDisabled icon={<IoAdd />} iconPosition="right" />
+                        <TextButton isDisabled icon={<IoAdd />} iconPosition="right" />
+                        <TextButton size={'lg'} isDisabled icon={<IoAdd />} iconPosition="right" />
+                    </div>
+                </div>
+            </div>
+            <div className="flex border-2 p-6 gap-10">
+                <div className="flex flex-col">
+                    <h1 className="text-3xl font-bold pb-3">Single Icon Button</h1>
+                    <div className="flex gap-10">
+                        <div className="flex flex-col">
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton size={'sm'} icon={<IoAdd />} />
+                                <SingleIconButton icon={<IoAdd />} />
+                                <SingleIconButton size={'lg'} icon={<IoAdd />} />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton size={'sm'} isDisabled icon={<IoAdd />} />
+                                <SingleIconButton isDisabled icon={<IoAdd />} />
+                                <SingleIconButton size={'lg'} isDisabled icon={<IoAdd />} />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton outline size={'sm'} icon={<IoAdd />} />
+                                <SingleIconButton outline icon={<IoAdd />} />
+                                <SingleIconButton outline size={'lg'} icon={<IoAdd />} />
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <SingleIconButton outline size={'sm'} isDisabled icon={<IoAdd />} />
+                                <SingleIconButton outline isDisabled icon={<IoAdd />} />
+                                <SingleIconButton outline size={'lg'} isDisabled icon={<IoAdd />} />
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton size={'sm'} icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton size={'lg'} icon={<IoAdd />} shape={'square'} />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton size={'sm'} isDisabled icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton isDisabled icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton size={'lg'} isDisabled icon={<IoAdd />} shape={'square'} />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton outline size={'sm'} icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton outline icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton outline size={'lg'} icon={<IoAdd />} shape={'square'} />
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <SingleIconButton outline size={'sm'} isDisabled icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton outline isDisabled icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton outline size={'lg'} isDisabled icon={<IoAdd />} shape={'square'} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
