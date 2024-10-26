@@ -15,7 +15,7 @@ const buttonVariant = cva(
             },
             isDisabled: {
                 true: 'cursor-not-allowed brightness-125',
-                false: 'cursor-pointer hover:brightness-90'
+                false: 'cursor-pointer active:scale-90 hover:brightness-90'
             }
         },
         defaultVariants: {
