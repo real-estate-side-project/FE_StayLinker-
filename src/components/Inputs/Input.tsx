@@ -19,7 +19,7 @@ const labelVariant = cva('font-medium mb-1 text-sm', {
 });
 
 const inputVariant = cva(
-    'w-full flex items-center gap-1 border transition-all font-normal py-1.5 text-base rounded-lg',
+    'w-full bg-white flex items-center gap-1 border transition-all font-normal py-1.5 text-base rounded-lg',
     {
         variants: {
             isDisabled: {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { MdCancel } from 'react-icons/md';
 
 const toastVariant = cva(
-    'z-10 flex justify-center items-center gap-3 bg-gray-500 text-white rounded-lg font-normal transition-all duration-500 px-4 py-3 text-sm mt-2',
+    'flex justify-center items-center gap-3 bg-gray-500 text-white rounded-lg font-normal transition-all duration-500 px-4 py-3 text-sm mt-2',
     {
         variants: {
             isOpen: {
