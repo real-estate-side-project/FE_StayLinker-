@@ -19,7 +19,7 @@ const labelVariant = cva('font-medium mb-1 text-sm', {
 });
 
 const inputVariant = cva(
-    'w-full flex items-center gap-1 border transition-all font-normal py-1.5 text-base rounded-lg',
+    'w-full bg-white flex items-center gap-1 border transition-all font-normal py-1.5 text-base rounded-lg',
     {
         variants: {
             isDisabled: {
@@ -85,7 +85,7 @@ const iconVariant = cva('absolute top-1/2 -translate-y-1/2 font-normal text-base
         }
     },
     compoundVariants: [
-        { isDisabled: true, iconPosition: 'right', className: 'cursor-not-allowed' },
+        { isDisabled: false, iconPosition: 'left', className: 'cursor-default' },
         { isDisabled: false, iconPosition: 'right', className: 'cursor-pointer' }
     ],
     defaultVariants: {
@@ -127,16 +127,13 @@ const Input = ({
                 </label>
             )}
             <div className="w-full relative">
-                {icon && iconPosition === 'left' && (
-                    <span className={iconVariant({ isDisabled, isError, iconPosition })}>{icon}</span>
-                )}
                 <input
                     id={inputId}
                     className={inputVariant({ isDisabled, isError, hasIcon: !!icon, iconPosition })}
                     disabled={isDisabled || false}
                     {...props}
                 />
-                {icon && iconPosition === 'right' && (
+                {icon && (
                     <span
                         className={iconVariant({ isDisabled, isError, iconPosition })}
                         onClick={isDisabled ? undefined : handleClickIcon}
