@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 import { MdCancel } from 'react-icons/md';
 
 const chipVariant = cva(
-    'flex items-center justify-center text-sm border rounded-full px-2.5 py-0.5 gap-1.5 font-normal hover:brightness-90 whitespace-nowrap transition-all',
+    'flex items-center justify-center text-sm border rounded-full px-2.5 py-0.5 gap-1.5 font-normal whitespace-nowrap transition-all cursor-default',
     {
         variants: {
             intent: {
@@ -19,13 +19,16 @@ const chipVariant = cva(
 
 type ChipVariantProps = VariantProps<typeof chipVariant>;
 
-type ChipProps = { onClick?: () => void; handleClickDeleteIcon: () => void } & ChipVariantProps;
+type ChipProps = { handleClickDeleteIcon: () => void } & ChipVariantProps;
 
-const DeletableChip = ({ children, intent, onClick, handleClickDeleteIcon }: PropsWithChildren<ChipProps>) => {
+const DeletableChip = ({ children, intent, handleClickDeleteIcon }: PropsWithChildren<ChipProps>) => {
     return (
-        <div className={chipVariant({ intent })} onClick={onClick}>
+        <div className={chipVariant({ intent })}>
             {children || 'Chip'}
-            <span onClick={handleClickDeleteIcon} className="flex items-center justify-center cursor-pointer">
+            <span
+                onClick={handleClickDeleteIcon}
+                className="flex items-center justify-center cursor-pointer hover:brightness-90"
+            >
                 <MdCancel />
             </span>
         </div>
