@@ -1,3 +1,4 @@
+import DropdownSample from './_components/DropdownSample';
 import InputSample from './_components/InputSample';
 import SearchBarSample from './_components/SearchBarSample';
 import TextareaSample from './_components/TextareaSample';
@@ -8,6 +9,7 @@ const page = () => {
             <SearchBarSample />
             <InputSample />
             <TextareaSample />
+            <DropdownSample />
         </div>
     );
 };
