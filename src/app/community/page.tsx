@@ -1,26 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ThreadContainer from './components/ThreadContainer';
 import TopRating from './components/TopRating';
 
 const CommunityPage = () => {
-    // dafault > all
-    // threadContainer > props: type filtered threads
+    const [type, setType] = useState<string>('all');
+
     return (
         <>
             <div>
+                {/* section */}
                 <div>
-                    <button>all</button>
-                    <button>infomation</button>
-                    <button>freeChat</button>
-                    <button>secondHandMarket</button>
+                    <button
+                        onClick={() => {
+                            setType('all');
+                        }}
+                    >
+                        all
+                    </button>
+                    <button
+                        onClick={() => {
+                            setType('infomation');
+                        }}
+                    >
+                        infomation
+                    </button>
+                    <button
+                        onClick={() => {
+                            setType('freeChat');
+                        }}
+                    >
+                        freeChat
+                    </button>
+                    <button
+                        onClick={() => {
+                            setType('secondHandMarket');
+                        }}
+                    >
+                        secondHandMarket
+                    </button>
                 </div>
+                {/* search */}
                 <div>
                     <input type="text" />
-                    <div>icon</div>
+                    <div>searchIcon</div>
                 </div>
             </div>
-            <TopRating />
-            <ThreadContainer />
+            <TopRating type={type} />
+            <ThreadContainer type={type} />
         </>
     );
 };
