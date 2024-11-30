@@ -1,5 +1,5 @@
-import ModalSample from './_component/ModalSample';
-import ToastSample from './_component/ToastSample';
+import ModalSample from './_components/ModalSample';
+import ToastSample from './_components/ToastSample';
 
 const page = () => {
     return (
