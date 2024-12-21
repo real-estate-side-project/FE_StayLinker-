@@ -2,6 +2,7 @@ import Button from '@/components/Buttons/Button';
 import SingleIconButton from '@/components/Buttons/SingleIconButton';
 import TextButton from '@/components/Buttons/TextButton';
 import { IoAdd } from 'react-icons/io5';
+import { MdOutlineGridView } from 'react-icons/md';
 
 const page = () => {
     return (
@@ -232,46 +233,54 @@ const page = () => {
                     <div className="flex gap-10">
                         <div className="flex flex-col">
                             <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton size={'sm'} icon={<IoAdd />} />
-                                <SingleIconButton icon={<IoAdd />} />
-                                <SingleIconButton size={'lg'} icon={<IoAdd />} />
+                                <SingleIconButton size={'sm'} icon={<MdOutlineGridView />} />
+                                <SingleIconButton icon={<MdOutlineGridView />} />
+                                <SingleIconButton size={'lg'} icon={<MdOutlineGridView />} />
                             </div>
                             <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton size={'sm'} isDisabled icon={<IoAdd />} />
-                                <SingleIconButton isDisabled icon={<IoAdd />} />
-                                <SingleIconButton size={'lg'} isDisabled icon={<IoAdd />} />
+                                <SingleIconButton size={'sm'} isDisabled icon={<MdOutlineGridView />} />
+                                <SingleIconButton isDisabled icon={<MdOutlineGridView />} />
+                                <SingleIconButton size={'lg'} isDisabled icon={<MdOutlineGridView />} />
                             </div>
                             <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton outline size={'sm'} icon={<IoAdd />} />
-                                <SingleIconButton outline icon={<IoAdd />} />
-                                <SingleIconButton outline size={'lg'} icon={<IoAdd />} />
+                                <SingleIconButton priority={'secondary'} size={'sm'} icon={<MdOutlineGridView />} />
+                                <SingleIconButton priority={'secondary'} icon={<MdOutlineGridView />} />
+                                <SingleIconButton priority={'secondary'} size={'lg'} icon={<MdOutlineGridView />} />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton
+                                    priority={'secondary'}
+                                    size={'sm'}
+                                    isDisabled
+                                    icon={<MdOutlineGridView />}
+                                />
+                                <SingleIconButton priority={'secondary'} isDisabled icon={<MdOutlineGridView />} />
+                                <SingleIconButton
+                                    priority={'secondary'}
+                                    size={'lg'}
+                                    isDisabled
+                                    icon={<MdOutlineGridView />}
+                                />
+                            </div>
+                            <div className="flex gap-2 items-center pb-2">
+                                <SingleIconButton priority={'tertiary'} size={'sm'} icon={<MdOutlineGridView />} />
+                                <SingleIconButton priority={'tertiary'} icon={<MdOutlineGridView />} />
+                                <SingleIconButton priority={'tertiary'} size={'lg'} icon={<MdOutlineGridView />} />
                             </div>
                             <div className="flex gap-2 items-center">
-                                <SingleIconButton outline size={'sm'} isDisabled icon={<IoAdd />} />
-                                <SingleIconButton outline isDisabled icon={<IoAdd />} />
-                                <SingleIconButton outline size={'lg'} isDisabled icon={<IoAdd />} />
-                            </div>
-                        </div>
-                        <div className="flex flex-col">
-                            <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton size={'sm'} icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton size={'lg'} icon={<IoAdd />} shape={'square'} />
-                            </div>
-                            <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton size={'sm'} isDisabled icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton isDisabled icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton size={'lg'} isDisabled icon={<IoAdd />} shape={'square'} />
-                            </div>
-                            <div className="flex gap-2 items-center pb-2">
-                                <SingleIconButton outline size={'sm'} icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton outline icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton outline size={'lg'} icon={<IoAdd />} shape={'square'} />
-                            </div>
-                            <div className="flex gap-2 items-center">
-                                <SingleIconButton outline size={'sm'} isDisabled icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton outline isDisabled icon={<IoAdd />} shape={'square'} />
-                                <SingleIconButton outline size={'lg'} isDisabled icon={<IoAdd />} shape={'square'} />
+                                <SingleIconButton
+                                    priority={'tertiary'}
+                                    size={'sm'}
+                                    isDisabled
+                                    icon={<MdOutlineGridView />}
+                                />
+                                <SingleIconButton priority={'tertiary'} isDisabled icon={<MdOutlineGridView />} />
+                                <SingleIconButton
+                                    priority={'tertiary'}
+                                    size={'lg'}
+                                    isDisabled
+                                    icon={<MdOutlineGridView />}
+                                />
                             </div>
                         </div>
                     </div>
