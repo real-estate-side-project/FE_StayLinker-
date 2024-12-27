@@ -22,7 +22,14 @@ const config: Config = {
                 main800: '#C93E03',
                 sub200: '#98C9E1',
                 sub600: '#3997C6',
-                sub800: '#2E799E'
+                sub800: '#2E799E',
+                gray100: '#EDEDED',
+                gray300: '#BABABA',
+                gray500: '#878787',
+                gray900: '#222222',
+                gray910: '#080808',
+                success600: '#539354',
+                danger600: '#E31203'
             }
         }
     },

@@ -5,8 +5,8 @@ const buttonVariant = cva('flex justify-center items-center border font-medium t
     variants: {
         priority: {
             primary: ' text-white',
-            secondary: 'bg-white border-main600 text-main600',
-            tertiary: 'bg-white border-sub600 text-sub600'
+            secondary: 'bg-white',
+            tertiary: 'bg-white'
         },
         size: {
             sm: 'w-8 h-8 text-xl mo:w-6 mo:h-6 mo:text-base',
@@ -23,15 +23,23 @@ const buttonVariant = cva('flex justify-center items-center border font-medium t
         }
     },
     compoundVariants: [
-        { size: 'sm', shape: 'square', className: 'rounded-[4px]' },
-        { size: 'md', shape: 'square', className: 'rounded-md mo:rounded-[4px]' },
-        { size: 'lg', shape: 'square', className: 'rounded-[4px] mo:rounded-md' },
+        { size: 'sm', shape: 'square', className: 'rounded' },
+        { size: 'md', shape: 'square', className: 'rounded-md mo:rounded' },
+        { size: 'lg', shape: 'square', className: 'rounded mo:rounded-md' },
         { priority: 'primary', isDisabled: true, className: 'bg-main100 border-main200' },
         { priority: 'primary', isDisabled: false, className: 'bg-main400 border-main600 hover:bg-main600' },
         { priority: 'secondary', isDisabled: true, className: 'border-main100 text-main100' },
-        { priority: 'secondary', isDisabled: false, className: 'hover:border-main800 hover:text-main800' },
+        {
+            priority: 'secondary',
+            isDisabled: false,
+            className: 'border-main600 text-main600 hover:border-main800 hover:text-main800'
+        },
         { priority: 'tertiary', isDisabled: true, className: 'border-sub200 text-sub200' },
-        { priority: 'tertiary', isDisabled: false, className: 'hover:border-sub800 hover:text-sub800' }
+        {
+            priority: 'tertiary',
+            isDisabled: false,
+            className: 'border-sub600 text-sub600 hover:border-sub800 hover:text-sub800'
+        }
     ],
     defaultVariants: {
         priority: 'primary',

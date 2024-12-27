@@ -1,7 +1,7 @@
 import { ToastType } from '@/types/modal.type';
 import { cva, VariantProps } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
-import { MdCancel } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 
 const toastVariant = cva(
     'flex justify-center items-center gap-3 bg-gray-500 text-white rounded-lg font-normal transition-all duration-500 px-4 py-3 text-sm mt-2',
@@ -47,7 +47,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
         <div className={toastVariant({ isOpen })}>
             {toast.message}
             <span onClick={handleClickClose} className="cursor-pointer">
-                <MdCancel />
+                <MdClose />
             </span>
         </div>
     );

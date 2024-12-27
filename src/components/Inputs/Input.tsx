@@ -1,38 +1,33 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import { ComponentProps, ReactNode, useId } from 'react';
 
-const labelVariant = cva('font-medium mb-1 text-sm', {
+const labelVariant = cva('font-semibold text-xl mo:text-base', {
     variants: {
-        isDisabled: {
-            true: 'cursor-not-allowed brightness-125',
-            false: 'cursor-pointer'
-        },
-        isError: {
-            true: 'text-red-500',
-            false: 'text-gray-500'
+        state: {
+            default: 'text-gray910 cursor-pointer',
+            filled: 'text-success600 cursor-pointer',
+            error: 'text-danger600 cursor-pointer',
+            disable: 'text-gray300 cursor-not-allowed'
         }
     },
     defaultVariants: {
-        isDisabled: false,
-        isError: false
+        state: 'default'
     }
 });
 
 const inputVariant = cva(
-    'w-full bg-white flex items-center gap-1 border transition-all font-normal py-1.5 text-base rounded-lg',
+    'w-full flex items-center border transition-all font-medium py-2 text-lg mo:text-sm rounded focus:border-gray900 focus:text-gray900 outline-none',
     {
         variants: {
-            isDisabled: {
-                true: 'cursor-not-allowed brightness-125',
-                false: 'cursor-text focus:outline-gray-900 focus:text-gray-900'
-            },
-            isError: {
-                true: 'border-red-500 text-red-500 placeholder-transparent',
-                false: 'border-gray-500 text-gray-500'
+            state: {
+                default: 'bg-white text-gray500 border-gray500',
+                filled: 'bg-white text-gray900 border-success600',
+                error: 'bg-white text-gray900 border-danger600',
+                disable: 'bg-gray100 text-gray300 border-gray300 cursor-not-allowed'
             },
             hasIcon: {
                 true: '',
-                false: 'px-3'
+                false: 'px-4'
             },
             iconPosition: {
                 left: '',
@@ -40,57 +35,78 @@ const inputVariant = cva(
             }
         },
         compoundVariants: [
-            { hasIcon: true, iconPosition: 'left', className: 'pl-9 pr-3' },
-            { hasIcon: true, iconPosition: 'right', className: 'pl-3 pr-9' }
+            { hasIcon: true, iconPosition: 'left', className: 'pl-11 pr-4' },
+            { hasIcon: true, iconPosition: 'right', className: 'pl-4 pr-10' }
         ],
         defaultVariants: {
-            isDisabled: false,
-            isError: false,
+            state: 'default',
             hasIcon: false,
             iconPosition: 'right'
         }
     }
 );
 
-const textVariant = cva('font-normal text-sm mt-1', {
+const textVariant = cva('font-medium text-lg mo:text-sm', {
     variants: {
-        isDisabled: {
-            true: 'brightness-125',
-            false: ''
-        },
-        isError: {
-            true: 'text-red-500',
-            false: 'text-gray-500'
+        state: {
+            default: 'text-gray500 cursor-default',
+            filled: 'text-gray500 cursor-default',
+            error: 'text-gray500 cursor-default',
+            disable: 'text-gray300 cursor-not-allowed'
         }
     },
     defaultVariants: {
-        isDisabled: false,
-        isError: false
+        state: 'default'
     }
 });
 
-const iconVariant = cva('absolute top-1/2 -translate-y-1/2 font-normal text-base', {
+const iconVariant = cva('absolute top-1/2 -translate-y-1/2 font-medium text-2xl group-focus-within:text-gray900', {
     variants: {
-        isDisabled: {
-            true: 'cursor-not-allowed brightness-125',
-            false: ''
-        },
-        isError: {
-            true: 'text-red-500',
-            false: 'text-gray-500'
+        state: {
+            default: 'text-gray500',
+            filled: 'text-gray900',
+            error: 'text-gray900',
+            disable: 'text-gray300 cursor-not-allowed'
         },
         iconPosition: {
-            left: 'left-3',
-            right: 'right-3'
+            left: 'left-4',
+            right: 'right-4'
         }
     },
     compoundVariants: [
-        { isDisabled: false, iconPosition: 'left', className: 'cursor-default' },
-        { isDisabled: false, iconPosition: 'right', className: 'cursor-pointer' }
+        {
+            state: 'default',
+            iconPosition: 'left',
+            className: 'cursor-default'
+        },
+        {
+            state: 'filled',
+            iconPosition: 'left',
+            className: 'cursor-default'
+        },
+        {
+            state: 'error',
+            iconPosition: 'left',
+            className: 'cursor-default'
+        },
+        {
+            state: 'default',
+            iconPosition: 'right',
+            className: 'cursor-pointer'
+        },
+        {
+            state: 'filled',
+            iconPosition: 'right',
+            className: 'cursor-pointer'
+        },
+        {
+            state: 'error',
+            iconPosition: 'right',
+            className: 'cursor-pointer'
+        }
     ],
     defaultVariants: {
-        isDisabled: false,
-        isError: false,
+        state: 'default',
         iconPosition: 'right'
     }
 });
@@ -106,8 +122,7 @@ type InputProps = {
     ComponentProps<'input'>;
 
 const Input = ({
-    isDisabled,
-    isError,
+    state,
     icon,
     iconPosition = 'right',
     validationMessage,
@@ -120,31 +135,29 @@ const Input = ({
     const inputId = id || randomId;
 
     return (
-        <div className="w-full flex flex-col">
+        <div className="w-full flex flex-col gap-3 mo:gap-2">
             {label && (
-                <label htmlFor={inputId} className={labelVariant({ isDisabled, isError })}>
+                <label htmlFor={inputId} className={labelVariant({ state })}>
                     {label}
                 </label>
             )}
-            <div className="w-full relative">
+            <div className="w-full relative group focus-within:text-gray900">
                 <input
                     id={inputId}
-                    className={inputVariant({ isDisabled, isError, hasIcon: !!icon, iconPosition })}
-                    disabled={isDisabled || false}
+                    className={inputVariant({ state, hasIcon: !!icon, iconPosition })}
+                    disabled={state === 'disable'}
                     {...props}
                 />
                 {icon && (
                     <span
-                        className={iconVariant({ isDisabled, isError, iconPosition })}
-                        onClick={isDisabled ? undefined : handleClickIcon}
+                        className={iconVariant({ state, iconPosition })}
+                        onClick={state === 'disable' ? undefined : handleClickIcon}
                     >
                         {icon}
                     </span>
                 )}
             </div>
-            {validationMessage && (
-                <span className={textVariant({ isDisabled, isError })}>{`* ${validationMessage}`}</span>
-            )}
+            {validationMessage && <span className={textVariant({ state })}>{validationMessage}</span>}
         </div>
     );
 };

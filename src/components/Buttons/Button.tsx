@@ -5,17 +5,15 @@ const buttonVariant = cva(
     'flex justify-center items-center gap-1 text-center whitespace-nowrap border font-medium transition-all',
     {
         variants: {
-            intent: {
-                primary: 'border-gray-500'
-            },
-            outline: {
-                true: '',
-                false: 'text-white'
+            priority: {
+                primary: 'text-white',
+                secondary: 'bg-white',
+                tertiary: 'bg-white'
             },
             size: {
-                sm: 'px-3 py-1.5 text-sm rounded-lg',
-                md: 'px-4 py-2 text-base rounded-xl',
-                lg: 'px-5 py-2.5 text-lg rounded-2xl'
+                sm: 'px-4 py-1.5 text-base rounded mo:py-1 mo:text-sm',
+                md: 'px-5 py-2 text-lg rounded-md mo:px-4 mo:py-1.5 mo:rounded mo:text-base',
+                lg: 'px-5 py-2 text-xl rounded mo:rounded-md mo:text-lg'
             },
             halfWidth: {
                 true: 'w-1/2',
@@ -26,17 +24,28 @@ const buttonVariant = cva(
                 false: ''
             },
             isDisabled: {
-                true: 'cursor-not-allowed brightness-125',
-                false: 'cursor-pointer active:scale-90 hover:brightness-90'
+                true: 'cursor-not-allowed',
+                false: 'cursor-pointer active:scale-90'
             }
         },
         compoundVariants: [
-            { intent: 'primary', outline: true, className: 'text-gray-500' },
-            { intent: 'primary', outline: false, className: 'bg-gray-500' }
+            { priority: 'primary', isDisabled: true, className: 'bg-main100 border-main200' },
+            { priority: 'primary', isDisabled: false, className: 'bg-main400 border-main600 hover:bg-main600' },
+            { priority: 'secondary', isDisabled: true, className: 'border-main100 text-main100' },
+            {
+                priority: 'secondary',
+                isDisabled: false,
+                className: 'border-main600 text-main600 hover:border-main800 hover:text-main800'
+            },
+            { priority: 'tertiary', isDisabled: true, className: 'border-sub200 text-sub200' },
+            {
+                priority: 'tertiary',
+                isDisabled: false,
+                className: 'border-sub600 text-sub600 hover:border-sub800 hover:text-sub800'
+            }
         ],
         defaultVariants: {
-            intent: 'primary',
-            outline: false,
+            priority: 'primary',
             size: 'md',
             halfWidth: false,
             fullWidth: false,
@@ -44,6 +53,19 @@ const buttonVariant = cva(
         }
     }
 );
+
+const iconVariant = cva('flex justify-center items-center', {
+    variants: {
+        size: {
+            sm: 'text-xl mo:text-base',
+            md: 'text-2xl mo:text-xl',
+            lg: 'text-2xl'
+        }
+    },
+    defaultVariants: {
+        size: 'md'
+    }
+});
 
 type ButtonVariantProps = VariantProps<typeof buttonVariant>;
 
@@ -54,26 +76,25 @@ type ButtonProps = {
     ComponentProps<'button'>;
 
 const Button = ({
-    intent,
-    outline,
+    priority,
     size,
     halfWidth,
     fullWidth,
     icon,
-    iconPosition = 'left',
+    iconPosition = 'right',
     isDisabled,
     children,
     ...props
 }: ButtonProps) => {
     return (
         <button
-            className={buttonVariant({ intent, outline, size, halfWidth, fullWidth, isDisabled })}
+            className={buttonVariant({ priority, size, halfWidth, fullWidth, isDisabled })}
             disabled={isDisabled || false}
             {...props}
         >
-            {icon && iconPosition === 'left' && <span>{icon}</span>}
+            {icon && iconPosition === 'left' && <span className={iconVariant({ size })}>{icon}</span>}
             {children || 'Button'}
-            {icon && iconPosition === 'right' && <span>{icon}</span>}
+            {icon && iconPosition === 'right' && <span className={iconVariant({ size })}>{icon}</span>}
         </button>
     );
 };
