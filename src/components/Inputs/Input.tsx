@@ -115,7 +115,7 @@ type InputVariantProps = VariantProps<typeof inputVariant>;
 
 type InputProps = {
     icon?: ReactNode;
-    validationMessage?: string;
+    validationMessage?: string | ReactNode;
     label?: string;
     handleClickIcon?: () => void;
 } & InputVariantProps &
