@@ -11,16 +11,22 @@ const Threads = ({ thread }: any) => {
         //router.push("./~")
     };
 
-    // ftn3: like click
-    // ftn4: comment => after the design finished
+    const callLike = () => {
+        console.log('like api call');
+    };
+
+    // after the design finished
+    const callComment = () => {
+        console.log('comment process');
+    };
 
     return (
         <button>
-            {/* ftn1 */}
-            {/* make this div button?? */}
             <div>
-                <p>thread.title</p>
-                {/* ftn2 */}
+                <div>
+                    <p>thread.category</p>
+                    <p>thread.writer</p>
+                </div>
                 <div>
                     <button
                         onClick={() => {
@@ -32,15 +38,20 @@ const Threads = ({ thread }: any) => {
                     {view && <Ellipsis isMarket={isMarket} isMain={isMain} />}
                 </div>
             </div>
-            <p>summary</p>
+            <p>thread.title</p>
+            <p>thread.summary</p>
             <div>
                 <div>
-                    {/* ftn3 */}
-                    <div>heart</div>
-                    {/* ftn4 */}
-                    <div>comment</div>
+                    <div>
+                        <button onClick={() => callLike()}>heartIcon</button>
+                        <p>thread.liked</p>
+                    </div>
+                    <div>
+                        <button onClick={() => callComment()}>commentIcon</button>
+                        <p>thread.comment</p>
+                    </div>
+                    <button onClick={() => {}}>shareIcon</button>
                 </div>
-                <div>type</div>
             </div>
         </button>
     );

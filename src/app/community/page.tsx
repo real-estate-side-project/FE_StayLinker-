@@ -1,52 +1,41 @@
+'use client';
+
 import React, { useState } from 'react';
 import ThreadContainer from './components/ThreadContainer';
 import TopRating from './components/TopRating';
 
 const CommunityPage = () => {
-    const [type, setType] = useState<string>('all');
+    const [boardType, setBoardType] = useState<string>('See All');
+
+    const changeBoard = (board: string) => {
+        setBoardType(board);
+    };
 
     return (
         <>
-            <div>
-                {/* section */}
-                <div>
-                    <button
-                        onClick={() => {
-                            setType('all');
-                        }}
-                    >
-                        all
-                    </button>
-                    <button
-                        onClick={() => {
-                            setType('infomation');
-                        }}
-                    >
-                        infomation
-                    </button>
-                    <button
-                        onClick={() => {
-                            setType('freeChat');
-                        }}
-                    >
-                        freeChat
-                    </button>
-                    <button
-                        onClick={() => {
-                            setType('secondHandMarket');
-                        }}
-                    >
-                        secondHandMarket
-                    </button>
+            <div className="flex justify-between border border-black">
+                <div className="flex space-x-[16px]">
+                    {['See All', 'Information', 'Community', 'Sale'].map((board) => (
+                        <button
+                            key={board}
+                            className={`flex justify-center items-center px-[12px] py-[8px] rounded-[8px] border-[1px] ${
+                                boardType === board
+                                    ? 'text-orange-500 border-orange-500'
+                                    : 'text-gray-500 border-gray-500'
+                            }`}
+                            onClick={() => {
+                                changeBoard(board);
+                            }}
+                        >
+                            {board}
+                        </button>
+                    ))}
                 </div>
                 {/* search */}
-                <div>
-                    <input type="text" />
-                    <div>searchIcon</div>
-                </div>
+                <div>searchBar</div>
             </div>
-            <TopRating type={type} />
-            <ThreadContainer type={type} />
+            <TopRating type={boardType} />
+            <ThreadContainer type={boardType} />
         </>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Threads from './Threads';
+import { useRouter } from 'next/navigation';
 
 interface ThreadContainerProps {
     type: string;
@@ -18,23 +18,21 @@ const ThreadContainer = ({ type }: ThreadContainerProps) => {
     };
 
     const goToWriteThread = () => {
-        router.push('./components/WriteThread');
+        router.push('./community/components/WriteThread');
     };
 
     return (
         <>
-            <div>
-                <p>Threads</p>
-                {/* use dropBox*/}
-                {/* dropBox: latest, old, like */}
-                <button
-                    onClick={() => {
-                        // ftn0
-                    }}
-                >
-                    정렬
-                </button>
-                <button onClick={() => goToWriteThread()}>글쓰기</button>
+            <div className="border border-red-500 mt-8">
+                <div className="flex justify-between">
+                    <h3 className="font-bold text-[28px] mb-[40px]">Threads</h3>
+                    <div className="flex">
+                        <button onClick={() => {}}>Array(sorting)</button>
+                        <button onClick={() => goToWriteThread()} className="ml-[12px]">
+                            Write
+                        </button>
+                    </div>
+                </div>
             </div>
             {threadList.map((thread) => {
                 <Threads thread={thread} />;
