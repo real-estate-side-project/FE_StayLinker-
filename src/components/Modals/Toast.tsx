@@ -1,31 +1,49 @@
 import { ToastType } from '@/types/modal.type';
 import { cva, VariantProps } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
-import { MdClose } from 'react-icons/md';
+import { MdError } from 'react-icons/md';
 
 const toastVariant = cva(
-    'flex justify-center items-center gap-3 bg-gray-500 text-white rounded-lg font-normal transition-all duration-500 px-4 py-3 text-sm mt-2',
+    'flex justify-start items-center gap-2 rounded-lg font-medium text-gray910 transition-all duration-500 px-4 py-4 text-base mt-2 border',
     {
         variants: {
             isOpen: {
                 true: 'translate-y-0 opacity-1',
                 false: '-translate-y-full opacity-0'
+            },
+            color: {
+                sub: 'bg-sub50 border-sub100',
+                warning: 'bg-warning50 border-warning200',
+                danger: 'bg-danger50 border-danger100'
             }
         },
         defaultVariants: {
-            isOpen: false
+            isOpen: false,
+            color: 'sub'
         }
     }
 );
+
+const iconVariant = cva('text-2xl', {
+    variants: {
+        color: {
+            sub: 'text-sub500',
+            warning: 'text-warning500',
+            danger: 'text-danger600'
+        }
+    },
+    defaultVariants: {
+        color: 'sub'
+    }
+});
 
 type ToastVariantProps = VariantProps<typeof toastVariant>;
 
 type ToastProps = {
     toast: ToastType;
-    onClose: () => void;
 } & ToastVariantProps;
 
-const Toast = ({ toast, onClose }: ToastProps) => {
+const Toast = ({ toast, color }: ToastProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -38,17 +56,12 @@ const Toast = ({ toast, onClose }: ToastProps) => {
         return () => clearTimeout(autoCloseTimeout);
     }, []);
 
-    const handleClickClose = (): void => {
-        setIsOpen(false);
-        setTimeout(onClose, 500);
-    };
-
     return (
-        <div className={toastVariant({ isOpen })}>
-            {toast.message}
-            <span onClick={handleClickClose} className="cursor-pointer">
-                <MdClose />
+        <div className={toastVariant({ isOpen, color })}>
+            <span className={iconVariant({ color })}>
+                <MdError />
             </span>
+            {toast.message}
         </div>
     );
 };

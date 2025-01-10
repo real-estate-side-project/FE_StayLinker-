@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { PluginAPI } from 'tailwindcss/types/config';
 
 const config: Config = {
     content: [
@@ -9,30 +10,129 @@ const config: Config = {
     theme: {
         extend: {
             screens: {
-                mo: { max: '600px' },
-                tablet: { max: '1024px' }
+                mo: { max: '768px' },
+                tablet: { max: '1280px' }
             },
             colors: {
-                background: 'var(--background)',
-                foreground: 'var(--foreground)',
+                background: '#ffffff',
+                foreground: '#080808',
+                main50: '#FFF2E6',
                 main100: '#FED7B3',
                 main200: '#FEBC81',
+                main300: '#FDA14E',
                 main400: '#FC861C',
+                main500: '#FC6B1C',
                 main600: '#F55A00',
+                main700: '#E34603',
                 main800: '#C93E03',
+                main900: '#B03602',
+                main910: '#972F02',
+                main920: '#7E2702',
+                main930: '#651F01',
+                main940: '#4C1701',
+                sub50: '#E7F3F8',
+                sub100: '#C0DEED',
                 sub200: '#98C9E1',
+                sub300: '#71B4D6',
+                sub400: '#61ACD1',
+                sub500: '#499FCA',
                 sub600: '#3997C6',
+                sub700: '#3285AE',
                 sub800: '#2E799E',
+                sub900: '#276786',
+                sub910: '#225B77',
+                sub920: '#1C485F',
+                sub930: '#173C4F',
+                sub940: '#102A37',
+                bg50: '#FCFAF8',
+                bg100: '#F8F6F2',
+                bg200: '#F6F3EE',
+                bg300: '#F3EFE7',
+                bg400: '#EFEAE1',
+                bg500: '#ECE5DA',
+                bg600: '#E6E0D6',
+                bg700: '#E2DBCF',
+                bg800: '#DED7C9',
+                bg900: '#D6CFC2',
+                bg910: '#C9C2B6',
+                bg920: '#BAB5AB',
+                bg930: '#AAA7A1',
+                bg940: '#9C9A96',
+                gray50: '#F7F7F7',
                 gray100: '#EDEDED',
+                gray200: '#D4D4D4',
                 gray300: '#BABABA',
+                gray400: '#A1A1A1',
                 gray500: '#878787',
+                gray600: '#6E6E6E',
+                gray700: '#545454',
+                gray800: '#3B3B3B',
                 gray900: '#222222',
                 gray910: '#080808',
+                success50: '#EFF6EF',
+                success100: '#DEEDDF',
+                success200: '#CEE3CF',
+                success300: '#ADD1AE',
+                success400: '#8DBF8E',
+                success500: '#6CAC6E',
                 success600: '#539354',
-                danger600: '#E31203'
+                success700: '#407242',
+                success800: '#376238',
+                success900: '#2E522F',
+                success910: '#254125',
+                success920: '#1C311C',
+                success930: '#122113',
+                danger50: '#FFE7E6',
+                danger100: '#FEB8B3',
+                danger200: '#FE8981',
+                danger300: '#FD5A4E',
+                danger400: '#FF291A',
+                danger500: '#F51000',
+                danger600: '#E31203',
+                danger700: '#C91003',
+                danger800: '#B00E02',
+                danger900: '#970C02',
+                danger910: '#7E0A02',
+                danger920: '#650801',
+                danger930: '#4C0601',
+                warning50: '#FFFBE6',
+                warning100: '#FEF2B3',
+                warning200: '#FEE981',
+                warning300: '#FDE04E',
+                warning400: '#FFD91A',
+                warning500: '#FFD11A',
+                warning600: '#FFC233',
+                warning700: '#FFB200',
+                warning800: '#FC9F1C',
+                warning900: '#F28203',
+                warning910: '#EB7500',
+                warning920: '#E06900',
+                warning930: '#DB5B00',
+                information50: '#F7F2EE',
+                information100: '#E6D7CB',
+                information200: '#D6BDA9',
+                information300: '#CDAF98',
+                information400: '#C29D80',
+                information500: '#BA906F',
+                information600: '#AC7A53',
+                information700: '#9B6E4B',
+                information800: '#78563A',
+                information900: '#674932',
+                information910: '#453121',
+                information920: '#342519',
+                information930: '#110C08'
             }
         }
     },
-    plugins: []
+    plugins: [
+        function (api: PluginAPI) {
+            api.addBase({
+                body: {
+                    backgroundColor: '#ffffff',
+                    color: '#080808'
+                }
+            });
+        }
+    ]
 };
 export default config;
