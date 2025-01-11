@@ -2,12 +2,26 @@
 import React, { useState } from 'react';
 import MarketForm from './components/MarketForm';
 import CommonForm from './components/CommonForm';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+interface threadForm {
+    category: string;
+    title: string;
+    detail: string;
+    picture?: FileList;
+}
 
 const WriteThreadPage = () => {
-    const [category, setCategory] = useState('category');
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm();
+    const [category, setCategory] = useState<string>('');
 
     const today = new Date();
 
+    //
     const dateFormat = (date: Date): string => {
         const monthDayYear: Intl.DateTimeFormatOptions = {
             year: 'numeric',
@@ -24,28 +38,50 @@ const WriteThreadPage = () => {
 
         return formattedDate;
     };
+    //
 
-    // Wed, January 8, 2025  > December 17, 2024(Tue)
+    const tempFtn = (data: any) => {
+        console.log(data);
+    };
 
-    // study react hook form
-    // Use modal Sample
-    // valiation: check 1. category !== "category" & no blank
-
-    const cancelWriting = () => {};
+    const changeCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(event.target.value);
+    };
 
     return (
         <>
-            <div className="flex">
-                <div>drop box: category , setCategory</div>
-                {dateFormat(today)}
-            </div>
-            {category === 'market' ? <MarketForm /> : <CommonForm />}
-            <div>
-                <button onClick={() => {}}>cancel</button>
-                {/* cancel check modal */}
-                <button onClick={() => {}}>save</button>
-                {/* check validation > save */}
-            </div>
+            <form onSubmit={handleSubmit(tempFtn)}>
+                <div className="flex">
+                    <select
+                        {...register('category', { required: 'Choose Category' })}
+                        onChange={changeCategory}
+                        className="border-2 border-black p-1"
+                    >
+                        <option value="">Category</option>
+                        <option value="Resale Market">Resale Market</option>
+                        <option value="Community">Community</option>
+                        <option value="Information">Information</option>
+                    </select>
+                    {dateFormat(today)}
+                </div>
+
+                <div>
+                    {category === 'Resale Market' ? (
+                        <MarketForm register={register} />
+                    ) : (
+                        <CommonForm register={register} errors={errors} />
+                    )}
+                </div>
+
+                <div className="flex">
+                    <button onClick={() => {}} className="border-2 border-black p-1">
+                        cancel
+                    </button>
+                    <button type="submit" className="ml-2 border-2 border-orange-500 p-1">
+                        save
+                    </button>
+                </div>
+            </form>
         </>
     );
 };
