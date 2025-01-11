@@ -22,7 +22,7 @@ const Modal = ({ modal }: ModalProps) => {
                 <div className="font-medium text-base">{label}</div>
                 {hasCancel ? (
                     <div className="flex gap-2">
-                        <Button onClick={onCancel} size={'lg'} outline icon={cancelButtonContent?.icon || null}>
+                        <Button onClick={onCancel} size={'lg'} icon={cancelButtonContent?.icon || null}>
                             {cancelButtonContent?.children || 'cancel'}
                         </Button>
                         <Button onClick={onConfirm} size={'lg'} icon={confirmButtonContent?.icon || null}>
