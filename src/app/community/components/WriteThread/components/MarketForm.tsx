@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import React, { ChangeEvent, useState } from 'react';
+import MapModal from './MapModal';
 
-interface TempProps {
+interface MarketFormProps {
     register: any;
+    setValue: any;
+    detailInput: string;
 }
 
 type Preview = {
@@ -10,8 +13,9 @@ type Preview = {
     previewUrl: string;
 };
 
-const MarketForm = ({ register }: TempProps) => {
+const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
     const [fileCount, setFileCount] = useState<number>(0);
+    const [isMapOpen, setIsMapOpen] = useState<boolean>(false);
     const [filePreviews, setFilePreviews] = useState<Preview[]>([]);
 
     const trackFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +47,10 @@ const MarketForm = ({ register }: TempProps) => {
     return (
         <>
             <input
-                {...register('title', { required: 'Enter title' })}
+                {...register('title', {
+                    required: 'Enter title',
+                    maxLength: { value: 100, message: 'max length is 100' }
+                })}
                 className="border border-gray-800"
                 placeholder="title"
             />
@@ -103,19 +110,25 @@ const MarketForm = ({ register }: TempProps) => {
                     Both Options
                 </label>
             </div>
-            <input
-                {...register('location', { required: 'Enter location' })}
-                className="border border-gray-600"
-                placeholder="location"
-            />
+            <div>
+                <input
+                    {...register('address', { required: 'Enter location' })}
+                    className="border border-gray-600"
+                    placeholder="location"
+                />
+                <button onClick={() => setIsMapOpen(true)}>Map</button>
+            </div>
             <input
                 {...register('detail', {
                     required: 'Enter detail',
                     maxLength: { value: 500, message: 'max length is 500' }
                 })}
                 className="border border-gray-500"
+                maxLength="500"
                 placeholder="detail"
             />
+            <p>{detailInput.length}/500</p>
+            {isMapOpen && <MapModal setIsMapOpen={setIsMapOpen} setValue={setValue} />}
         </>
     );
 };

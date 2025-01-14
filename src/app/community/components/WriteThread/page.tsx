@@ -15,11 +15,14 @@ const WriteThreadPage = () => {
     const {
         register,
         handleSubmit,
+        setValue,
+        watch,
         formState: { errors }
     } = useForm();
     const [category, setCategory] = useState<string>('');
 
     const today = new Date();
+    const detailInput = watch('detail', '');
 
     //
     const dateFormat = (date: Date): string => {
@@ -67,9 +70,9 @@ const WriteThreadPage = () => {
 
                 <div>
                     {category === 'Resale Market' ? (
-                        <MarketForm register={register} />
+                        <MarketForm register={register} setValue={setValue} detailInput={detailInput} />
                     ) : (
-                        <CommonForm register={register} errors={errors} />
+                        <CommonForm register={register} detailInput={detailInput} />
                     )}
                 </div>
 
