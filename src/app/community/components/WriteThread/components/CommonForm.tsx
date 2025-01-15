@@ -31,7 +31,6 @@ const CommonForm = ({ register, detailInput }: CommonFormProps) => {
                 {...register('picture', {
                     validate: {
                         size: (files: FileList) => {
-                            if (!files || files.length === 0) return 'No File';
                             if (files.length > 6) return 'Limit is 6';
                             // 파일크기 제한?
                         }

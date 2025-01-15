@@ -24,7 +24,7 @@ const WriteThreadPage = () => {
     const today = new Date();
     const detailInput = watch('detail', '');
 
-    //
+    // move
     const dateFormat = (date: Date): string => {
         const monthDayYear: Intl.DateTimeFormatOptions = {
             year: 'numeric',
@@ -53,7 +53,7 @@ const WriteThreadPage = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(tempFtn)}>
+            <form onSubmit={handleSubmit(tempFtn, (errors) => console.error(errors))}>
                 <div className="flex">
                     <select
                         {...register('category', { required: 'Choose Category' })}

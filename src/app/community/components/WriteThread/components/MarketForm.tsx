@@ -54,28 +54,27 @@ const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
                 className="border border-gray-800"
                 placeholder="title"
             />
-            <label htmlFor="addPicture" className="inline-block border border-black">
+            <label htmlFor="addPicture" className="inline-block border border-black cursor-pointer">
                 <p>Add Picture</p>
                 <p>CameraIcon</p>
-                <input
-                    {...register('picture', {
-                        validate: {
-                            size: (files: FileList) => {
-                                if (!files || files.length === 0) return 'No File';
-                                if (files.length > 6) return 'Limit is 6';
-                                // 파일크기 제한?
-                            }
-                        }
-                    })}
-                    onChange={trackFileChange}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    id="addPicture"
-                    className="absolute opacity-0"
-                />
                 <p>{fileCount}/6</p>
             </label>
+            <input
+                {...register('picture', {
+                    validate: {
+                        size: (files: FileList) => {
+                            if (files.length > 6) return 'Limit is 6';
+                            // 파일크기 제한?
+                        }
+                    }
+                })}
+                onChange={trackFileChange}
+                type="file"
+                accept="image/*"
+                multiple
+                id="addPicture"
+                className="hidden"
+            />
             {filePreviews.map(({ file, previewUrl }, index) => (
                 <div key={index}>
                     <Image src={previewUrl} alt={file.name} width={100} height={100} />

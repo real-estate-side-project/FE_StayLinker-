@@ -1,16 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import ThreadContainer from './components/ThreadContainer';
 import TopRating from './components/TopRating';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface FormData {
     searchTerm: string;
 }
 
 const CommunityPage = () => {
+    const router = useRouter();
+    // 다 만들어서 넘기기
     const [boardType, setBoardType] = useState<string>('See All');
+    const [sorting, setSorting] = useState<string>('latest');
+
     const { register, handleSubmit, reset, setError } = useForm<FormData>({ mode: 'onSubmit' });
     const changeBoard = (board: string) => {
         setBoardType(board);
@@ -25,6 +29,14 @@ const CommunityPage = () => {
         // data.searchTerm을 백엔드로 보내서 이 단어가 있는 thread만 호출
         console.log(data.searchTerm);
         reset();
+    };
+
+    const changeSorting = () => {
+        setSorting((prev) => (prev === 'latest' ? 'popular' : 'latest'));
+    };
+
+    const goToWriteThread = () => {
+        router.push('./community/components/WriteThread');
     };
 
     return (
@@ -58,7 +70,20 @@ const CommunityPage = () => {
                 </form>
             </div>
             <TopRating type={boardType} />
-            <ThreadContainer type={boardType} />
+            <div>
+                <div className="flex justify-between">
+                    <h3 className="font-bold text-[28px] mb-[40px]">Threads</h3>
+                    <div className="flex">
+                        <button onClick={changeSorting}>{sorting}</button>
+                        <button onClick={goToWriteThread} className="ml-[12px]">
+                            Write
+                        </button>
+                    </div>
+                </div>
+                {/* {threadList.map((thread) => {
+                <Threads thread={thread} />;
+            })} */}
+            </div>
         </>
     );
 };
