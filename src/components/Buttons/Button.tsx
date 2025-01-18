@@ -72,6 +72,8 @@ type ButtonVariantProps = VariantProps<typeof buttonVariant>;
 type ButtonProps = {
     icon?: ReactNode;
     iconPosition?: 'left' | 'right';
+    width?: string | number;
+    height?: string | number;
 } & ButtonVariantProps &
     ComponentProps<'button'>;
 
@@ -80,6 +82,8 @@ const Button = ({
     size,
     halfWidth,
     fullWidth,
+    width,
+    height,
     icon,
     iconPosition = 'right',
     isDisabled,
@@ -89,6 +93,7 @@ const Button = ({
     return (
         <button
             className={buttonVariant({ priority, size, halfWidth, fullWidth, isDisabled })}
+            style={{ width, height }}
             disabled={isDisabled || false}
             {...props}
         >
