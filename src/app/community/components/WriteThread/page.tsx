@@ -1,8 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import Image from 'next/image';
+import React, { ChangeEvent, useState } from 'react';
 import MarketForm from './components/MarketForm';
-import CommonForm from './components/CommonForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import DropBox from '../DropBox';
 
 interface threadForm {
     category: string;
@@ -10,6 +11,10 @@ interface threadForm {
     detail: string;
     picture?: FileList;
 }
+type Preview = {
+    file: File;
+    previewUrl: string;
+};
 
 const WriteThreadPage = () => {
     const {
@@ -47,15 +52,45 @@ const WriteThreadPage = () => {
         console.log(data);
     };
 
-    const changeCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setCategory(event.target.value);
+    const [fileCount, setFileCount] = useState<number>(0);
+    const [filePreviews, setFilePreviews] = useState<Preview[]>([]);
+
+    const trackFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+
+        if (!files) return;
+
+        if (files.length > 6) {
+            event.target.value = '';
+            // 알림 추가
+            return;
+        }
+
+        const previews = Array.from(files).map((file) => ({
+            file,
+            previewUrl: URL.createObjectURL(file)
+        }));
+
+        setFilePreviews((prev) => {
+            const addedPreviews = [...previews, ...prev];
+            const uniquePreviews = addedPreviews.filter(
+                (preview, index, self) => index === self.findIndex((el) => el.file.name === preview.file.name)
+            );
+            setFileCount(uniquePreviews.length);
+            return uniquePreviews;
+        });
     };
 
     return (
         <>
+            <DropBox
+                optionList={['Resale Market', 'Community', 'Information']}
+                setValue={setCategory}
+                dummyValue={'category'}
+            />
             <form onSubmit={handleSubmit(tempFtn, (errors) => console.error(errors))}>
                 <div className="flex">
-                    <select
+                    {/* <select
                         {...register('category', { required: 'Choose Category' })}
                         onChange={changeCategory}
                         className="border-2 border-black p-1"
@@ -64,18 +99,58 @@ const WriteThreadPage = () => {
                         <option value="Resale Market">Resale Market</option>
                         <option value="Community">Community</option>
                         <option value="Information">Information</option>
-                    </select>
+                    </select> */}
                     {dateFormat(today)}
                 </div>
+                <input
+                    {...register('title', {
+                        required: 'Enter title',
+                        maxLength: { value: 100, message: 'max length is 100' }
+                    })}
+                    className="border border-gray-800"
+                    placeholder="title"
+                />
+                <label htmlFor="addPicture" className="inline-block border border-black cursor-pointer">
+                    <p>Add Picture</p>
+                    <p>CameraIcon</p>
+                    <p>{fileCount}/6</p>
+                </label>
+                <input
+                    {...register('picture', {
+                        validate: {
+                            size: (files: FileList) => {
+                                if (files.length > 6) return 'Limit is 6';
+                            }
+                        }
+                    })}
+                    onChange={trackFileChange}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    id="addPicture"
+                    className="hidden"
+                />
+                {filePreviews.map(({ file, previewUrl }, index) => (
+                    <div key={index}>
+                        <Image src={previewUrl} alt={file.name} width={100} height={100} />
+                    </div>
+                ))}
 
-                <div>
-                    {category === 'Resale Market' ? (
-                        <MarketForm register={register} setValue={setValue} detailInput={detailInput} />
-                    ) : (
-                        <CommonForm register={register} detailInput={detailInput} />
-                    )}
-                </div>
+                {category === 'Resale Market' && (
+                    <MarketForm register={register} setValue={setValue} detailInput={detailInput} />
+                )}
 
+                <input
+                    {...register('detail', {
+                        required: 'Enter detail',
+                        maxLength: { value: 500, message: 'max length is 500' }
+                    })}
+                    className="border border-gray-500"
+                    maxLength={500}
+                    placeholder="detail"
+                />
+                <p>{detailInput.length}/500</p>
+                {detailInput.length >= 500 && <p>글자수 500 제한을 넘었습니다.</p>}
                 <div className="flex">
                     <button onClick={() => {}} className="border-2 border-black p-1">
                         cancel

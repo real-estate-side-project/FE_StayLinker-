@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import TopRating from './components/TopRating';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import DropBox from './components/DropBox';
 
 interface FormData {
     searchTerm: string;
@@ -29,10 +30,6 @@ const CommunityPage = () => {
         // data.searchTerm을 백엔드로 보내서 이 단어가 있는 thread만 호출
         console.log(data.searchTerm);
         reset();
-    };
-
-    const changeSorting = () => {
-        setSorting((prev) => (prev === 'latest' ? 'popular' : 'latest'));
     };
 
     const goToWriteThread = () => {
@@ -74,7 +71,7 @@ const CommunityPage = () => {
                 <div className="flex justify-between">
                     <h3 className="font-bold text-[28px] mb-[40px]">Threads</h3>
                     <div className="flex">
-                        <button onClick={changeSorting}>{sorting}</button>
+                        <DropBox optionList={['latest', 'popular']} setValue={setSorting} />
                         <button onClick={goToWriteThread} className="ml-[12px]">
                             Write
                         </button>
