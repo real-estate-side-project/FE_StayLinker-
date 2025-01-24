@@ -22,8 +22,10 @@ const WriteThreadPage = () => {
         handleSubmit,
         setValue,
         watch,
-        formState: { errors }
-    } = useForm();
+        formState: { errors, isValid, isSubmitting }
+    } = useForm({
+        mode: 'onChange'
+    });
     const [category, setCategory] = useState<string>('');
 
     const today = new Date();
@@ -83,23 +85,13 @@ const WriteThreadPage = () => {
 
     return (
         <>
-            <DropBox
-                optionList={['Resale Market', 'Community', 'Information']}
-                setValue={setCategory}
-                dummyValue={'category'}
-            />
             <form onSubmit={handleSubmit(tempFtn, (errors) => console.error(errors))}>
                 <div className="flex">
-                    {/* <select
-                        {...register('category', { required: 'Choose Category' })}
-                        onChange={changeCategory}
-                        className="border-2 border-black p-1"
-                    >
-                        <option value="">Category</option>
-                        <option value="Resale Market">Resale Market</option>
-                        <option value="Community">Community</option>
-                        <option value="Information">Information</option>
-                    </select> */}
+                    <DropBox
+                        optionList={['Resale Market', 'Community', 'Information']}
+                        setValue={setCategory}
+                        dummyValue={'category'}
+                    />
                     {dateFormat(today)}
                 </div>
                 <input
@@ -155,7 +147,11 @@ const WriteThreadPage = () => {
                     <button onClick={() => {}} className="border-2 border-black p-1">
                         cancel
                     </button>
-                    <button type="submit" className="ml-2 border-2 border-orange-500 p-1">
+                    <button
+                        type="submit"
+                        disabled={!isValid || isSubmitting}
+                        className="ml-2 border-2 border-orange-500 p-1"
+                    >
                         save
                     </button>
                 </div>

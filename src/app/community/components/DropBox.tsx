@@ -19,7 +19,7 @@ const DropBox: React.FC<DropBoxProps> = ({ optionList, setValue, dummyValue }) =
         }
     };
     return (
-        <div className="w-[124px] h-[40px] py-[8px] px-[12px] border border-black">
+        <div className="min-w-[124px] h-[40px] py-[8px] px-[12px] border border-black inline-block">
             <div className="flex flex-nowrap">
                 {selectedValue}
                 <div onClick={() => setIsOpen((prev) => !prev)} className="cursor-pointer ml-[8px]">
@@ -31,7 +31,7 @@ const DropBox: React.FC<DropBoxProps> = ({ optionList, setValue, dummyValue }) =
                     {optionList
                         .filter((option) => option !== selectedValue)
                         .map((option, index) => (
-                            <li key={index} value={option} className="">
+                            <li key={index} value={option} className="border border-black p-2">
                                 {option}
                             </li>
                         ))}
