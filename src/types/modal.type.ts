@@ -1,6 +1,7 @@
 export type ToastType = {
     id?: number;
     message: string;
+    color?: 'sub' | 'warning' | 'danger' | null | undefined;
 };
 
 export type ToastContextType = {
