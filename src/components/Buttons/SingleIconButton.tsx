@@ -6,7 +6,8 @@ const buttonVariant = cva('flex justify-center items-center border font-medium t
         priority: {
             primary: ' text-white',
             secondary: 'bg-white',
-            tertiary: 'bg-white'
+            tertiary: 'bg-white',
+            gray: 'bg-white'
         },
         size: {
             sm: 'w-8 h-8 text-xl mo:w-6 mo:h-6 mo:text-base',
@@ -39,6 +40,12 @@ const buttonVariant = cva('flex justify-center items-center border font-medium t
             priority: 'tertiary',
             isDisabled: false,
             className: 'border-sub600 text-sub600 hover:border-sub800 hover:text-sub800'
+        },
+        { priority: 'gray', isDisabled: true, className: 'border-gray200 text-gray200' },
+        {
+            priority: 'gray',
+            isDisabled: false,
+            className: 'border-gray600 text-gray600 hover:border-gray800 hover:text-gray800'
         }
     ],
     defaultVariants: {
