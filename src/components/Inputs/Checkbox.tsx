@@ -7,60 +7,80 @@ import OffDisabled from '@/assets/icons/checkbox/OffDisabled';
 import On from '@/assets/icons/checkbox/On';
 import OnDisabled from '@/assets/icons/checkbox/OnDisabled';
 import { CheckboxMode, CheckboxSelectType } from '@/types/input.type';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 interface CheckboxProps {
+    name: string;
     mode?: CheckboxMode;
     initialState?: CheckboxSelectType;
-    onChange?: (state: CheckboxSelectType) => void;
+    handleChangeState?: (state: CheckboxSelectType) => void;
     disabled?: boolean;
 }
 
 const Checkbox = ({
     children,
+    name,
     mode = 'on-off',
     initialState = 'off',
-    onChange,
+    handleChangeState,
     disabled = false
 }: PropsWithChildren<CheckboxProps>) => {
-    const [state, setState] = useState<CheckboxSelectType>(initialState);
-
-    const changeState = (): void => {
-        if (disabled) return;
-
-        let nextState: CheckboxSelectType;
-
-        if (mode === 'on-off') {
-            nextState = state === 'on' ? 'off' : 'on';
-        } else if (mode === 'indeterminate-off') {
-            nextState = state === 'indeterminate' ? 'off' : 'indeterminate';
-        } else {
-            nextState = state === 'off' ? 'indeterminate' : state === 'indeterminate' ? 'on' : 'off';
-        }
-
-        setState(nextState);
-        onChange?.(nextState);
-    };
+    const { control } = useFormContext();
 
     return (
-        <div className="flex items-center justify-center gap-2">
-            {disabled ? (
-                <span className="cursor-not-allowed w-5 h-5">
-                    {state === 'on' ? <OnDisabled /> : state === 'off' ? <OffDisabled /> : <IndeterminateDisabled />}
-                </span>
-            ) : (
-                <span className="flex cursor-pointer w-5 h-5" onClick={changeState}>
-                    {state === 'on' ? <On /> : state === 'off' ? <Off /> : <Indeterminate />}
-                </span>
-            )}
-            <label
-                className={`font-medium text-lg mo:text-base whitespace-nowrap ${
-                    disabled ? 'cursor-not-allowed text-gray500' : 'cursor-default text-gray910'
-                }`}
-            >
-                {children || 'Label'}
-            </label>
-        </div>
+        <Controller
+            name={name}
+            control={control}
+            defaultValue={initialState}
+            render={({ field }) => {
+                const { value, onChange } = field;
+
+                const changeState = (): void => {
+                    if (disabled) return;
+
+                    let nextState: CheckboxSelectType;
+
+                    if (mode === 'on-off') {
+                        nextState = value === 'on' ? 'off' : 'on';
+                    } else if (mode === 'indeterminate-off') {
+                        nextState = value === 'indeterminate' ? 'off' : 'indeterminate';
+                    } else {
+                        nextState = value === 'off' ? 'indeterminate' : value === 'indeterminate' ? 'on' : 'off';
+                    }
+
+                    onChange(nextState);
+                    handleChangeState?.(nextState);
+                };
+
+                return (
+                    <div className="flex items-center justify-center gap-2">
+                        {disabled ? (
+                            <span className="cursor-not-allowed w-5 h-5">
+                                {value === 'on' ? (
+                                    <OnDisabled />
+                                ) : value === 'off' ? (
+                                    <OffDisabled />
+                                ) : (
+                                    <IndeterminateDisabled />
+                                )}
+                            </span>
+                        ) : (
+                            <span className="flex cursor-pointer w-5 h-5" onClick={changeState}>
+                                {value === 'on' ? <On /> : value === 'off' ? <Off /> : <Indeterminate />}
+                            </span>
+                        )}
+                        <label
+                            className={`font-medium text-lg mo:text-base whitespace-nowrap ${
+                                disabled ? 'cursor-not-allowed text-gray500' : 'cursor-default text-gray910'
+                            }`}
+                        >
+                            {children || 'Label'}
+                        </label>
+                    </div>
+                );
+            }}
+        />
     );
 };
 

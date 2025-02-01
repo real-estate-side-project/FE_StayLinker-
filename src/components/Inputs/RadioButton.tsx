@@ -7,6 +7,7 @@ import OnDisabled from '@/assets/icons/radio-button/OnDisabled';
 import { RadioButtonOption } from '@/types/input.type';
 import { cva, VariantProps } from 'class-variance-authority';
 import { ComponentProps } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 const radioButtonVariant = cva('', {
     variants: {
@@ -35,52 +36,54 @@ const labelVariant = cva('font-medium', {
 type RadioButtonVariantProps = VariantProps<typeof radioButtonVariant>;
 
 type RadioButtonProps = {
+    name: string;
     options: RadioButtonOption[];
-    selectedValue?: string;
     groupStyle?: string;
     isDisabled?: boolean;
 } & RadioButtonVariantProps &
     ComponentProps<'input'>;
 
-const RadioButton = ({
-    radioSize,
-    isDisabled = false,
-    options,
-    selectedValue,
-    groupStyle,
-    ...props
-}: RadioButtonProps) => {
+const RadioButton = ({ name, radioSize, isDisabled = false, options, groupStyle, ...props }: RadioButtonProps) => {
+    const { control } = useFormContext();
+
     return (
-        <div className={groupStyle || 'flex gap-4'}>
-            {options.map((option: RadioButtonOption) => (
-                <label key={option.value} className="flex items-center justify-center gap-2">
-                    <input
-                        type="radio"
-                        value={option.value}
-                        checked={selectedValue === option.value}
-                        disabled={isDisabled}
-                        className="hidden"
-                        {...props}
-                    />
-                    {isDisabled ? (
-                        <span className={`cursor-not-allowed ${radioButtonVariant({ radioSize })}`}>
-                            {selectedValue === option.value ? <OnDisabled /> : <OffDisabled />}
-                        </span>
-                    ) : (
-                        <span className={`cursor-pointer ${radioButtonVariant({ radioSize })}`}>
-                            {selectedValue === option.value ? <On /> : <Off />}
-                        </span>
-                    )}
-                    <span
-                        className={`${labelVariant({ radioSize })} ${
-                            isDisabled ? 'cursor-not-allowed text-gray500' : 'cursor-default text-gray910'
-                        }`}
-                    >
-                        {option.label}
-                    </span>
-                </label>
-            ))}
-        </div>
+        <Controller
+            name={name}
+            control={control}
+            render={({ field }) => (
+                <div className={groupStyle || 'flex gap-4'}>
+                    {options.map((option: RadioButtonOption) => (
+                        <label key={option.value} className="flex items-center justify-center gap-2">
+                            <input
+                                type="radio"
+                                value={option.value}
+                                checked={field.value === option.value}
+                                onChange={() => field.onChange(option.value)}
+                                disabled={isDisabled}
+                                className="hidden"
+                                {...props}
+                            />
+                            {isDisabled ? (
+                                <span className={`cursor-not-allowed ${radioButtonVariant({ radioSize })}`}>
+                                    {field.value === option.value ? <OnDisabled /> : <OffDisabled />}
+                                </span>
+                            ) : (
+                                <span className={`cursor-pointer ${radioButtonVariant({ radioSize })}`}>
+                                    {field.value === option.value ? <On /> : <Off />}
+                                </span>
+                            )}
+                            <span
+                                className={`${labelVariant({ radioSize })} ${
+                                    isDisabled ? 'cursor-not-allowed text-gray500' : 'cursor-default text-gray910'
+                                }`}
+                            >
+                                {option.label}
+                            </span>
+                        </label>
+                    ))}
+                </div>
+            )}
+        />
     );
 };
 
