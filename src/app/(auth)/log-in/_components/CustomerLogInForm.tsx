@@ -70,6 +70,7 @@ const CustomerLogInForm = () => {
                                 Login/Join with SNS account
                             </span>
                         </div>
+                        {/* 피그마 아이콘으로 바꾸기 */}
                         <div className="flex gap-[40px] justify-center">
                             <div className="bg-white border rounded-full p-2  ">
                                 <FcGoogle size={30} />
