@@ -2,7 +2,7 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useCheckDuplicateNickname } from '@/querys/auth/validationQuerys';
+import { useCheckDuplicateNickname } from '@/querys/auth/ValidationQuerys';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
