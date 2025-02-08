@@ -1,23 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import Checkboxes from './CheckBox';
+import { FormProvider, useForm, Controller } from 'react-hook-form';
 import Input from '@/components/Inputs/Input';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import Button from '@/components/Buttons/Button';
-
-const items = [
-    { label: 'remember-me', value: 1 },
-    { label: 'save ID', value: 2 }
-];
+import Checkbox from '@/components/Inputs/Checkbox';
 
 const AgentLogInForm = () => {
     const methods = useForm({
         defaultValues: {
-            checkboxGroup: [] // 초기값은 빈 배열
+            registrationNumber: '',
+            password: '',
+            rememberMe: 'off',
+            saveID: 'off'
         }
     });
+
+    const { control, handleSubmit } = methods;
     const [showPassword, setShowPassword] = useState(false);
 
     const onSubmit = (data: any) => {
@@ -27,30 +27,51 @@ const AgentLogInForm = () => {
     const handleClickIcon = () => {
         setShowPassword(!showPassword);
     };
+
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div className="flex flex-col w-[454px]">
-                    <div className="flex flex-col gap-[24px] h-[231px] mb-[80px]">
-                        <Input label="Corporate registration number" placeholder="ex)1234567890" />
-                        <Input
-                            label="Password"
-                            type={showPassword ? 'text' : 'Password'}
-                            placeholder="ex)123@abcd"
-                            icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
-                            handleClickIcon={handleClickIcon}
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex flex-col w-96">
+                    <div className="flex flex-col gap-6 h-56 mb-20">
+                        <Controller
+                            name="registrationNumber"
+                            control={control}
+                            rules={{ required: 'Corporate registration number is required' }}
+                            render={({ field, fieldState }) => (
+                                <Input
+                                    {...field}
+                                    label="Corporate Registration Number"
+                                    placeholder="ex)1234567890"
+                                    state={fieldState.error ? 'error' : 'default'}
+                                    validationMessage={fieldState.error?.message}
+                                />
+                            )}
                         />
-                        <Checkboxes
-                            name="checkboxGroup"
-                            items={items}
-                            isAllCheckBox={false}
-                            isAllDefault={false}
-                            isLimited={2} // 최대 선택 가능한 항목 수
-                            onChange={(selected) => console.log('Selected Items:', selected)}
+
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: 'Password is required' }}
+                            render={({ field, fieldState }) => (
+                                <Input
+                                    {...field}
+                                    label="Password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="ex)123@abcd"
+                                    icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                                    handleClickIcon={handleClickIcon}
+                                    state={fieldState.error ? 'error' : 'default'}
+                                    validationMessage={fieldState.error?.message}
+                                />
+                            )}
                         />
+                        <div className="flex gap-2">
+                            <Checkbox name="rememberMe">remember-me</Checkbox>
+                            <Checkbox name="saveID">save ID</Checkbox>
+                        </div>
                     </div>
 
-                    <div className="flex flex-col w-[454px] h-[92px] gap-[16px]">
+                    <div className="flex flex-col w-96 h-24 gap-4">
                         <Button priority="primary" size="md" fullWidth>
                             Login
                         </Button>

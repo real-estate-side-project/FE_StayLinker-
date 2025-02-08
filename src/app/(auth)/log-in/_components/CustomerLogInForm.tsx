@@ -1,27 +1,25 @@
 'use client';
 
 import Button from '@/components/Buttons/Button';
-import Input from '@/components/Inputs/Input';
 import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import Checkboxes from './CheckBox';
-import { FcGoogle } from 'react-icons/fc';
-import { FaApple } from 'react-icons/fa';
-
-const items = [
-    { label: 'remember-me', value: 1 },
-    { label: 'save ID', value: 2 }
-];
+import Input from '@/components/Inputs/Input';
+import AppleLogo from '../assets/AppleLogo';
+import GoogleLogo from '../assets/GoogleLogo';
+import Checkbox from '@/components/Inputs/Checkbox';
 
 const CustomerLogInForm = () => {
     const methods = useForm({
         defaultValues: {
-            checkboxGroup: [] // 초기값은 빈 배열
+            email: '',
+            password: '',
+            rememberMe: 'off',
+            saveID: 'off'
         }
     });
     const [showPassword, setShowPassword] = useState(false);
-
+    const { control, handleSubmit } = methods;
     const onSubmit = (data: any) => {
         console.log('Submitted Data:', data);
     };
@@ -32,27 +30,46 @@ const CustomerLogInForm = () => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div className="flex flex-col w-[454px]">
-                    <div className="flex flex-col gap-[24px] h-[231px] mb-[80px]">
-                        <Input label="ID" placeholder="ex)abcd@gmail.com" />
-                        <Input
-                            label="Password"
-                            type={showPassword ? 'text' : 'Password'}
-                            placeholder="ex)123@abcd"
-                            icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
-                            handleClickIcon={handleClickIcon}
+                <div className="flex flex-col w-96">
+                    <div className="flex flex-col gap-6 h-56 mb-20">
+                        <Controller
+                            name="email"
+                            control={control}
+                            rules={{ required: 'Email is required' }}
+                            render={({ field, fieldState }) => (
+                                <Input
+                                    {...field}
+                                    label="ID"
+                                    placeholder="ex)abcd@gmail.com"
+                                    state={fieldState.error ? 'error' : 'default'}
+                                    validationMessage={fieldState.error?.message}
+                                />
+                            )}
                         />
-                        <Checkboxes
-                            name="checkboxGroup"
-                            items={items}
-                            isAllCheckBox={false}
-                            isAllDefault={false}
-                            isLimited={2} // 최대 선택 가능한 항목 수
-                            onChange={(selected) => console.log('Selected Items:', selected)}
+                        <Controller
+                            name="password"
+                            control={control}
+                            rules={{ required: 'Password is required' }}
+                            render={({ field, fieldState }) => (
+                                <Input
+                                    {...field}
+                                    label="Password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="ex)123@abcd"
+                                    icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                                    handleClickIcon={handleClickIcon}
+                                    state={fieldState.error ? 'error' : 'default'}
+                                    validationMessage={fieldState.error?.message}
+                                />
+                            )}
                         />
+                        <div className="flex gap-2">
+                            <Checkbox name="rememberMe">remember-me</Checkbox>
+                            <Checkbox name="saveID">save ID</Checkbox>
+                        </div>
                     </div>
 
-                    <div className="flex flex-col w-[454px] h-[92px] gap-[16px] mb-[60px]">
+                    <div className="flex flex-col w-96 h-24 gap-4 mb-16">
                         <Button priority="primary" size="md" fullWidth>
                             Login
                         </Button>
@@ -63,21 +80,17 @@ const CustomerLogInForm = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-col w-[454px] h-[110px] gap-[24px]">
+                    <div className="flex flex-col w-96 h-28 gap-6">
                         <div className="relative flex items-center">
                             <hr className="w-full border-gray-300" />
                             <span className="absolute bg-white px-3 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500 text-[16px] whitespace-nowrap">
                                 Login/Join with SNS account
                             </span>
                         </div>
-                        {/* 피그마 아이콘으로 바꾸기 */}
-                        <div className="flex gap-[40px] justify-center">
-                            <div className="bg-white border rounded-full p-2  ">
-                                <FcGoogle size={30} />
-                            </div>
-                            <div className="bg-black border rounded-full p-2  ">
-                                <FaApple size={30} color="white" />
-                            </div>
+
+                        <div className="flex gap-10 justify-center">
+                            <AppleLogo />
+                            <GoogleLogo />
                         </div>
                     </div>
                 </div>

@@ -17,24 +17,25 @@ const LogInContainer = () => {
 
     return (
         <>
-            <p className="font-bold text-[28px] mb-[40px]">LogIn</p>
+            <p className="font-bold text-[28px] mb-10">LogIn</p>
             {activeForm === 'customer' && (
-                <div className="flex gap-[40px] mb-[40px]">
-                    <Button priority="primary" size="md" onClick={activeCustomer} width="207px" height="43px">
+                <div className="flex gap-10 mb-10 w-114">
+                    <Button priority="primary" size="md" onClick={activeCustomer} halfWidth>
                         Customer
                     </Button>
 
-                    <Button priority="secondary" size="md" onClick={activeAgent} width="207px" height="43px">
+                    <Button priority="secondary" size="md" onClick={activeAgent} halfWidth>
                         Agent
                     </Button>
                 </div>
             )}
             {activeForm === 'agent' && (
-                <div className="flex gap-[40px] mb-[40px]">
-                    <Button priority="secondary" size="md" onClick={activeCustomer} width="207px" height="43px">
+                <div className="flex gap-10 mb-10 w-114">
+                    <Button priority="primary" size="md" onClick={activeCustomer} halfWidth>
                         Customer
                     </Button>
-                    <Button priority="primary" size="md" onClick={activeAgent} width="207px" height="43px">
+
+                    <Button priority="secondary" size="md" onClick={activeAgent} halfWidth>
                         Agent
                     </Button>
                 </div>
