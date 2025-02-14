@@ -1,3 +1,4 @@
+import FAB from '@/components/FAB';
 import { ModalProvider } from '@/providers/ModalProvider';
 import QueryProvider from '@/providers/TanStackQueryClientProvider';
 import { ToastProvider } from '@/providers/ToastProvider';
@@ -28,7 +29,12 @@ export default function RootLayout({
             <body className={`${pretendard.variable} font-pretendard`}>
                 <QueryProvider>
                     <ToastProvider>
-                        <ModalProvider>{children}</ModalProvider>
+                        <ModalProvider>
+                            {children}
+                            <div className="mo:hidden">
+                                <FAB />
+                            </div>
+                        </ModalProvider>
                     </ToastProvider>
                 </QueryProvider>
             </body>

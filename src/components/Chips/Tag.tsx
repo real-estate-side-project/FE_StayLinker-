@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 import { MdClose } from 'react-icons/md';
 
 const chipVariant = cva(
-    'flex items-center justify-center border rounded-full px-3 py-1.5 gap-0.5 font-normal whitespace-nowrap transition-all',
+    'flex items-center justify-center border rounded-full px-3 py-1.5 gap-0.5 font-medium whitespace-nowrap transition-all',
     {
         variants: {
             state: {
@@ -13,12 +13,12 @@ const chipVariant = cva(
             },
             size: {
                 md: 'text-xs',
-                lg: 'text-base'
+                lg: 'text-base mo:text-sm'
             }
         },
         defaultVariants: {
             state: 'default',
-            size: 'md'
+            size: 'lg'
         }
     }
 );
