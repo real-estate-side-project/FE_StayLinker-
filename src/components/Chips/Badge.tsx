@@ -2,7 +2,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { PropsWithChildren } from 'react';
 
 const chipVariant = cva(
-    'flex items-center justify-center whitespace-nowrap rounded font-medium text-[15px] px-2 cursor-default leading-[1.5]',
+    'flex items-center justify-center whitespace-nowrap rounded font-medium mo:font-normal text-base mo:text-xs px-2 mo:px-1 cursor-default',
     {
         variants: {
             type: {

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { MdError } from 'react-icons/md';
 
 const toastVariant = cva(
-    'flex justify-start items-center gap-2 rounded-lg font-medium text-gray910 transition-all duration-500 px-4 py-4 text-base mt-2 border',
+    'flex justify-start items-center gap-2 rounded-lg font-medium text-gray910 transition-all duration-500 p-4 mo:p-3 text-xl mo:text-base mt-2 border',
     {
         variants: {
             isOpen: {

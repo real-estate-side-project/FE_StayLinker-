@@ -8,7 +8,8 @@ const buttonVariant = cva(
             priority: {
                 primary: 'text-white',
                 secondary: 'bg-white',
-                tertiary: 'bg-white'
+                tertiary: 'bg-white',
+                gray: 'bg-white'
             },
             size: {
                 sm: 'px-4 py-1.5 text-base rounded mo:py-1 mo:text-sm',
@@ -42,6 +43,12 @@ const buttonVariant = cva(
                 priority: 'tertiary',
                 isDisabled: false,
                 className: 'border-sub600 text-sub600 hover:border-sub800 hover:text-sub800'
+            },
+            { priority: 'gray', isDisabled: true, className: 'border-gray200 text-gray200' },
+            {
+                priority: 'gray',
+                isDisabled: false,
+                className: 'border-gray600 text-gray600 hover:border-gray800 hover:text-gray800'
             }
         ],
         defaultVariants: {

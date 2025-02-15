@@ -1,7 +1,11 @@
-import LogInForm from '../_components/LogInForm';
+import LogInContainer from './_components/LogInContainer';
 
 const LogInPage = () => {
-    return <LogInForm />;
+    return (
+        <main className="flex flex-col items-center justify-center h-screen overflow-y-scroll">
+            <LogInContainer />
+        </main>
+    );
 };
 
 export default LogInPage;
