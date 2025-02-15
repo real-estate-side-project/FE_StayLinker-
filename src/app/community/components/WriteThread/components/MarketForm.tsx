@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import MapModal from './MapModal';
 
 interface MarketFormProps {
     register: any;
@@ -49,8 +48,6 @@ const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
                 />
                 <button onClick={() => setIsMapOpen(true)}>Map</button>
             </div>
-
-            {isMapOpen && <MapModal setIsMapOpen={setIsMapOpen} setValue={setValue} />}
         </>
     );
 };

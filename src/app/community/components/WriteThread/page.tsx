@@ -5,16 +5,25 @@ import MarketForm from './components/MarketForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import DropBox from '../DropBox';
 
-interface threadForm {
-    category: string;
-    title: string;
-    detail: string;
-    picture?: FileList;
-}
 type Preview = {
     file: File;
     previewUrl: string;
 };
+
+interface BaseForm {
+    title: string;
+    detail: string;
+    picture?: FileList;
+}
+
+interface MarketForm extends BaseForm {
+    productName: string;
+    price: number;
+    method: string;
+    address: string;
+}
+
+type ThreadForm = BaseForm | MarketForm;
 
 const WriteThreadPage = () => {
     const {
@@ -23,7 +32,7 @@ const WriteThreadPage = () => {
         setValue,
         watch,
         formState: { errors, isValid, isSubmitting }
-    } = useForm({
+    } = useForm<ThreadForm>({
         mode: 'onChange'
     });
     const [category, setCategory] = useState<string>('');
@@ -50,7 +59,7 @@ const WriteThreadPage = () => {
     };
     //
 
-    const tempFtn = (data: any) => {
+    const tempFtn = (data: ThreadForm) => {
         console.log(data);
     };
 
@@ -86,14 +95,7 @@ const WriteThreadPage = () => {
     return (
         <>
             <form onSubmit={handleSubmit(tempFtn, (errors) => console.error(errors))}>
-                <div className="flex">
-                    <DropBox
-                        optionList={['Resale Market', 'Community', 'Information']}
-                        setValue={setCategory}
-                        dummyValue={'category'}
-                    />
-                    {dateFormat(today)}
-                </div>
+                <div className="flex">{dateFormat(today)}</div>
                 <input
                     {...register('title', {
                         required: 'Enter title',
@@ -110,8 +112,10 @@ const WriteThreadPage = () => {
                 <input
                     {...register('picture', {
                         validate: {
-                            size: (files: FileList) => {
+                            size: (files: FileList | undefined) => {
+                                if (!files) return true;
                                 if (files.length > 6) return 'Limit is 6';
+                                return true;
                             }
                         }
                     })}
@@ -156,6 +160,11 @@ const WriteThreadPage = () => {
                     </button>
                 </div>
             </form>
+            <DropBox
+                optionList={['Resale Market', 'Community', 'Information']}
+                setValue={setCategory}
+                dummyValue={'category'}
+            />
         </>
     );
 };

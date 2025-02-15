@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
 import Ellipsis from './Ellipsis';
 
-const Threads = ({ thread }: any) => {
+interface Thread {
+    type: string;
+    useId: string;
+    category: string;
+    writer: string;
+    title: string;
+    summary: string;
+    comment: string;
+    liked: number;
+}
+
+interface ThreadsProps {
+    thread: Thread;
+}
+
+const Threads = ({ thread }: ThreadsProps) => {
     const isMarket = thread.type === 'market';
     const isMain = thread.useId === 'middleWare useId check';
     const [view, setView] = useState(false); // ...
@@ -24,8 +39,8 @@ const Threads = ({ thread }: any) => {
         <button>
             <div>
                 <div>
-                    <p>thread.category</p>
-                    <p>thread.writer</p>
+                    {thread.category}
+                    {thread.writer}
                 </div>
                 <div>
                     <button
@@ -38,17 +53,17 @@ const Threads = ({ thread }: any) => {
                     {view && <Ellipsis isMarket={isMarket} isMain={isMain} />}
                 </div>
             </div>
-            <p>thread.title</p>
-            <p>thread.summary</p>
+            {thread.title}
+            {thread.summary}
             <div>
                 <div>
                     <div>
                         <button onClick={() => callLike()}>heartIcon</button>
-                        <p>thread.liked</p>
+                        {thread.liked}
                     </div>
                     <div>
                         <button onClick={() => callComment()}>commentIcon</button>
-                        <p>thread.comment</p>
+                        {thread.comment}
                     </div>
                     <button onClick={() => {}}>shareIcon</button>
                 </div>
