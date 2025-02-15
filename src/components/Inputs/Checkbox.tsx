@@ -71,7 +71,7 @@ const Checkbox = ({
                             </span>
                         )}
                         <label
-                            className={`font-medium text-lg mo:text-base whitespace-nowrap ${
+                            className={`font-medium text-lg mo:text-sm whitespace-nowrap ${
                                 disabled ? 'cursor-not-allowed text-gray500' : 'cursor-default text-gray910'
                             }`}
                         >
