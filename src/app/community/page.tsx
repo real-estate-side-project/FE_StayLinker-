@@ -68,7 +68,6 @@ const CommunityPage = () => {
             alert('tut');
             return;
         }
-        // data.searchTerm을 백엔드로 보내서 이 단어가 있는 thread만 호출
         console.log(data.searchTerm);
         reset();
     };
