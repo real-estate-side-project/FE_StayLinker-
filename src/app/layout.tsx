@@ -5,6 +5,8 @@ import { ToastProvider } from '@/providers/ToastProvider';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import MainHeader from '@/components/Header/MainHeader';
+import DefaultHeader from '@/components/Header/DefaultHeader';
 
 const pretendard = localFont({
     src: '../fonts/PretendardVariable.woff2',
@@ -30,6 +32,7 @@ export default function RootLayout({
                 <QueryProvider>
                     <ToastProvider>
                         <ModalProvider>
+                            <DefaultHeader />
                             {children}
                             <div className="mo:hidden">
                                 <FAB />
