@@ -6,7 +6,7 @@ import Filter from '@/components/Chips/Filter';
 import { RealEstatePagination } from '@/types/realEstate.type';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { MdChevronLeft, MdChevronRight, MdOutlineNotes, MdTune } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdOutlineKeyboardArrowDown, MdTune } from 'react-icons/md';
 import RealEstateListBox from './RealEstateListBox';
 
 interface SideBarProps {
@@ -40,7 +40,7 @@ const SideBar = ({ data }: SideBarProps) => {
                     <div className="overflow-y-auto">
                         <div className="flex flex-row items-center justify-between mb-4">
                             <span className="text-base font-medium whitespace-nowrap">{`${data?.size} results`}</span>
-                            <Button priority={'tertiary'} size={'sm'} icon={<MdOutlineNotes />}>
+                            <Button priority={'gray'} size={'sm'} icon={<MdOutlineKeyboardArrowDown />}>
                                 Array
                             </Button>
                         </div>

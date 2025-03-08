@@ -1,19 +1,14 @@
-export enum HouseType {
-    HANOK = 'HANOK',
-    APARTMENT = 'APARTMENT',
-    MANSION = 'MANSION',
-    VILLA = 'VILLA',
-    ONE_ROOM = 'ONE_ROOM',
-    OFFICETEL = 'OFFICETEL',
-    SHARE_HOUSE = 'SHARE_HOUSE',
-    GOSIWON = 'GOSIWON'
-}
+export type HouseType =
+    | 'HANOK'
+    | 'APARTMENT'
+    | 'MANSION'
+    | 'VILLA'
+    | 'ONE_ROOM'
+    | 'OFFICETEL'
+    | 'SHARE_HOUSE'
+    | 'GOSIWON';
 
-export enum GoodsType {
-    MONTHLY_RENT = 'MONTHLY_RENT',
-    RENTAL = 'RENTAL',
-    BARGAIN = 'BARGAIN'
-}
+export type GoodsType = 'MONTHLY_RENT' | 'RENTAL' | 'BARGAIN';
 
 export type RealEstate = {
     id: number;
