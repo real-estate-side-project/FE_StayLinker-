@@ -1,8 +1,14 @@
 'use client';
 
+import { RealEstatePagination } from '@/types/realEstate.type';
+import { getCoordinatesFromAddress } from '@/utils/geocoding.util';
 import { useEffect } from 'react';
 
-const Map = () => {
+interface MapProps {
+    data: RealEstatePagination | undefined;
+}
+
+const Map = ({ data }: MapProps) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&libraries=services,clusterer&autoload=false`;
@@ -18,7 +24,32 @@ const Map = () => {
                         level: 3
                     };
 
-                    new window.kakao.maps.Map(container, options);
+                    const map = new window.kakao.maps.Map(container, options);
+                    const bounds = new window.kakao.maps.LatLngBounds();
+                    const promises: Promise<void>[] = [];
+
+                    data?.content.forEach((item) => {
+                        const promise = getCoordinatesFromAddress(item.address)
+                            .then(({ latitude, longitude }) => {
+                                const position = new window.kakao.maps.LatLng(latitude, longitude);
+
+                                const marker = new window.kakao.maps.Marker({
+                                    position
+                                });
+
+                                marker.setMap(map);
+                                bounds.extend(position);
+                            })
+                            .catch(() => {
+                                console.error('Failed to add marker for address:', item.address);
+                            });
+
+                        promises.push(promise);
+                    });
+
+                    Promise.all(promises).then(() => {
+                        map.setBounds(bounds);
+                    });
                 });
             }
         };
@@ -28,9 +59,9 @@ const Map = () => {
                 script.parentNode.removeChild(script);
             }
         };
-    }, []);
+    }, [data?.content]);
 
-    return <div id="map" className="h-full"></div>;
+    return <div id="map" className="flex-1 w-screen h-[calc(100vh-96px)]"></div>;
 };
 
 export default Map;
