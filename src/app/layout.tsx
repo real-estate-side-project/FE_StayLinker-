@@ -7,6 +7,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import MainHeader from '@/components/Header/MainHeader';
 import DefaultHeader from '@/components/Header/DefaultHeader';
+import Footer from '@/components/Footer/Footer';
 
 const pretendard = localFont({
     src: '../fonts/PretendardVariable.woff2',
@@ -34,6 +35,7 @@ export default function RootLayout({
                         <ModalProvider>
                             <DefaultHeader />
                             {children}
+                            <Footer />
                             <div className="mo:hidden">
                                 <FAB />
                             </div>
