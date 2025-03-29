@@ -1,10 +1,8 @@
-import Header from '@/components/Bar/Header';
 import ListingPage from './_components/ListingPage';
 
 const page = () => {
     return (
         <>
-            <Header />
             <ListingPage />
         </>
     );
