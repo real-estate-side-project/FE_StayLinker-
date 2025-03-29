@@ -36,8 +36,8 @@ const RealEstateListBox = ({ item }: RealEstateListBoxProps) => {
                     </div>
                     <h3 className="font-bold text-xl">{item.name}</h3>
                 </div>
-                <div className="text-information500 font-medium text-base whitespace-nowrap flex flex-col gap-1">
-                    <div className="flex flex-row gap-3">
+                <div className="text-information500 font-medium text-base whitespace-nowrap flex">
+                    <div className="flex flex-row flex-wrap gap-x-3 gap-y-1">
                         <div className="flex gap-2">
                             <MdOutlineSingleBed size={'24px'} />1 Beds
                         </div>
@@ -51,10 +51,10 @@ const RealEstateListBox = ({ item }: RealEstateListBoxProps) => {
                             28 m2
                         </div>
                         <div className="border-2 border-bg500"></div>
-                    </div>
-                    <div className="flex gap-2">
-                        <MdOutlineSingleBed size={'24px'} />
-                        {item.houseType}
+                        <div className="flex gap-2">
+                            <MdOutlineSingleBed size={'24px'} />
+                            {item.houseType}
+                        </div>
                     </div>
                 </div>
             </div>

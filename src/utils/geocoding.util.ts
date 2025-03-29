@@ -20,9 +20,9 @@ export const getCoordinatesFromAddress = async (address: string): Promise<Coordi
             };
         }
 
-        throw new Error('Address not found');
+        return Promise.reject(new Error('Address not found'));
     } catch (error) {
         console.error('Error fetching coordinates:', error);
-        throw error;
+        return Promise.reject(error);
     }
 };

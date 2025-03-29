@@ -41,14 +41,21 @@ const Map = ({ data }: MapProps) => {
                                 bounds.extend(position);
                             })
                             .catch(() => {
-                                console.error('Failed to add marker for address:', item.address);
+                                console.warn(
+                                    '❌ Failed to find coordinates for address, skipping marker:',
+                                    item.address
+                                );
                             });
 
                         promises.push(promise);
                     });
 
                     Promise.all(promises).then(() => {
-                        map.setBounds(bounds);
+                        if (bounds.isEmpty()) {
+                            console.info('ℹ️ No valid addresses found. No markers added to the map.');
+                        } else {
+                            map.setBounds(bounds);
+                        }
                     });
                 });
             }

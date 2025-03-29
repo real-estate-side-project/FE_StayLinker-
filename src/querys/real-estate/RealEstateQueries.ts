@@ -2,10 +2,10 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 import { RealEstateService } from '@/service/realEstateService';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetRealEstates = () => {
+export const useGetRealEstates = (query?: string) => {
     return useQuery({
-        queryKey: QUERY_KEYS.REAL_ESTATES,
-        queryFn: RealEstateService.getRealEstates
+        queryKey: QUERY_KEYS.REAL_ESTATES(query),
+        queryFn: () => RealEstateService.getRealEstates(query)
     });
 };
 

@@ -1,14 +1,6 @@
-export type HouseType =
-    | 'HANOK'
-    | 'APARTMENT'
-    | 'MANSION'
-    | 'VILLA'
-    | 'ONE_ROOM'
-    | 'OFFICETEL'
-    | 'SHARE_HOUSE'
-    | 'GOSIWON';
+export type HouseType = 'APARTMENT' | 'VILLA' | 'STUDIO' | 'HOUSE' | 'OFFICETEL' | 'SHAREHOUSE' | 'GOSIWON';
 
-export type GoodsType = 'MONTHLY_RENT' | 'RENTAL' | 'BARGAIN';
+export type GoodsType = 'MONTHLY_RENT' | 'JEONSE' | 'SHORT_TERM';
 
 export type RealEstate = {
     id: number;
@@ -76,4 +68,11 @@ export type RealEstateDetailInformation = {
     isParked: boolean;
     rate: number;
     options: Option[];
+};
+
+export type FilterOption = {
+    bedrooms: number;
+    bathrooms: number;
+    features: string[];
+    others: string[];
 };
