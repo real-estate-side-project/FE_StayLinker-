@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import AgentLogInForm from './AgentLogInForm';
-import CustomerLogInForm from './CustomerLogInForm';
 import Button from '@/components/Buttons/Button';
+import ConsumerLogInForm from './CustomerLogInForm';
 
 const LogInContainer = () => {
     const [activeForm, setActiveForm] = useState('customer');
@@ -42,7 +42,7 @@ const LogInContainer = () => {
             )}
 
             {/* 활성화된 폼에 따라 조건부 렌더링 */}
-            {activeForm === 'customer' && <CustomerLogInForm />}
+            {activeForm === 'customer' && <ConsumerLogInForm />}
             {activeForm === 'agent' && <AgentLogInForm />}
         </>
     );

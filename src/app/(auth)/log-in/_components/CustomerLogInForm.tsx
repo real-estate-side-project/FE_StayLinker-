@@ -8,8 +8,9 @@ import Input from '@/components/Inputs/Input';
 import AppleLogo from '../assets/AppleLogo';
 import GoogleLogo from '../assets/GoogleLogo';
 import Checkbox from '@/components/Inputs/Checkbox';
+import { useConsumerLogin } from '@/querys/ConsumerQuerys';
 
-const CustomerLogInForm = () => {
+const ConsumerLogInForm = () => {
     const methods = useForm({
         defaultValues: {
             email: '',
@@ -19,9 +20,13 @@ const CustomerLogInForm = () => {
         }
     });
     const [showPassword, setShowPassword] = useState(false);
-    const { control, handleSubmit } = methods;
+    const { control } = methods;
+    const { mutate: login } = useConsumerLogin();
+
     const onSubmit = (data: any) => {
-        console.log('Submitted Data:', data);
+        const { email, password } = data;
+
+        login({ email, password });
     };
 
     const handleClickIcon = () => {
@@ -35,7 +40,17 @@ const CustomerLogInForm = () => {
                         <Controller
                             name="email"
                             control={control}
-                            rules={{ required: 'Email is required' }}
+                            rules={{
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Please enter a valid email address.'
+                                },
+                                maxLength: {
+                                    value: 50,
+                                    message: 'Email must be 50 characters or less.'
+                                }
+                            }}
                             render={({ field, fieldState }) => (
                                 <Input
                                     {...field}
@@ -49,7 +64,14 @@ const CustomerLogInForm = () => {
                         <Controller
                             name="password"
                             control={control}
-                            rules={{ required: 'Password is required' }}
+                            rules={{
+                                required: 'Password is required',
+
+                                maxLength: {
+                                    value: 30,
+                                    message: 'Password must be 30 characters or less.'
+                                }
+                            }}
                             render={({ field, fieldState }) => (
                                 <Input
                                     {...field}
@@ -99,4 +121,4 @@ const CustomerLogInForm = () => {
     );
 };
 
-export default CustomerLogInForm;
+export default ConsumerLogInForm;
