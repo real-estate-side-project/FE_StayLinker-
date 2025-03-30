@@ -6,22 +6,26 @@ import Input from '@/components/Inputs/Input';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
+import { useBusinessLogin } from '@/querys/BusinessQuerys';
 
 const AgentLogInForm = () => {
     const methods = useForm({
         defaultValues: {
-            registrationNumber: '',
+            businessCode: '',
             password: '',
             rememberMe: 'off',
             saveID: 'off'
         }
     });
 
-    const { control, handleSubmit } = methods;
     const [showPassword, setShowPassword] = useState(false);
+    const { control, handleSubmit } = methods;
+    const { mutate: login } = useBusinessLogin();
 
-    const onSubmit = (data: any) => {
-        console.log('Submitted Data:', data);
+    const onSubmit = (data: BusinessLoginParams) => {
+        const type = 'BUSINESS';
+        const { businessCode, password } = data;
+        login({ type, businessCode, password });
     };
 
     const handleClickIcon = () => {
@@ -34,7 +38,7 @@ const AgentLogInForm = () => {
                 <div className="flex flex-col w-96">
                     <div className="flex flex-col gap-6 h-56 mb-20">
                         <Controller
-                            name="registrationNumber"
+                            name="businessCode"
                             control={control}
                             rules={{ required: 'Corporate registration number is required' }}
                             render={({ field, fieldState }) => (
