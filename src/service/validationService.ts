@@ -18,6 +18,21 @@ const checkDuplicateNickname = async (nickname: string) => {
     }
 };
 
+const getUserDetail = async () => {
+    try {
+        const response = await http.get(`/role`);
+
+        if (response.status >= 400) {
+            throw new Error('getUserDetail failed');
+        }
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const ValidationService = {
-    checkDuplicateNickname
+    checkDuplicateNickname,
+    getUserDetail
 };

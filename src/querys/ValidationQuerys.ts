@@ -13,3 +13,11 @@ export const useCheckDuplicateNickname = () => {
         }
     });
 };
+
+// 토큰권한 확인
+export const useUserDetail = () => {
+    return useQuery({
+        queryKey: ['userDetail'],
+        queryFn: ValidationService.getUserDetail
+    });
+};
