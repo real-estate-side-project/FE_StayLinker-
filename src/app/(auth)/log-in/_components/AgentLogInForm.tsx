@@ -7,6 +7,7 @@ import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
 import { useBusinessLogin } from '@/querys/BusinessQuerys';
+import Link from 'next/link';
 
 const AgentLogInForm = () => {
     const methods = useForm({
@@ -82,7 +83,10 @@ const AgentLogInForm = () => {
                         <div className="flex w-full justify-between text-gray-500 text-[16px]">
                             <p className="underline">Forgot password?</p>
                             <p>
-                                Don’t have an Agent account? <span className="text-sub500 underline">Join</span>
+                                Don’t have an Agent account?
+                                <Link href={`/sign-up/agent`}>
+                                    <span className="text-sub500 underline">Join</span>
+                                </Link>
                             </p>
                         </div>
                     </div>

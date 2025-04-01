@@ -9,6 +9,7 @@ import AppleLogo from '../assets/AppleLogo';
 import GoogleLogo from '../assets/GoogleLogo';
 import Checkbox from '@/components/Inputs/Checkbox';
 import { useConsumerLogin } from '@/querys/ConsumerQuerys';
+import Link from 'next/link';
 
 const ConsumerLogInForm = () => {
     const methods = useForm({
@@ -98,7 +99,10 @@ const ConsumerLogInForm = () => {
                         <div className="flex w-full justify-between text-gray-500 text-[16px]">
                             <p className="underline">Forgot password?</p>
                             <p>
-                                Don't have an account? <span className="text-sub500 underline">Join</span>
+                                Don't have an account?
+                                <Link href={`/sign-up/customer`}>
+                                    <span className="text-sub500 underline">Join</span>
+                                </Link>
                             </p>
                         </div>
                     </div>
