@@ -1,62 +1,79 @@
 'use client';
 
-import React, { useState } from 'react';
-import { FormProvider, useForm, Controller } from 'react-hook-form';
-import Input from '@/components/Inputs/Input';
-import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
-import { useBusinessLogin } from '@/querys/BusinessQuerys';
-import Link from 'next/link';
+import Input from '@/components/Inputs/Input';
+import { useConsumerLogin } from '@/querys/ConsumerQuerys';
+import { useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
-const AgentLogInForm = () => {
+const ConsumerLogInForm = () => {
     const methods = useForm({
         defaultValues: {
-            businessCode: '',
+            email: '',
             password: '',
             rememberMe: 'off',
             saveID: 'off'
         }
     });
-
     const [showPassword, setShowPassword] = useState(false);
-    const { control, handleSubmit } = methods;
-    const { mutate: login } = useBusinessLogin();
+    const { control, watch } = methods;
+    const { mutate: login } = useConsumerLogin();
 
-    const onSubmit = (data: BusinessLoginParams) => {
-        const type = 'BUSINESS';
-        const { businessCode, password } = data;
-        login({ type, businessCode, password });
+    const email = watch('email');
+    const password = watch('password');
+    const isFormValid = email.trim() !== '' && password.trim() !== '';
+
+    const onSubmit = (data: any) => {
+        const { email, password } = data;
+
+        login({ email, password });
     };
 
     const handleClickIcon = () => {
         setShowPassword(!showPassword);
     };
-
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col w-96">
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <div className="flex flex-col w-full mb-4">
                     <div className="flex flex-col gap-6 h-56 mb-20">
                         <Controller
-                            name="businessCode"
+                            name="email"
                             control={control}
-                            rules={{ required: 'Corporate registration number is required' }}
+                            rules={{
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                    message: 'Please enter a valid email address.'
+                                },
+                                maxLength: {
+                                    value: 50,
+                                    message: 'Email must be 50 characters or less.'
+                                }
+                            }}
                             render={({ field, fieldState }) => (
                                 <Input
                                     {...field}
-                                    label="Corporate Registration Number"
-                                    placeholder="ex)1234567890"
+                                    label="ID"
+                                    placeholder="ex)abcd@gmail.com"
                                     state={fieldState.error ? 'error' : 'default'}
                                     validationMessage={fieldState.error?.message}
                                 />
                             )}
                         />
-
                         <Controller
                             name="password"
                             control={control}
-                            rules={{ required: 'Password is required' }}
+                            rules={{
+                                required: 'Password is required',
+
+                                maxLength: {
+                                    value: 30,
+                                    message: 'Password must be 30 characters or less.'
+                                }
+                            }}
                             render={({ field, fieldState }) => (
                                 <Input
                                     {...field}
@@ -75,25 +92,13 @@ const AgentLogInForm = () => {
                             <Checkbox name="saveID">save ID</Checkbox>
                         </div>
                     </div>
-
-                    <div className="flex flex-col w-96 h-24 gap-4">
-                        <Button priority="primary" size="md" fullWidth>
-                            Login
-                        </Button>
-                        <div className="flex w-full justify-between text-gray-500 text-[16px]">
-                            <p className="underline">Forgot password?</p>
-                            <p>
-                                Don’t have an Agent account?
-                                <Link href={`/sign-up/agent`}>
-                                    <span className="text-sub500 underline">Join</span>
-                                </Link>
-                            </p>
-                        </div>
-                    </div>
+                    <Button priority="primary" size="md" isDisabled={!isFormValid} fullWidth>
+                        Login
+                    </Button>
                 </div>
             </form>
         </FormProvider>
     );
 };
 
-export default AgentLogInForm;
+export default ConsumerLogInForm;

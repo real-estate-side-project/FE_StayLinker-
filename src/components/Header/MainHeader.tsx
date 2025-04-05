@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 import { MdGTranslate } from 'react-icons/md';
 import Button from '../Buttons/Button';
 
@@ -25,7 +24,7 @@ const MainHeader = () => {
             </div>
             <section className="flex justify-center items-center gap-6">
                 <MdGTranslate size={32} color="white" />
-                <Link href={'/log-in'}>
+                <Link href={'/log-in/customer'}>
                     <Button priority="secondary">Login/Join</Button>
                 </Link>
             </section>

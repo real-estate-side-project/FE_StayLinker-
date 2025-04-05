@@ -2,10 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { usePathname } from 'next/navigation';
 import { MdGTranslate } from 'react-icons/md';
 import Button from '../Buttons/Button';
-import { usePathname } from 'next/navigation';
 
 const DefaultHeader = () => {
     const pathname = usePathname();
@@ -55,7 +54,7 @@ const DefaultHeader = () => {
 
             <aside className="flex justify-center items-center gap-6">
                 <MdGTranslate size={32} />
-                <Link href={'/log-in'}>
+                <Link href={'/log-in/customer'}>
                     <Button priority="secondary">Login/Join</Button>
                 </Link>
             </aside>
