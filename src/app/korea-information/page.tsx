@@ -2,33 +2,32 @@
 
 import React, { useState } from 'react';
 import ArticleCarousel from './components/ArticleCarousel';
+import SingleSelect from '@/components/Chips/SingleSelect';
 
 const KoreaInformationPage = () => {
     const [boardType, setBoardType] = useState<string>('See All');
+    const topices = ['Culture', 'Application', 'Tips', 'Travel', 'Korean Law'];
 
     return (
         <div>
-            {/* pagination swiper */}
-            <div className="h-10 gap-4 flex">
-                {['See All', 'Culture', 'Application', 'Tips', 'Travel', 'Korean Law'].map((board) => (
-                    <button
-                        key={board}
-                        className={`px-3 py-2 rounded-lg border justify-center items-center flex ${
-                            boardType === board
-                                ? 'text-orange-500 border-orange-500 font-bold'
-                                : 'text-gray-500 border-gray-500'
-                        }`}
-                        onClick={() => {
-                            setBoardType(board);
-                        }}
-                    >
-                        {board}
-                    </button>
-                ))}
+            <div className="w-[1440px] mx-auto">
+                <div className="flex justify-between">
+                    <SingleSelect
+                        optionList={['See All', ...topices]}
+                        selectedOption={boardType}
+                        setSelectedOption={setBoardType}
+                    />
+                    <div>search bar</div>
+                </div>
+                <div className="mt-12">
+                    {topices.map((topic) => (
+                        <div key={topic}>
+                            <p className="text-[28px] font-bold">{topic}</p>
+                            <ArticleCarousel topic={topic} />
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div>search bar</div>
-            {/* navigation swiper */}
-            {/* <ArticleCarousel topic={'See All'} /> */}
         </div>
     );
 };
