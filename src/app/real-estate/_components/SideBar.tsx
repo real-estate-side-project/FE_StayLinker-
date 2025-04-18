@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/components/Buttons/Button';
 import SingleIconButton from '@/components/Buttons/SingleIconButton';
 import Filter from '@/components/Chips/Filter';
 import Tag from '@/components/Chips/Tag';
@@ -8,9 +7,10 @@ import { useInitialFilterFromQuery } from '@/hooks/useInitialFilterFromQuery';
 import { FilterOption, RealEstatePagination } from '@/types/realEstate.type';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { MdChevronLeft, MdChevronRight, MdOutlineKeyboardArrowDown, MdOutlineReplay, MdTune } from 'react-icons/md';
-import FilterModal from './FilterModal';
+import { MdChevronLeft, MdChevronRight, MdOutlineReplay, MdTune } from 'react-icons/md';
+import FilterModal from '../../../components/Modals/FilterModal';
 import RealEstateListBox from './RealEstateListBox';
+import SortDropdown from './SortDropdown';
 
 interface SideBarProps {
     data: RealEstatePagination | undefined;
@@ -23,6 +23,7 @@ const SideBar = ({ data }: SideBarProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(true);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
     const [appliedFilters, setAppliedFilters] = useState<FilterOption>(initialFiltersFromQuery);
+    const [sortOption, setSortOption] = useState<string | null>(null);
 
     const toggleSidebar = (): void => {
         setIsOpen(!isOpen);
@@ -76,6 +77,22 @@ const SideBar = ({ data }: SideBarProps) => {
     const handleResetAll = (): void => {
         setAppliedFilters({ bedrooms: 0, bathrooms: 0, features: [], others: [] });
         router.push('/real-estate');
+    };
+
+    const sortListings = (): RealEstatePagination['content'] => {
+        if (!data) return [];
+
+        const sorted = [...data.content];
+
+        switch (sortOption) {
+            case 'Price: High to Low':
+                return sorted.sort((a, b) => b.rent + b.maintenanceCost - (a.rent + a.maintenanceCost));
+            case 'Price: Low to High':
+                return sorted.sort((a, b) => a.rent + a.maintenanceCost - (b.rent + b.maintenanceCost));
+            case 'Recent':
+            default:
+                return sorted;
+        }
     };
 
     return (
@@ -135,13 +152,13 @@ const SideBar = ({ data }: SideBarProps) => {
                     </div>
                     <div className="overflow-y-auto">
                         <div className="flex flex-row items-center justify-between mb-4">
-                            <span className="text-base font-medium whitespace-nowrap cursor-default">{`${data?.size} results`}</span>
-                            <Button priority={'gray'} size={'sm'} icon={<MdOutlineKeyboardArrowDown />}>
-                                Array
-                            </Button>
+                            <span className="text-base font-medium whitespace-nowrap cursor-default">{`${
+                                sortListings().length
+                            } results`}</span>
+                            <SortDropdown selected={sortOption} onSelect={setSortOption} />
                         </div>
                         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-10">
-                            {data?.content.map((item) => (
+                            {sortListings().map((item) => (
                                 <div key={item.id} onClick={() => router.push(`/real-estate/${item.id}`)}>
                                     <RealEstateListBox item={item} />
                                 </div>

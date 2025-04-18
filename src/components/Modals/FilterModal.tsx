@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IoMdClose } from 'react-icons/io';
 import { MdAdd, MdOutlineRemove, MdOutlineReplay, MdOutlineSearch } from 'react-icons/md';
-import SelectControl from './SelectControl';
+import SelectControl from '../Buttons/SelectControl';
 
 type SelectState = 'on' | 'off';
 
@@ -69,11 +69,6 @@ const FilterModal = ({ isOpen, onClose, onApply, initialFilters }: FilterModalPr
         setBathrooms(0);
         setSelectedFeatures({});
         setSelectedOthers({});
-
-        const resetFilters = { bedrooms: 0, bathrooms: 0, features: [], others: [] };
-
-        onApply(resetFilters);
-        onClose();
     };
 
     const handleClickApply = (): void => {
@@ -91,14 +86,14 @@ const FilterModal = ({ isOpen, onClose, onApply, initialFilters }: FilterModalPr
 
     return createPortal(
         <div className="fixed inset-0 z-10 flex flex-wrap justify-center items-center bg-black bg-opacity-40 p-11">
-            <div className="flex flex-col backdrop-blur-3xl backdrop-brightness-150 rounded-xl w-[700px] shadow-xl  max-h-[calc(100vh-88px)] overflow-auto scrollbar-hidden">
+            <div className="flex flex-col backdrop-blur-3xl backdrop-brightness-150 rounded-xl w-[700px] shadow-xl  max-h-[calc(100vh-88px)]">
                 <div className="flex flex-row items-center justify-center relative py-6">
                     <h2 className="text-2xl font-bold text-center cursor-default">Filter</h2>
                     <button className="absolute right-5 text-2xl" onClick={onClose}>
                         <IoMdClose />
                     </button>
                 </div>
-                <div className="flex flex-col px-8 pt-3 pb-6 gap-12">
+                <div className="flex-1 overflow-auto scrollbar-hidden flex flex-col px-8 pt-3 pb-6 gap-12">
                     <section className="flex flex-col gap-3">
                         <h3 className="font-bold text-2xl cursor-default">Rooms</h3>
                         <div className="flex flex-col gap-6 items-start justify-center">

@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import Map from './Map';
 import SideBar from './SideBar';
+// import { useGetRealEstates } from '@/querys/real-estate/RealEstateQueries';
 
 const data = {
     totalPages: 1,

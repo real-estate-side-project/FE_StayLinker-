@@ -1,6 +1,15 @@
+'use client';
+
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const Footer = () => {
+    const pathname = usePathname();
+
+    if (pathname === '/real-estate' || pathname === '/real-estate/') {
+        return null;
+    }
+
     return (
         <footer className="bg-main300 w-full h-44 flex justify-center items-center">
             <div className="flex gap-96">

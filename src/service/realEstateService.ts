@@ -18,7 +18,7 @@ const getRealEstates = async (query?: string): Promise<RealEstatePagination> => 
     }
 };
 
-const getRealEstateById = async (id: number): Promise<RealEstateDetailInformation> => {
+const getRealEstateById = async (id: string): Promise<RealEstateDetailInformation> => {
     try {
         const response = await http.get(`/real-estate/${id}`);
 

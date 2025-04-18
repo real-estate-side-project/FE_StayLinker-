@@ -9,7 +9,7 @@ export const useGetRealEstates = (query?: string) => {
     });
 };
 
-export const useGetRealEstateDetailInformation = (id: number) => {
+export const useGetRealEstateDetailInformation = (id: string) => {
     return useQuery({
         queryKey: QUERY_KEYS.REAL_ESTATE_DETAIL(id),
         queryFn: () => RealEstateService.getRealEstateById(id)

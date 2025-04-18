@@ -1,4 +1,4 @@
 export const QUERY_KEYS = {
     REAL_ESTATES: (query?: string) => ['real-estates', query ?? ''],
-    REAL_ESTATE_DETAIL: (id: number) => ['real-estate', id]
+    REAL_ESTATE_DETAIL: (id: string) => ['real-estate', id]
 };
