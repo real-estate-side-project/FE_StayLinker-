@@ -20,9 +20,9 @@ const DefaultHeader = () => {
                 <nav className="relative">
                     <ul className="flex gap-8">
                         <li>
-                            <Link href={'/listing'} className="relative text-gray910 flex flex-col items-center">
-                                <span className={`${isActive('/listing') ? 'text-main400' : ''}`}>Listing</span>
-                                {isActive('/listing') && (
+                            <Link href={'/real-estate'} className="relative text-gray910 flex flex-col items-center">
+                                <span className={`${isActive('/real-estate') ? 'text-main400' : ''}`}>Listing</span>
+                                {isActive('/real-estate') && (
                                     <span className="absolute -bottom-9 w-full h-0.5 bg-main400"></span>
                                 )}
                             </Link>
