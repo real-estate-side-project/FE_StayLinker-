@@ -1,9 +1,9 @@
-import ListingPage from './_components/ListingPage';
+import DetailPage from '../_components/DetailPage';
 
 const page = () => {
     return (
         <>
-            <ListingPage />
+            <DetailPage />
         </>
     );
 };

@@ -25,3 +25,12 @@ input[type='number'] {
     -moz-appearance: textfield;
     appearance: none;
 }
+
+.scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}
