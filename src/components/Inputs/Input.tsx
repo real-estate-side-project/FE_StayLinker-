@@ -1,6 +1,8 @@
+'use client';
+
 import { cva, VariantProps } from 'class-variance-authority';
 import { ComponentProps, ReactNode, useId } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 
 const labelVariant = cva('font-semibold text-xl mo:text-base', {
     variants: {
@@ -52,7 +54,7 @@ const textVariant = cva('font-medium text-lg mo:text-sm', {
         state: {
             default: 'text-gray500 cursor-default',
             filled: 'text-gray500 cursor-default',
-            error: 'text-gray500 cursor-default',
+            error: 'text-danger600 cursor-default',
             disable: 'text-gray300 cursor-not-allowed'
         }
     },
@@ -75,36 +77,12 @@ const iconVariant = cva('absolute top-1/2 -translate-y-1/2 font-medium text-2xl 
         }
     },
     compoundVariants: [
-        {
-            state: 'default',
-            iconPosition: 'left',
-            className: 'cursor-default'
-        },
-        {
-            state: 'filled',
-            iconPosition: 'left',
-            className: 'cursor-default'
-        },
-        {
-            state: 'error',
-            iconPosition: 'left',
-            className: 'cursor-default'
-        },
-        {
-            state: 'default',
-            iconPosition: 'right',
-            className: 'cursor-pointer'
-        },
-        {
-            state: 'filled',
-            iconPosition: 'right',
-            className: 'cursor-pointer'
-        },
-        {
-            state: 'error',
-            iconPosition: 'right',
-            className: 'cursor-pointer'
-        }
+        { state: 'default', iconPosition: 'left', className: 'cursor-default' },
+        { state: 'filled', iconPosition: 'left', className: 'cursor-default' },
+        { state: 'error', iconPosition: 'left', className: 'cursor-default' },
+        { state: 'default', iconPosition: 'right', className: 'cursor-pointer' },
+        { state: 'filled', iconPosition: 'right', className: 'cursor-pointer' },
+        { state: 'error', iconPosition: 'right', className: 'cursor-pointer' }
     ],
     defaultVariants: {
         state: 'default',
@@ -117,9 +95,13 @@ type InputVariantProps = VariantProps<typeof inputVariant>;
 type InputProps = {
     name: string;
     icon?: ReactNode;
-    validationMessage?: string | ReactNode;
     label?: string;
+    description?: string;
+    validationMessage?: string | ReactNode;
     handleClickIcon?: () => void;
+    rules?: RegisterOptions;
+    rightSlot?: ReactNode;
+    buttonSlot?: ReactNode;
 } & InputVariantProps &
     ComponentProps<'input'>;
 
@@ -128,9 +110,13 @@ const Input = ({
     state,
     icon,
     iconPosition = 'right',
-    validationMessage,
     label,
+    description,
+    validationMessage,
     handleClickIcon,
+    rules,
+    rightSlot,
+    buttonSlot,
     id,
     ...props
 }: InputProps) => {
@@ -140,40 +126,65 @@ const Input = ({
     const { control, formState } = useFormContext();
     const errorMessage = formState.errors[name]?.message as string;
 
+    const isError = !!formState.errors[name];
+    const resolvedState = state ?? (isError ? 'error' : 'default');
+
     return (
         <Controller
             name={name}
             control={control}
+            rules={rules}
             render={({ field }) => (
-                <div className="w-full flex flex-col gap-3 mo:gap-2">
+                <div className="w-full flex flex-col gap-2 mb-5">
+                    {/* Label */}
                     {label && (
-                        <label htmlFor={inputId} className={labelVariant({ state })}>
+                        <label htmlFor={inputId} className={labelVariant({ state: resolvedState })}>
                             {label}
                         </label>
                     )}
-                    <div className="w-full relative group focus-within:text-gray900">
-                        <input
-                            id={inputId}
-                            className={inputVariant({
-                                state,
-                                hasIcon: !!icon,
-                                iconPosition
-                            })}
-                            disabled={state === 'disable'}
-                            {...props}
-                            {...field}
-                        />
-                        {icon && (
-                            <span
-                                className={iconVariant({ state, iconPosition })}
-                                onClick={state === 'disable' ? undefined : handleClickIcon}
-                            >
-                                {icon}
-                            </span>
-                        )}
+
+                    {/* Input + Button */}
+                    <div className="flex gap-3 items-start">
+                        <div className="flex-1 relative">
+                            <input
+                                id={inputId}
+                                className={inputVariant({
+                                    state: resolvedState,
+                                    hasIcon: !!icon,
+                                    iconPosition
+                                })}
+                                disabled={resolvedState === 'disable'}
+                                {...props}
+                                {...field}
+                            />
+                            {icon && (
+                                <span
+                                    className={iconVariant({ state: resolvedState, iconPosition })}
+                                    onClick={resolvedState === 'disable' ? undefined : handleClickIcon}
+                                >
+                                    {icon}
+                                </span>
+                            )}
+                            {rightSlot && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-base">{rightSlot}</div>
+                            )}
+                        </div>
+
+                        {buttonSlot && <div className="w-[120px] ">{buttonSlot}</div>}
                     </div>
+
+                    {/* Description */}
+                    {description && (
+                        <span className={`${textVariant({ state: 'default' })} whitespace-pre-line`}>
+                            {description}
+                        </span>
+                    )}
+
+                    {/* validation & Error */}
                     {(validationMessage || errorMessage) && (
-                        <span className={textVariant({ state })}>{errorMessage || validationMessage}</span>
+                        <span className={`${textVariant({ state: 'error' })} whitespace-pre-wrap`}>
+                            {validationMessage || errorMessage}
+                        </span>
                     )}
                 </div>
             )}

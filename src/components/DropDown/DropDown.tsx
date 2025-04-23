@@ -27,7 +27,8 @@ const dropdownContainer = cva('flex flex-col relative', {
         size: {
             sm: 'w-48',
             md: 'w-64',
-            lg: 'w-80'
+            lg: 'w-80',
+            full: 'w-full'
         }
     },
     defaultVariants: {
@@ -36,12 +37,12 @@ const dropdownContainer = cva('flex flex-col relative', {
 });
 
 const dropdownButton = cva(
-    'relative w-full p-2 rounded text-left flex items-center justify-between border transition-colors text-ellipsis whitespace-nowrap',
+    'group relative w-full p-2 rounded text-left flex items-center justify-between border transition-colors text-ellipsis whitespace-nowrap border transition-all font-medium py-2 text-lg outline-none text-gray910 ',
     {
         variants: {
             error: {
                 true: 'border-danger600',
-                false: 'border-gray300 hover:border-gray600'
+                false: 'border-gray300 '
             },
             disabled: {
                 true: 'bg-gray100 text-gray400 cursor-not-allowed',
@@ -59,6 +60,20 @@ const dropdownButton = cva(
 const dropdownMenu = cva(
     'absolute top-full left-0 z-10 bg-white border border-gray300 w-full max-h-60 overflow-y-auto mt-1 rounded shadow-md'
 );
+
+const textVariant = cva('font-medium text-lg mo:text-sm', {
+    variants: {
+        state: {
+            default: 'text-gray500 cursor-default',
+            filled: 'text-gray500 cursor-default',
+            error: 'text-danger600 cursor-default',
+            disable: 'text-gray300 cursor-not-allowed'
+        }
+    },
+    defaultVariants: {
+        state: 'default'
+    }
+});
 
 const Dropdown = ({
     name,
@@ -95,7 +110,18 @@ const Dropdown = ({
             rules={rules}
             render={({ field }) => (
                 <div ref={selectRef} className={dropdownContainer({ size })}>
-                    {label && <label className="font-medium mb-1">{label}</label>}
+                    {label && (
+                        <label
+                            className={
+                                label.trim() === ''
+                                    ? 'invisible h-[28px] mb-3'
+                                    : 'visible text-gray910 cursor-pointer font-semibold text-xl mb-3'
+                            }
+                        >
+                            {label || ' '}
+                        </label>
+                    )}
+
                     <button
                         type="button"
                         disabled={disabled}
@@ -107,7 +133,7 @@ const Dropdown = ({
                             if (!disabled) setShow((prev) => !prev);
                         }}
                     >
-                        <span className="overflow-hidden text-ellipsis">
+                        <span className="overflow-hidden text-ellipsis text-gray500 group-focus-within:text-gray900">
                             {items.find((item) => item.value === field.value)?.label || placeholder || ''}
                         </span>
                         <IoIosArrowUp
@@ -135,7 +161,11 @@ const Dropdown = ({
                         </ul>
                     )}
 
-                    {description && <span className="text-sm text-gray500 mt-1">{description}</span>}
+                    {description && (
+                        <span className={`${textVariant({ state: 'default' })} whitespace-pre-line mt-3`}>
+                            {description}
+                        </span>
+                    )}
                     {(errorMessage || validationMessage) && (
                         <span className="text-sm text-danger600 mt-1">{errorMessage || validationMessage}</span>
                     )}

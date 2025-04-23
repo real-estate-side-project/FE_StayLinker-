@@ -1,7 +1,5 @@
 import http from '@/http/http.interceptors.request';
 
-//닉네임 중복체크
-//check/nickname?nickname=hyjinn
 const checkDuplicateNickname = async (nickname: string) => {
     try {
         const response = await http.get(`check/nickname`, {
@@ -32,7 +30,44 @@ const getUserDetail = async () => {
     }
 };
 
+const requestEmailVerification = async (email: string, role: string) => {
+    try {
+        const response = await http.post('/email/send', {
+            email,
+            role
+        });
+
+        if (response.status >= 400) {
+            throw new Error('requestEmailVerification failed');
+        }
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const confirmEmailCode = async (email: string, role: string, code: string) => {
+    try {
+        const response = await http.post('/email/confirm', {
+            email,
+            role,
+            code
+        });
+
+        if (response.status >= 400) {
+            throw new Error('requestEmailVerification failed');
+        }
+
+        return response;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const ValidationService = {
     checkDuplicateNickname,
-    getUserDetail
+    getUserDetail,
+    requestEmailVerification,
+    confirmEmailCode
 };

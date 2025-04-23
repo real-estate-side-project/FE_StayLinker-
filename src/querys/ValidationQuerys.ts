@@ -6,10 +6,10 @@ export const useCheckDuplicateNickname = () => {
     return useMutation({
         mutationFn: (nickname: string) => ValidationService.checkDuplicateNickname(nickname),
         onSuccess: (data) => {
-            console.log('checkDuplicateNickname success:', data);
+            alert('Nickname is available.');
         },
         onError: (error) => {
-            console.log('checkDuplicateNickname error:', error as Error); // error: Error 객체
+            alert('Nickname is not available.');
         }
     });
 };
@@ -19,5 +19,41 @@ export const useUserDetail = () => {
     return useQuery({
         queryKey: ['userDetail'],
         queryFn: ValidationService.getUserDetail
+    });
+};
+
+interface RequestEmailPayload {
+    email: string;
+    role: string;
+}
+
+export const useRequestEmailVerification = () => {
+    return useMutation({
+        mutationFn: ({ email, role }: RequestEmailPayload) => ValidationService.requestEmailVerification(email, role),
+        onSuccess: () => {
+            alert('A verification code has been sent. Please check your email.');
+        },
+        onError: () => {
+            alert('Failed to send verification code. Please try again.');
+        }
+    });
+};
+
+interface ConfirmEmailPayload {
+    email: string;
+    role: string;
+    code: string;
+}
+
+export const useConfirmEmailCode = () => {
+    return useMutation({
+        mutationFn: ({ email, role, code }: ConfirmEmailPayload) =>
+            ValidationService.confirmEmailCode(email, role, code),
+        onSuccess: () => {
+            alert('Verification successful.');
+        },
+        onError: () => {
+            alert('Verification failed. Please check the code and try again.');
+        }
     });
 };
