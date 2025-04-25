@@ -4,6 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 import { IoIosArrowUp } from 'react-icons/io';
+import DropdownMenu from './\bDropDownMenu';
 
 type DropdownItem = {
     label: string;
@@ -55,10 +56,6 @@ const dropdownButton = cva(
             disabled: false
         }
     }
-);
-
-const dropdownMenu = cva(
-    'absolute top-full left-0 z-10 bg-white border border-gray600 w-full max-h-60 overflow-y-auto mt-1 rounded '
 );
 
 const textVariant = cva('font-medium text-lg mo:text-sm', {
@@ -142,23 +139,15 @@ const Dropdown = ({
                     </button>
 
                     {show && (
-                        <ul className={dropdownMenu()}>
-                            {items.map((item) => (
-                                <li
-                                    key={item.value}
-                                    onClick={() => {
-                                        field.onChange(item.value);
-                                        setShow(false);
-                                        onSelect?.(item.value);
-                                    }}
-                                    className={`px-4 py-2 cursor-pointer hover:bg-bg100 ${
-                                        selectedValue === item.value ? 'bg-gray100' : 'bg-white'
-                                    }`}
-                                >
-                                    {item.label}
-                                </li>
-                            ))}
-                        </ul>
+                        <DropdownMenu
+                            items={items}
+                            selectedValue={selectedValue}
+                            onSelect={(value) => {
+                                field.onChange(value);
+                                setShow(false);
+                                onSelect?.(value);
+                            }}
+                        />
                     )}
 
                     {description && (

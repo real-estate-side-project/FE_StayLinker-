@@ -121,22 +121,6 @@ const config: Config = {
                 information910: '#453121',
                 information920: '#342519',
                 information930: '#110C08'
-            },
-            fontSize: {
-                'pc-title-l-700': ['28px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-l-400': ['28px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-m-700': ['24px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-m-400': ['24px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-s-700': ['20px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-s-400': ['20px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-xs-700': ['18px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-title-xs-400': ['18px', { lineHeight: '135%', letterSpacing: '-2.5%' }],
-                'pc-body-l-700': ['16px', { lineHeight: '150%', letterSpacing: '-2.5%' }],
-                'pc-body-l-400': ['16px', { lineHeight: '150%', letterSpacing: '-2.5%' }],
-                'pc-body-m-700': ['15px', { lineHeight: '150%', letterSpacing: '-2.5%' }],
-                'pc-body-m-400': ['15px', { lineHeight: '150%', letterSpacing: '-2.5%' }],
-                'pc-body-s-700': ['14px', { lineHeight: '150%', letterSpacing: '-2.5%' }],
-                'pc-body-s-400': ['14px', { lineHeight: '150%', letterSpacing: '-2.5%' }]
             }
         }
     },
