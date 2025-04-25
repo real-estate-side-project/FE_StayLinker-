@@ -58,7 +58,7 @@ const dropdownButton = cva(
 );
 
 const dropdownMenu = cva(
-    'absolute top-full left-0 z-10 bg-white border border-gray300 w-full max-h-60 overflow-y-auto mt-1 rounded shadow-md'
+    'absolute top-full left-0 z-10 bg-white border border-gray600 w-full max-h-60 overflow-y-auto mt-1 rounded '
 );
 
 const textVariant = cva('font-medium text-lg mo:text-sm', {
@@ -151,7 +151,7 @@ const Dropdown = ({
                                         setShow(false);
                                         onSelect?.(item.value);
                                     }}
-                                    className={`px-4 py-2 cursor-pointer hover:bg-gray100 ${
+                                    className={`px-4 py-2 cursor-pointer hover:bg-bg100 ${
                                         selectedValue === item.value ? 'bg-gray100' : 'bg-white'
                                     }`}
                                 >
