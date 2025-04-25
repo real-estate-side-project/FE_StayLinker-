@@ -13,14 +13,14 @@ export const monthOptions = [
     { label: 'December', value: '12' }
 ];
 export const languageOptions = [
-    { label: 'English', value: 'en' },
-    { label: 'Korean', value: 'ko' },
-    { label: 'Japanese', value: 'ja' },
+    { label: 'English', value: 'english' },
+    { label: 'Korean', value: 'korean' },
+    { label: 'Japanese', value: 'japanese' },
     { label: 'Chinese (Simplified)', value: 'zh-CN' },
     { label: 'Chinese (Traditional)', value: 'zh-TW' },
-    { label: 'Spanish', value: 'es' },
-    { label: 'French', value: 'fr' },
-    { label: 'German', value: 'de' },
-    { label: 'Vietnamese', value: 'vi' },
-    { label: 'Thai', value: 'th' }
+    { label: 'Spanish', value: 'spanish' },
+    { label: 'French', value: 'french' },
+    { label: 'German', value: 'german' },
+    { label: 'Vietnamese', value: 'vietnamese' },
+    { label: 'Thai', value: 'thai' }
 ];
