@@ -1,14 +1,12 @@
 'use client';
 
 import Button from '@/components/Buttons/Button';
-import React, { useState } from 'react';
+import Checkbox from '@/components/Inputs/Checkbox';
+import Input from '@/components/Inputs/Input';
+import { useConsumerLogin } from '@/querys/ConsumerQuerys';
+import { useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import Input from '@/components/Inputs/Input';
-import AppleLogo from '../assets/AppleLogo';
-import GoogleLogo from '../assets/GoogleLogo';
-import Checkbox from '@/components/Inputs/Checkbox';
-import { useConsumerLogin } from '@/querys/ConsumerQuerys';
 
 const ConsumerLogInForm = () => {
     const methods = useForm({
@@ -20,8 +18,12 @@ const ConsumerLogInForm = () => {
         }
     });
     const [showPassword, setShowPassword] = useState(false);
-    const { control } = methods;
+    const { control, watch } = methods;
     const { mutate: login } = useConsumerLogin();
+
+    const email = watch('email');
+    const password = watch('password');
+    const isFormValid = email.trim() !== '' && password.trim() !== '';
 
     const onSubmit = (data: any) => {
         const { email, password } = data;
@@ -35,7 +37,7 @@ const ConsumerLogInForm = () => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
-                <div className="flex flex-col w-96">
+                <div className="flex flex-col w-full mb-4">
                     <div className="flex flex-col gap-6 h-56 mb-20">
                         <Controller
                             name="email"
@@ -90,31 +92,9 @@ const ConsumerLogInForm = () => {
                             <Checkbox name="saveID">save ID</Checkbox>
                         </div>
                     </div>
-
-                    <div className="flex flex-col w-96 h-24 gap-4 mb-16">
-                        <Button priority="primary" size="md" fullWidth>
-                            Login
-                        </Button>
-                        <div className="flex w-full justify-between text-gray-500 text-[16px]">
-                            <p className="underline">Forgot password?</p>
-                            <p>
-                                Don't have an account? <span className="text-sub500 underline">Join</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col w-96 h-28 gap-6">
-                        <div className="relative flex items-center">
-                            <hr className="w-full border-gray-300" />
-                            <span className="absolute bg-white px-3 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500 text-[16px] whitespace-nowrap">
-                                Login/Join with SNS account
-                            </span>
-                        </div>
-
-                        <div className="flex gap-10 justify-center">
-                            <AppleLogo />
-                            <GoogleLogo />
-                        </div>
-                    </div>
+                    <Button priority="primary" size="md" isDisabled={!isFormValid} fullWidth>
+                        Login
+                    </Button>
                 </div>
             </form>
         </FormProvider>

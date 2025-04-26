@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { FormProvider, useForm, Controller } from 'react-hook-form';
-import Input from '@/components/Inputs/Input';
-import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
+import Input from '@/components/Inputs/Input';
 import { useBusinessLogin } from '@/querys/BusinessQuerys';
+import { useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
 const AgentLogInForm = () => {
     const methods = useForm({
@@ -19,8 +19,13 @@ const AgentLogInForm = () => {
     });
 
     const [showPassword, setShowPassword] = useState(false);
-    const { control, handleSubmit } = methods;
+
+    const { control, handleSubmit, watch } = methods;
     const { mutate: login } = useBusinessLogin();
+
+    const businessCode = watch('businessCode');
+    const password = watch('password');
+    const isFormValid = businessCode.trim() !== '' && password.trim() !== '';
 
     const onSubmit = (data: BusinessLoginParams) => {
         const type = 'BUSINESS';
@@ -35,7 +40,7 @@ const AgentLogInForm = () => {
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col w-96">
+                <div className="flex flex-col w-full mb-4">
                     <div className="flex flex-col gap-6 h-56 mb-20">
                         <Controller
                             name="businessCode"
@@ -44,7 +49,7 @@ const AgentLogInForm = () => {
                             render={({ field, fieldState }) => (
                                 <Input
                                     {...field}
-                                    label="Corporate Registration Number"
+                                    label="ID"
                                     placeholder="ex)1234567890"
                                     state={fieldState.error ? 'error' : 'default'}
                                     validationMessage={fieldState.error?.message}
@@ -75,17 +80,9 @@ const AgentLogInForm = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-col w-96 h-24 gap-4">
-                        <Button priority="primary" size="md" fullWidth>
-                            Login
-                        </Button>
-                        <div className="flex w-full justify-between text-gray-500 text-[16px]">
-                            <p className="underline">Forgot password?</p>
-                            <p>
-                                Don’t have an Agent account? <span className="text-sub500 underline">Join</span>
-                            </p>
-                        </div>
-                    </div>
+                    <Button priority="primary" size="md" isDisabled={!isFormValid} fullWidth>
+                        Login
+                    </Button>
                 </div>
             </form>
         </FormProvider>

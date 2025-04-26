@@ -1,13 +1,12 @@
 import FAB from '@/components/FAB';
+import Footer from '@/components/Footer/Footer';
+import DefaultHeader from '@/components/Header/DefaultHeader';
 import { ModalProvider } from '@/providers/ModalProvider';
 import QueryProvider from '@/providers/TanStackQueryClientProvider';
 import { ToastProvider } from '@/providers/ToastProvider';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import MainHeader from '@/components/Header/MainHeader';
-import DefaultHeader from '@/components/Header/DefaultHeader';
-import Footer from '@/components/Footer/Footer';
 
 const pretendard = localFont({
     src: '../fonts/PretendardVariable.woff2',

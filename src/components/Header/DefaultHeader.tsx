@@ -11,7 +11,7 @@ const DefaultHeader = () => {
     const isActive = (href: string) => pathname === href;
 
     return (
-        <header className="flex justify-between items-center py-3.5 px-60 h-24 bg-white border-b border-gray300">
+        <header className="flex justify-between items-center py-3.5 px-60 h-24 bg-white border-b border-gray300 mb-3">
             <div role="banner" className="flex justify-center items-center gap-12">
                 <Link href={'/'}>
                     <Image src="/svg/orangeLogo.svg" alt="스테이링커 로고" width={210} height={47} />
@@ -54,7 +54,7 @@ const DefaultHeader = () => {
 
             <aside className="flex justify-center items-center gap-6">
                 <MdGTranslate size={32} />
-                <Link href={'/log-in'}>
+                <Link href={'/log-in/customer'}>
                     <Button priority="secondary">Login/Join</Button>
                 </Link>
             </aside>
