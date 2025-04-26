@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 import { IoIosArrowUp } from 'react-icons/io';
-import DropdownMenu from './\bDropDownMenu';
+import DropdownMenu from './DropDownMenu';
 
 type DropdownItem = {
     label: string;
