@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { ComponentProps, ReactNode, useId } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 
-const labelVariant = cva('font-semibold text-xl mo:text-base', {
+const labelVariant = cva('pc-title-s-700 mo:text-base', {
     variants: {
         state: {
             default: 'text-gray910 cursor-pointer',

@@ -14,7 +14,7 @@ export type ModalButtonContentType = {
 };
 
 export type ModalType = {
-    message: string;
+    message: string | JSX.Element;
     onConfirm: () => void;
     onCancel?: () => void | null;
     hasCancel?: boolean;
