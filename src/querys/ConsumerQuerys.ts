@@ -1,3 +1,4 @@
+import { useModal } from '@/providers/ModalProvider';
 import { ConsumerService } from '@/service/ConsumerService';
 import { ConsumerLoginParams } from '@/types/consumer.type';
 import { setAccessToken } from '@/utils/manageCookie';
@@ -5,21 +6,34 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export const useConsumerLogin = () => {
+    const modal = useModal();
     return useMutation({
         mutationKey: ['consumer', 'login'],
         mutationFn: (params: ConsumerLoginParams) => ConsumerService.loginConsumer(params),
         onSuccess: async (res: any) => {
             const accessToken = res.data.accessToken;
             if (accessToken) {
-                setAccessToken('accessToken', accessToken);
-
-                try {
-                    window.location.href = '/';
-                } catch (error) {}
+                modal.open({
+                    message: '로그인 되었습니다.(소비자)',
+                    onConfirm: () => {
+                        setAccessToken('accessToken', accessToken);
+                        modal.close();
+                        window.location.href = '/';
+                    },
+                    hasCancel: false,
+                    confirmButtonContent: { children: '확인' }
+                });
             } else {
             }
         },
-        onError: (error: any) => {}
+        onError: (error: any) => {
+            modal.open({
+                message: `${error.message}`,
+                onConfirm: () => modal.close(),
+                hasCancel: false,
+                confirmButtonContent: { children: '확인' }
+            });
+        }
     });
 };
 

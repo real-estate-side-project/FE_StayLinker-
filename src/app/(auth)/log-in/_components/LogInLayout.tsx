@@ -16,7 +16,7 @@ const LogInLayout = ({ children }: Props) => {
     const accountType = isAgent ? 'agent' : 'customer';
 
     return (
-        <div className="w-[454px]">
+        <div className="w-[454px] mt-[72px]">
             <LogInSwitcher accountType={accountType} />
             {children}
             <JoinBottomLinks accountType={accountType} />

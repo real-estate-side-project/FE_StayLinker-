@@ -3,7 +3,7 @@ import ConsumerLogInForm from './_components/ConsumerLogInForm';
 
 const CustomerLogInPage = () => {
     return (
-        <main className="flex flex-col items-center justify-center h-screen overflow-y-scroll">
+        <main className="flex flex-col items-center  h-screen overflow-y-scroll">
             <LogInLayout>
                 <ConsumerLogInForm />
             </LogInLayout>

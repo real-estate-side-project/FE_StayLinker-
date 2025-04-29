@@ -1,24 +1,38 @@
+import { useModal } from '@/providers/ModalProvider';
 import { BusinessService } from '@/service/BusinessService';
 import { BusinessInfoVerifyParams, BusinessLoginParams } from '@/types/business.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';
 
 export const useBusinessLogin = () => {
+    const modal = useModal();
     return useMutation({
         mutationKey: ['Business', 'login'],
         mutationFn: (params: BusinessLoginParams) => BusinessService.loginBusiness(params),
         onSuccess: async (res: any) => {
             const accessToken = res.data.accessToken;
             if (accessToken) {
-                setAccessToken('accessToken', accessToken);
-
-                try {
-                    window.location.href = '/';
-                } catch (error) {}
+                modal.open({
+                    message: '로그인 되었습니다.(사업자)',
+                    onConfirm: () => {
+                        setAccessToken('accessToken', accessToken);
+                        modal.close();
+                        window.location.href = '/';
+                    },
+                    hasCancel: false,
+                    confirmButtonContent: { children: '확인' }
+                });
             } else {
             }
         },
-        onError: (error: any) => {}
+        onError: (error: any) => {
+            modal.open({
+                message: `${error.message}`,
+                onConfirm: () => modal.close(),
+                hasCancel: false,
+                confirmButtonContent: { children: '확인' }
+            });
+        }
     });
 };
 

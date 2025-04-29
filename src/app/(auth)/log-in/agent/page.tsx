@@ -3,7 +3,7 @@ import AgentLogInForm from './_components/AgentLogInForm';
 
 const AgentLogInPage = () => {
     return (
-        <main className="flex flex-col items-center justify-center h-screen overflow-y-scroll">
+        <main className="flex flex-col items-center h-screen overflow-y-scroll">
             <LogInLayout>
                 <AgentLogInForm />
             </LogInLayout>
