@@ -21,7 +21,7 @@ type FormValues = {
     confirmPassword: string;
     name: string;
     nickname: string;
-    languages: string[];
+    languages: string;
     month: string;
     date: string;
     year: string;
@@ -42,7 +42,7 @@ const CustomerSignUpForm = () => {
             confirmPassword: '',
             name: '',
             nickname: '',
-            languages: [],
+            languages: '',
             month: '',
             date: '',
             year: '',
@@ -104,15 +104,6 @@ const CustomerSignUpForm = () => {
 
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
-
-    const handleSelectLanguage = (selected: string | number) => {
-        if (typeof selected !== 'string') return;
-
-        const prev = Array.isArray(getValues('languages')) ? getValues('languages') : [];
-        const updated = prev.includes(selected) ? prev.filter((lang) => lang !== selected) : [...prev, selected];
-
-        setValue('languages', updated, { shouldValidate: true });
-    };
 
     return (
         <main className="flex flex-col items-center justify-center mt-3 py-16">
@@ -186,7 +177,6 @@ const CustomerSignUpForm = () => {
                                 name="languages"
                                 placeholder="ex)English"
                                 items={languageOptions}
-                                onSelect={handleSelectLanguage}
                                 label="Language"
                                 size="full"
                                 description={`• Please select your main language`}
