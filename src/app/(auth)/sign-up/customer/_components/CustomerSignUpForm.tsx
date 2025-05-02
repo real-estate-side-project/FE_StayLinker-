@@ -59,7 +59,7 @@ const CustomerSignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { watch } = methods;
-    const { setValue, getValues } = methods;
+
     const email = watch('email');
     const password = watch('password');
     const confirmPassword = watch('confirmPassword');
@@ -121,7 +121,7 @@ const CustomerSignUpForm = () => {
                             placeholder="ex)123@abcd"
                             icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                             handleClickIcon={togglePassword}
-                            description={`• Must be at least 6 characters\n• Must contain number and special characters\n• Must contain letters in mixed case`}
+                            description={`•  Must be at least 6 characters\n• Must contain number and special characters\n• Must contain letters in mixed case`}
                             rules={{
                                 validate: {
                                     minLength: (v) => v.length >= 6,

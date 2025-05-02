@@ -49,7 +49,7 @@ const inputVariant = cva(
     }
 );
 
-const textVariant = cva('font-medium pc-body-m-500 ml-2 mo:text-sm', {
+const textVariant = cva('pc-body-m-500 ml-2 mo:text-sm', {
     variants: {
         state: {
             default: 'text-gray500 cursor-default',
