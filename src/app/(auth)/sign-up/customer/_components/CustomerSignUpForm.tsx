@@ -21,7 +21,7 @@ type FormValues = {
     confirmPassword: string;
     name: string;
     nickname: string;
-    languages: string[];
+    languages: string;
     month: string;
     date: string;
     year: string;
@@ -42,7 +42,7 @@ const CustomerSignUpForm = () => {
             confirmPassword: '',
             name: '',
             nickname: '',
-            languages: [],
+            languages: '',
             month: '',
             date: '',
             year: '',
@@ -59,7 +59,7 @@ const CustomerSignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { watch } = methods;
-    const { setValue, getValues } = methods;
+
     const email = watch('email');
     const password = watch('password');
     const confirmPassword = watch('confirmPassword');
@@ -105,15 +105,6 @@ const CustomerSignUpForm = () => {
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
-    const handleSelectLanguage = (selected: string | number) => {
-        if (typeof selected !== 'string') return;
-
-        const prev = Array.isArray(getValues('languages')) ? getValues('languages') : [];
-        const updated = prev.includes(selected) ? prev.filter((lang) => lang !== selected) : [...prev, selected];
-
-        setValue('languages', updated, { shouldValidate: true });
-    };
-
     return (
         <main className="flex flex-col items-center justify-center mt-3 py-16">
             <FormProvider {...methods}>
@@ -130,7 +121,7 @@ const CustomerSignUpForm = () => {
                             placeholder="ex)123@abcd"
                             icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                             handleClickIcon={togglePassword}
-                            description={`• Must be at least 6 characters\n• Must contain number and special characters\n• Must contain letters in mixed case`}
+                            description={`•  Must be at least 6 characters\n• Must contain number and special characters\n• Must contain letters in mixed case`}
                             rules={{
                                 validate: {
                                     minLength: (v) => v.length >= 6,
@@ -186,7 +177,6 @@ const CustomerSignUpForm = () => {
                                 name="languages"
                                 placeholder="ex)English"
                                 items={languageOptions}
-                                onSelect={handleSelectLanguage}
                                 label="Language"
                                 size="full"
                                 description={`• Please select your main language`}

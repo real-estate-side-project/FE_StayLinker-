@@ -1,9 +1,7 @@
+import AgentSiginUpForm from './_components/AgentSiginUpForm';
+
 const AgentSignUpPage = () => {
-    return (
-        <>
-            <div>AgentSignUpPage</div>
-        </>
-    );
+    return <AgentSiginUpForm />;
 };
 
 export default AgentSignUpPage;

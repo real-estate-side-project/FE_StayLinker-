@@ -11,7 +11,9 @@ const JoinBottomLinks = ({ accountType }: Props) => {
 
     return (
         <div className="flex w-full justify-between text-gray-500 text-[16px]">
-            <p className="underline">Forgot password?</p>
+            <Link href={`/forgot-password/${accountType}`}>
+                <p className="underline">Forgot password?</p>
+            </Link>
             <p>
                 {isAgent ? 'Don’t have an Agent account?' : "Don't have an account?"}
                 <Link href={`/sign-up/${accountType}`}>
