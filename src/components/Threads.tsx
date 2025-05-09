@@ -1,4 +1,6 @@
+import Ellipsis from '@/app/community/components/Ellipsis';
 import React, { useState } from 'react';
+import { HiOutlineChat } from 'react-icons/hi';
 import { HiMiniArrowUpTray } from 'react-icons/hi2';
 import { MdChatBubbleOutline, MdMoreHoriz } from 'react-icons/md';
 import { TiHeartOutline } from 'react-icons/ti';
@@ -28,17 +30,20 @@ const thread = {
     liked: 5
 };
 // { thread }: ThreadsProps
-// … 클릭시 나오는 드롭박스 내용 확인 후 코멘트에 사용될 경우 고려할 Nbe
+
 const Threads = () => {
     const isMarket = thread.category === 'market';
     const isMain = thread.userId === 'middleWare userId check';
-    const [view, setView] = useState(false); // ...
+    const [view, setView] = useState(false);
 
     const handleLikeClick = () => {
         console.log('like api call');
     };
 
-    // after the design finished
+    const handleChat = () => {
+        console.log('chat call');
+    };
+
     const callComment = () => {
         console.log('comment process');
     };
@@ -50,16 +55,15 @@ const Threads = () => {
                     <p className="font-bold">{thread.category}</p>
                     <p className="font-medium">{thread.writer}</p>
                 </div>
-                <div>
+                <div className="relative">
                     <button
                         onClick={() => {
-                            setView(!view);
+                            setView((prev) => !prev);
                         }}
                     >
                         <MdMoreHoriz />
                     </button>
-                    {view && <div className="absolute text-red-600 text-lg font-bold">Qyd</div>}
-                    {/* {view && <Ellipsis isMarket={isMarket} isMain={isMain} />} */}
+                    {view && <Ellipsis isMarket={isMarket} isMain={isMain} />}
                 </div>
             </div>
 
@@ -78,6 +82,12 @@ const Threads = () => {
                         <MdChatBubbleOutline />
                         <p className="text-lg">{thread.comment}</p>
                     </button>
+                    {isMarket && (
+                        <button onClick={() => handleChat()} className="flex items-center gap-1">
+                            <HiOutlineChat />
+                            <p className="text-lg">1:1</p>
+                        </button>
+                    )}
                     <button onClick={() => {}}>
                         <HiMiniArrowUpTray />
                     </button>

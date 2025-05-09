@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -11,41 +11,80 @@ interface Slide {
     summary: string;
 }
 
+const slides: Slide[] = [
+    { image: '/images/navi.png', title: '제목 1', summary: '이것은 첫 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 2', summary: '이것은 두 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 3', summary: '이것은 세 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 4', summary: '이것은 네 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 6', summary: '이것은 여섯 번째 슬라이드입니다.' },
+    { image: '/images/navi.png', title: '제목 7', summary: '이것은 일곱 번째 슬라이드입니다.' }
+];
+
 const App = ({ topic }: { topic: string }) => {
+    const swiperRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const handleSlideChange = (swiper: any) => {
+        setActiveIndex(swiper.realIndex);
+    };
+
     // const [slides, setSlides] = useState([]);
     const getSlides = (topic: string) => {
         // call slides get api
         // setSlides()
     };
 
-    const slides: Slide[] = [
-        { image: '/images/sample1.jpg', title: '제목 1', summary: '이것은 첫 번째 슬라이드입니다.' },
-        { image: '/images/sample2.jpg', title: '제목 2', summary: '이것은 두 번째 슬라이드입니다.' },
-        { image: '/images/sample3.jpg', title: '제목 3', summary: '이것은 세 번째 슬라이드입니다.' }
-    ];
-
     return (
-        <div className="w-full max-w-lg mx-auto border p-4">
-            <Swiper
-                modules={[Navigation]}
-                slidesPerView={3}
-                spaceBetween={10}
-                navigation={true}
-                className="w-full overflow-hidden"
-            >
-                {slides.map((slide: Slide, index) => (
-                    <SwiperSlide key={index} className="">
-                        <div>
-                            <div className="rounded-2xl overflow-hidden">
-                                <Image src={slide.image} alt={slide.title} width={330} height={232} />
-                            </div>
-                            <p className="text-xl font-bold">{slide.title}</p>
-                            <p>{slide.summary}</p>
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
+        <Swiper
+            ref={swiperRef}
+            onSlideChange={handleSlideChange}
+            modules={[Navigation]}
+            slidesPerView="auto"
+            spaceBetween={1}
+            className="w-[1680px]"
+        >
+            {slides.map((slide: Slide, index) => (
+                <SwiperSlide
+                    key={index}
+                    style={{
+                        width: '452px',
+                        height: '388px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: activeIndex === index ? '70px' : 0
+                    }}
+                >
+                    <div
+                        style={{
+                            // width: activeIndex === index ? '452px' : '330px',
+                            // height: activeIndex === index ? '388px' : '295px',
+                            // transition: 'all 0.8s ease',
+                            width: activeIndex === index ? '452px' : '330px',
+                            height: activeIndex === index ? '388px' : '295px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <div
+                            className="rounded-2xl overflow-hidden mb-3 bg-cover bg-center"
+                            style={{
+                                backgroundImage: `url(${slide.image})`,
+                                width: activeIndex === index ? '452px' : '330px',
+                                height: activeIndex === index ? '318px' : '232px'
+                            }}
+                        ></div>
+                        <p className="text-xl font-bold">{slide.title}</p>
+                        <p>{slide.summary}</p>
+                    </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
     );
 };
 

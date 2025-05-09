@@ -8,7 +8,7 @@ interface SingleSelectProps {
 
 const SingleSelect = ({ optionList, selectedOption, setSelectedOption }: SingleSelectProps) => {
     return (
-        <div className="h-10 gap-4 flex mt-7">
+        <div className="h-10 gap-4 flex">
             {optionList.map((option) => (
                 <button
                     key={option}

@@ -18,7 +18,28 @@ interface Item {
 const TopRating = ({ type }: TopRatingProps) => {
     const [topThreads, setTopThreads] = useState<Item[]>([
         {
-            id: 5,
+            id: 1,
+            title: 'BEST Korean Diner by Foodie fighter Friend',
+            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
+            writer: 'writer1',
+            liked: 7
+        },
+        {
+            id: 2,
+            title: 'BEST Korean Diner by Foodie fighter Friend',
+            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
+            writer: 'writer1',
+            liked: 7
+        },
+        {
+            id: 3,
+            title: 'BEST Korean Diner by Foodie fighter Friend',
+            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
+            writer: 'writer1',
+            liked: 7
+        },
+        {
+            id: 4,
             title: 'BEST Korean Diner by Foodie fighter Friend',
             content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
             writer: 'writer1',
@@ -26,27 +47,6 @@ const TopRating = ({ type }: TopRatingProps) => {
         },
         {
             id: 5,
-            title: 'BEST Korean Diner by Foodie fighter Friend',
-            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
-            writer: 'writer1',
-            liked: 7
-        },
-        {
-            id: 5,
-            title: 'BEST Korean Diner by Foodie fighter Friend',
-            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
-            writer: 'writer1',
-            liked: 7
-        },
-        {
-            id: 5,
-            title: 'BEST Korean Diner by Foodie fighter Friend',
-            content: 'List of the best diners I’ve visited in Seoul, South Korea. I really love sooooo',
-            writer: 'writer1',
-            liked: 7
-        },
-        {
-            id: 7,
             title: 'BEST Korean Diner  22222',
             content: 'List of the best diner2222',
             writer: 'writer2',

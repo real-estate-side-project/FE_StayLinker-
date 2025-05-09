@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface EllipsisProps {
@@ -31,9 +31,9 @@ const Ellipsis = ({ isMarket, isMain }: EllipsisProps) => {
     };
 
     return (
-        <div>
-            <button onClick={() => callDeclare()}>
-                <p>신고하기</p>
+        <div className="absolute bg-white rounded border border-[#6d6d6d] overflow-hidden flex">
+            <button onClick={() => callDeclare()} className="px-3 py-2 text-[#6d6d6d] hover:bg-[#f8f5f1]">
+                <span>report</span>
             </button>
             {isMarket && (
                 <button onClick={() => callChat()}>

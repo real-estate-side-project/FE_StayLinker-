@@ -10,6 +10,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import SingleSelect from '@/components/Chips/SingleSelect';
 import Threads from '@/components/Threads';
 import { MdOutlineEdit } from 'react-icons/md';
+import SearchBar from '@/components/SearchBar';
 
 interface FormData {
     searchTerm: string;
@@ -61,13 +62,13 @@ const CommunityPage = () => {
     return (
         <div className="bg-[#F5F5F5] h-screen">
             <div className="max-w-[1440px] mx-auto mt-36">
-                <div className="flex justify-between">
+                <div className="flex justify-between mt-7">
                     <SingleSelect
                         optionList={['See All', 'Information', 'Community', 'Sale']}
                         selectedOption={boardType}
                         setSelectedOption={setBoardType}
                     />
-                    {/* search bar */}
+                    <SearchBar />
                 </div>
                 <TopRating type={boardType} />
                 <div className="mt-[104px]">
