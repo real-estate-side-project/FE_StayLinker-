@@ -1,4 +1,6 @@
 import FAB from '@/components/FAB';
+import Footer from '@/components/Footer/Footer';
+import DefaultHeader from '@/components/Header/DefaultHeader';
 import { ModalProvider } from '@/providers/ModalProvider';
 import QueryProvider from '@/providers/TanStackQueryClientProvider';
 import { ToastProvider } from '@/providers/ToastProvider';
@@ -30,7 +32,9 @@ export default function RootLayout({
                 <QueryProvider>
                     <ToastProvider>
                         <ModalProvider>
+                            <DefaultHeader />
                             {children}
+                            <Footer />
                             <div className="mo:hidden">
                                 <FAB />
                             </div>

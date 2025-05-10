@@ -12,7 +12,7 @@ const buttonVariant = cva('flex justify-center items-center border font-medium t
         size: {
             sm: 'w-8 h-8 text-xl mo:w-6 mo:h-6 mo:text-base',
             md: 'w-9 h-9 text-2xl mo:w-7 mo:h-7 mo:text-xl',
-            lg: 'w-9 h-9 mo:w-8 mo:h-8 text-2xl'
+            lg: 'w-10 h-10 mo:w-8 mo:h-8 text-2xl'
         },
         shape: {
             circle: 'rounded-full',
