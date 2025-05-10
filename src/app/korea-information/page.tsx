@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import ArticleCarousel from './components/ArticleCarousel';
 import SingleSelect from '@/components/Chips/SingleSelect';
 import SearchBar from '@/components/SearchBar';
+import ArticleDetail from './components/ArticleDetail';
 
 const KoreaInformationPage = () => {
     const [boardType, setBoardType] = useState<string>('See All');
@@ -11,7 +12,10 @@ const KoreaInformationPage = () => {
 
     return (
         <div>
-            <div className="w-full h-[520px] bg-no-repeat bg-center bg-cover"></div>
+            <div
+                style={{ backgroundImage: `url('/images/banner.png')` }}
+                className="w-full h-[520px] bg-no-repeat bg-center bg-cover cursor-pointer"
+            ></div>
             <div className="w-[1440px] mx-auto mt-8">
                 <div className="flex justify-between items-end">
                     <SingleSelect
@@ -30,6 +34,17 @@ const KoreaInformationPage = () => {
                     ))}
                 </div>
             </div>
+
+            {/* temp */}
+            <ArticleDetail
+                article={{
+                    type: 'Culture',
+                    image: '/images/navi.png',
+                    title: '제목 7',
+                    summary: '이것은 일곱 번째 슬라이드입니다.',
+                    mainText: 'mainText'
+                }}
+            />
         </div>
     );
 };
