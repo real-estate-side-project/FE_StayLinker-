@@ -171,6 +171,12 @@ input[type='number'] {
     appearance: none;
 }
 
+
+/* check */
+.allow-overflow {
+    overflow: visible !important;
+}
+
 .scrollbar-hidden {
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -183,4 +189,5 @@ input[type='number'] {
 input:-webkit-autofill {
     box-shadow: 0 0 0px 1000px white inset !important;
     -webkit-text-fill-color: #111827 !important; /* text-gray900 */
+
 }
