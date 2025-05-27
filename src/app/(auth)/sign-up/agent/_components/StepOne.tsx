@@ -129,7 +129,7 @@ const StepOne = () => {
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <p className="pc-title-s-500">사업자 등록증 첨부</p>
-                            <span className="text-gray500 text-sm">(최대 10MB)</span>
+                            <span className="text-gray500 text-sm">(최대 5MB)</span>
                         </div>
                         <p className="text-gray500 pc-body-m-500">
                             {businessLicenseFile ? businessLicenseFile.name : '파일을 선택해주세요.'}
@@ -148,6 +148,11 @@ const StepOne = () => {
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                        e.target.value = ''; // 선택된 파일 초기화
+                                        return;
+                                    }
                                     console.log('선택된 파일:', file.name);
                                 }
                             }}
@@ -159,7 +164,7 @@ const StepOne = () => {
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <p className="pc-title-s-500">중개사무소 등록증 첨부</p>
-                            <span className="text-gray500 text-sm">(최대 10MB)</span>
+                            <span className="text-gray500 text-sm">(최대 5MB)</span>
                         </div>
                         <p className="text-gray500 pc-body-m-500">
                             {officeLicenseFile ? officeLicenseFile.name : '파일을 선택해주세요.'}
@@ -178,6 +183,11 @@ const StepOne = () => {
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                        e.target.value = ''; // 선택된 파일 초기화
+                                        return;
+                                    }
                                     console.log('선택된 파일:', file.name);
                                 }
                             }}
