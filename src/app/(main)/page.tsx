@@ -1,10 +1,13 @@
 import React from 'react';
-import HeroSection from './components/HeroSection';
+import { OurServiceSection, SearchSection } from './components';
 
 const MainPage = () => {
     return (
-        <div>
-            <HeroSection />
+        <div className="flex flex-col gap-40 ">
+            <SearchSection />
+            <div className="flex flex-col gap-40 items-center">
+                <OurServiceSection />
+            </div>
         </div>
     );
 };

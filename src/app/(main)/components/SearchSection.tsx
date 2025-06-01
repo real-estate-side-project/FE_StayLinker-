@@ -6,11 +6,20 @@ import SingleIconButton from '@/components/Buttons/SingleIconButton';
 import { MapMarkerOutline, OfficeBuildingCog, Search, Slider } from '../assets';
 import { Selector, Tab } from './UI';
 
-const HeroSection = () => {
+export const SearchSection = () => {
     const [activeTab, setActiveTab] = useState<'RENT' | 'BUY'>('RENT');
     return (
-        <div className="relative">
-            <Image src={'/images/ImagePlaceholder.png'} alt={'배너이미지'} width={1920} height={796} />
+        <div className="relative w-full">
+            <div className="relative w-full h-[796px]">
+                <Image
+                    src={'/images/ImagePlaceholder.png'}
+                    alt={'배너이미지'}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                    priority
+                />
+            </div>
             <div className="absolute bottom-[34px] left-1/2 -translate-x-1/2 flex flex-col items-start">
                 <div className="flex items-end">
                     <Tab title="RENT" isActive={activeTab === 'RENT'} onClick={() => setActiveTab('RENT')} />
@@ -42,5 +51,3 @@ const HeroSection = () => {
         </div>
     );
 };
-
-export default HeroSection;
