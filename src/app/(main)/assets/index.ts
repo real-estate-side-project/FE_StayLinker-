@@ -8,3 +8,4 @@ export * from './MapSearch';
 export * from './Note';
 export * from './ChatBubble';
 export * from './ChatAlert';
+export * from './ChevronRight';

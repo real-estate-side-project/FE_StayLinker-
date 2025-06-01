@@ -9,7 +9,7 @@ import { Selector, Tab } from './UI';
 export const SearchSection = () => {
     const [activeTab, setActiveTab] = useState<'RENT' | 'BUY'>('RENT');
     return (
-        <div className="relative w-full">
+        <section className="relative w-full">
             <div className="relative w-full h-[796px]">
                 <Image
                     src={'/images/ImagePlaceholder.png'}
@@ -48,6 +48,6 @@ export const SearchSection = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };

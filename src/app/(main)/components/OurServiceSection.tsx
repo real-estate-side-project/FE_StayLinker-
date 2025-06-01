@@ -35,13 +35,13 @@ const serviceList = [
 ];
 export const OurServiceSection = () => {
     return (
-        <div className="flex flex-col gap-10 items-start">
-            <SectionTitle title="Our Service" />
+        <section className="flex flex-col gap-10 items-start">
+            <SectionTitle>Our Service</SectionTitle>
             <div className="flex items-center justify-between gap-[48.8px]">
                 {serviceList.map((service) => (
                     <ServiceButton key={service.title} href={service.href} icon={service.icon} title={service.title} />
                 ))}
             </div>
-        </div>
+        </section>
     );
 };

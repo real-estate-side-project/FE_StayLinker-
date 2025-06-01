@@ -1,8 +1,8 @@
 interface SectionTitleProps {
-    title: string;
+    children: React.ReactNode;
     className?: string;
 }
 
-export const SectionTitle = ({ title, className }: SectionTitleProps) => {
-    return <h2 className={`pc-title-l-700 text-gray910 ${className}`}>{title}</h2>;
+export const SectionTitle = ({ children, className }: SectionTitleProps) => {
+    return <h2 className={`pc-title-l-700 text-gray910 ${className}`}>{children}</h2>;
 };
