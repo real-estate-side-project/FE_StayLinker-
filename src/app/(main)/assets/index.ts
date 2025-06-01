@@ -9,3 +9,4 @@ export * from './Note';
 export * from './ChatBubble';
 export * from './ChatAlert';
 export * from './ChevronRight';
+export * from './CurrencyUsd';
