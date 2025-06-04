@@ -30,6 +30,9 @@ const TermsSection = () => {
 
             {/* 필수 약관 */}
             <div className="px-4 inline-flex flex-col justify-start items-start gap-3 w-full">
+                <Checkbox name="age" mode="on-off">
+                    <div className="flex items-center justify-around gap-2">[필수] 만 14세 이상입니다.</div>
+                </Checkbox>
                 <Checkbox name="termsOfUse" mode="on-off">
                     <div className="flex items-center justify-around gap-2">
                         [필수] 이용약관 동의
