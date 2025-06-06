@@ -1,14 +1,27 @@
 'use client';
 
+import { useAuth } from '@/hooks/useAuth';
+import { useLogout } from '@/hooks/useLogout';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { MdGTranslate } from 'react-icons/md';
+import { usePathname, useRouter } from 'next/navigation';
+import { MdAdd, MdGTranslate } from 'react-icons/md';
 import Button from '../Buttons/Button';
 
 const MainHeader = () => {
     const pathname = usePathname();
+    const router = useRouter();
+    const { isLoggedIn, role, nickname } = useAuth();
+    const { logout } = useLogout();
+
     const isActive = (href: string) => pathname === href;
+
+    const isBusiness = role === 'BUSINESS' || role === 'TEMP_BUSINESS';
+
+    const handleLogout = () => {
+        logout();
+        router.push('/');
+    };
 
     return (
         <header className="absolute top-0 left-0 w-full h-24 z-50 bg-white/20 backdrop-blur-[50px] flex justify-between items-center px-60">
@@ -53,13 +66,30 @@ const MainHeader = () => {
             </div>
 
             <aside className="flex justify-center items-center gap-6">
-                <MdGTranslate size={32} className="text-white" />
-                <Link href={'/log-in/customer'}>
-                    {/* <Button priority="primary">Login/Join</Button> */}
-                    <Button priority="overlay" size="lg">
-                        Login/Join
-                    </Button>
-                </Link>
+                {isLoggedIn ? (
+                    <>
+                        <Image src="/svg/bell-default-white.svg" alt="alert icon" width={32} height={32} />
+                        <MdGTranslate size={32} className="text-white" />
+                        <p className="pc-body-s-500 text-white">{nickname}</p>
+                        <button onClick={handleLogout} className="pc-body-s-500 text-white">
+                            Logout
+                        </button>
+                        {isBusiness && (
+                            <Button priority="overlay" size="md" icon={<MdAdd />} iconPosition="right">
+                                Add Property
+                            </Button>
+                        )}
+                    </>
+                ) : (
+                    <>
+                        <MdGTranslate size={32} className="text-white" />
+                        <Link href={'/log-in/customer'}>
+                            <Button priority="overlay" size="lg">
+                                Login/Join
+                            </Button>
+                        </Link>
+                    </>
+                )}
             </aside>
         </header>
     );
