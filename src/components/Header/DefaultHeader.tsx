@@ -4,13 +4,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLogout } from '@/hooks/useLogout';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { MdAdd, MdGTranslate } from 'react-icons/md';
 import Button from '../Buttons/Button';
 
 const DefaultHeader = () => {
     const pathname = usePathname();
-    const router = useRouter();
+
     const { isLoggedIn, role, nickname } = useAuth();
     const { logout } = useLogout();
 
@@ -19,7 +19,6 @@ const DefaultHeader = () => {
 
     const handleLogout = () => {
         logout();
-        router.push('/');
     };
 
     return (
