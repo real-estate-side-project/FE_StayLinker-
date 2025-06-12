@@ -4,6 +4,7 @@ import Button from '@/components/Buttons/Button';
 import DateInput from '@/components/Inputs/DateInput';
 import Input from '@/components/Inputs/Input';
 import { useModal } from '@/providers/ModalProvider';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import AgentSearchModal from './AgentSearchModal';
 import AgentSearchResultCard from './AgentSearchResultCard';
@@ -39,14 +40,15 @@ const StepOne = () => {
                     }}
                 />
             ),
-            onConfirm: async () => {
-                if (confirmHandler) {
-                    await confirmHandler();
-                }
-            },
-            onCancel: () => modal.close(),
-            confirmButtonContent: { children: '검색' },
-            cancelButtonContent: { children: '취소' }
+            hasCancel: false,
+            backgroundClassName: 'bg-white/70',
+            customButtons: (
+                <div className="flex gap-[2px] w-[84px] h-[36px] my-8">
+                    <Button priority="gray" onClick={modal.close}>
+                        닫기 <Image src="/svg/vector.svg" alt="alert icon" width={20} height={20} />
+                    </Button>
+                </div>
+            )
         });
     };
 

@@ -1,13 +1,22 @@
 'use client';
 
+import Dropdown from '@/components/DropDown/DropDown';
 import Input from '@/components/Inputs/Input';
 import { useBusinessInfoVerify } from '@/querys/BusinessQuerys';
+import Image from 'next/image';
 import { FormProvider, useForm } from 'react-hook-form';
 
 type AgentSearchModalProps = {
     onSelect: (data: any) => void;
     onConfirmSubmit: () => Promise<void>;
 };
+
+const items = [
+    { label: '전체', value: '' },
+    { label: '상호명', value: 'NAME' },
+    { label: '대표 성명', value: 'AGENT_NAME' },
+    { label: '중개등록번호', value: 'CERTIFICATE' }
+];
 
 const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) => {
     const methods = useForm({
@@ -27,26 +36,52 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
         const data = methods.getValues();
         try {
             const res = await mutateAsync(data);
-            onSelect(res.data); // 부모에 조회 결과 넘김
-            await onConfirmSubmit(); // 모달 닫기
+            onSelect(res.data);
+            await onConfirmSubmit();
         } catch (error) {
             console.error('검색 실패', error);
         }
     };
 
-    // methods 자체에 handleConfirm 저장해버림
     (methods as any).handleConfirm = handleConfirm;
 
     return (
-        <div className="flex flex-col items-center justify-center mt-3 py-16">
+        <div className="flex flex-col items-center justify-center w-full">
             <FormProvider {...methods}>
-                <form className="w-[600px]">
-                    <div className="flex flex-col w-full mb-4 gap-3">
-                        <Input name="businessNumber" label="사업자등록번호" maxLength={30} />
-                        <Input name="registrationNumber" label="부동산등록번호" maxLength={30} />
-                        <Input name="name" label="상호명" maxLength={30} />
-                        <Input name="agentName" label="대표자명" maxLength={30} />
-                        <Input name="registDate" label="등록일자" maxLength={30} />
+                <form className="w-[560px]">
+                    <div className="flex flex-col justify-center">
+                        <p className="pc-title-m-700 text-center py-[25px]">중개사무소 조회</p>
+                        <div className="flex items-start justify-between gap-2 px-[33px] mt-3">
+                            <Dropdown
+                                name="searchType"
+                                items={items}
+                                onSelect={(val) => console.log('선택된 값:', val)}
+                                design="filled"
+                                size="sm"
+                            />
+
+                            <div className="w-[335px]">
+                                <Input name="businessNumber" maxLength={30} placeholder="중개사무소를 검색해주세요." />
+                            </div>
+
+                            <Image src="/svg/search.svg" alt="search icon" width={43} height={43} />
+                        </div>
+                        <hr className="w-full border-t border-gray500" />
+                        <div className="flex flex-col w-full  items-start gap-2 py-[89px] px-[84px]">
+                            <div className="flex flex-col justify-center gap-12">
+                                <p className="pc-body-s-500 text-center whitespace-nowrap">
+                                    중개사무소 개설 등록 당시 신고한 내역을 기준으로 검색해주세요.
+                                </p>
+                                <p className="pc-body-s-500 text-center">
+                                    상호명 / 대표 성명 / 중개등록번호 (‘-’ 포함)
+                                </p>
+                                <p className="pc-body-s-500 text-center">
+                                    검색이 안된다면
+                                    <span className="text-information200 underline font-semibold">직접 입력</span> 을
+                                    클릭해주세요
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </FormProvider>

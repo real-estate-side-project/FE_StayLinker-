@@ -19,7 +19,7 @@ const labelVariant = cva('pc-title-s-700 mo:text-base', {
 });
 
 const inputVariant = cva(
-    'w-full flex items-center border transition-all font-medium py-2 text-lg mo:text-sm rounded focus:border-gray900 focus:text-gray900 outline-none',
+    'w-full h-[43px] flex items-center border transition-all font-medium py-2 text-lg mo:text-sm rounded focus:border-gray900 focus:text-gray900 outline-none',
     {
         variants: {
             state: {

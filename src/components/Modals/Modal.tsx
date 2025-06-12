@@ -7,7 +7,15 @@ type ModalProps = {
 };
 
 const Modal = ({ modal }: ModalProps) => {
-    const { message: label, onConfirm, onCancel, hasCancel = true, confirmButtonContent, cancelButtonContent } = modal;
+    const {
+        message: label,
+        onConfirm,
+        onCancel,
+        hasCancel = true,
+        confirmButtonContent,
+        cancelButtonContent,
+        backgroundClassName = 'bg-white'
+    } = modal;
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -18,9 +26,11 @@ const Modal = ({ modal }: ModalProps) => {
 
     return (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-30 flex justify-center items-center backdrop-brightness-75 backdrop-blur-sm">
-            <div className="flex flex-col items-center justify-center bg-white rounded-2xl gap-4 p-6">
+            <div className={`flex flex-col items-center justify-center ${backgroundClassName} rounded-2xl gap-4`}>
                 <div className="font-medium text-base">{label}</div>
-                {hasCancel ? (
+                {modal.customButtons ? (
+                    <div className="flex gap-2">{modal.customButtons}</div>
+                ) : hasCancel ? (
                     <div className="flex gap-2">
                         <Button
                             onClick={onCancel}
