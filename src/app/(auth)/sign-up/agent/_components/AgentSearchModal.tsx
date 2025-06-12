@@ -2,8 +2,10 @@
 
 import Dropdown from '@/components/DropDown/DropDown';
 import Input from '@/components/Inputs/Input';
+import Pagination from '@/components/Pagination';
 import { useBusinessInfoVerify } from '@/querys/BusinessQuerys';
 import Image from 'next/image';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 type AgentSearchModalProps = {
@@ -29,7 +31,7 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
             registDate: ''
         }
     });
-
+    const [page, setPage] = useState(1);
     const { mutateAsync } = useBusinessInfoVerify();
 
     const handleConfirm = async () => {
@@ -44,6 +46,12 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
     };
 
     (methods as any).handleConfirm = handleConfirm;
+
+    const totalPages = 42; // 전체 페이지 수
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    };
 
     return (
         <div className="flex flex-col items-center justify-center w-full">
@@ -81,6 +89,57 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
                                     클릭해주세요
                                 </p>
                             </div>
+                        </div>
+                        <div className="flex flex-col border border-black py-5 gap-4">
+                            <div className="border px-6 py-5 mx-8 bg-white/80 rounded-lg outline outline-1 outline-offset-[-1px] outline-stone-100 inline-flex flex-col justify-start items-start gap-4 overflow-hidden">
+                                <div className="inline-flex justify-start items-center gap-4">
+                                    <div
+                                        data-color="Sub"
+                                        data-type="Outline"
+                                        className="w-24 h-6 px-2 rounded outline outline-1 outline-offset-[-1px] outline-blue-400 flex justify-center items-center gap-2.5"
+                                    >
+                                        <div className="text-center justify-start text-cyan-600 pc-body-s-500">
+                                            상호명
+                                        </div>
+                                    </div>
+                                    <div className="justify-center pc-body-s-700">(유)행복한부동산중개법인</div>
+                                </div>
+                                <div className="inline-flex justify-start items-center gap-4">
+                                    <div
+                                        data-color="Sub"
+                                        data-type="Outline"
+                                        className="w-24 h-6 px-2 rounded outline outline-1 outline-offset-[-1px] outline-blue-400 flex justify-center items-center gap-2.5"
+                                    >
+                                        <div className="text-center justify-start text-cyan-600 pc-body-s-500">
+                                            대표 성명
+                                        </div>
+                                    </div>
+                                    <div className="justify-center text-zinc-500 text-base font-medium font-['Pretendard'] leading-normal">
+                                        오또환
+                                    </div>
+                                </div>
+                                <div className="self-stretch inline-flex justify-start items-center gap-4">
+                                    <div
+                                        data-color="Sub"
+                                        data-type="Outline"
+                                        className="w-24 h-6 px-2 rounded outline outline-1 outline-offset-[-1px] outline-blue-400 flex justify-center items-center gap-2.5"
+                                    >
+                                        <div className="text-center justify-start text-cyan-600 pc-body-s-500 whitespace-nowrap">
+                                            중개등록번호
+                                        </div>
+                                    </div>
+                                    <div className="justify-center text-zinc-500 text-base font-medium font-['Pretendard'] leading-normal">
+                                        48123-2018-00043
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Pagination
+                                currentPage={page}
+                                totalPages={totalPages}
+                                handleChangePage={handlePageChange}
+                                visiblePageCount={5}
+                            />
                         </div>
                     </div>
                 </form>
