@@ -2,13 +2,21 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useState } from 'react';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
-import EmailSection from '../../sign-up/customer/_components/EmailSection';
 
 const ForgotPasswordPage = () => {
-    const [step, setStep] = useState<1 | 2 | 3>(1);
+    const [step, setStep] = useState<1 | 2>(1);
+    const [showCodeInput, setShowCodeInput] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(0);
+    const [timerColor, setTimerColor] = useState<'red' | 'green'>('red');
+    const [timerText, setTimerText] = useState('');
+    const [codeError, setCodeError] = useState('');
+
     const methods = useForm({
         mode: 'onChange',
         defaultValues: {
@@ -21,72 +29,152 @@ const ForgotPasswordPage = () => {
     });
 
     const { watch } = methods;
+    const email = watch('email');
+    const code = watch('code');
     const password = watch('password');
     const confirmPassword = watch('confirmPassword');
+
     const passwordsMatch = password && confirmPassword && password === confirmPassword;
     const confirmPasswordState = confirmPassword ? (passwordsMatch ? 'filled' : 'error') : undefined;
     const passwordState = methods.formState.errors.password ? 'error' : password ? 'filled' : undefined;
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const { mutate: requestEmail } = useRequestEmailVerification();
+    const { mutate: confirmCode, isPending: confirmPending } = useConfirmEmailCode();
 
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
     const onSubmit = (data: any) => {
         console.log('최종 제출:', data);
-        // 여기에 최종 reset-password API 요청
     };
+
+    useEffect(() => {
+        if (timeLeft <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => {
+                const next = prev - 1;
+                if (next <= 0) {
+                    clearInterval(timer);
+                    setTimerText('00:00');
+                    setCodeError('인증시간이 만료되었습니다. 다시 요청해주세요.');
+                } else {
+                    const min = String(Math.floor(next / 60));
+                    const sec = String(next % 60).padStart(2, '0');
+                    setTimerText(`${min}:${sec}`);
+                }
+                return next;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft]);
+
+    const handleRequestEmail = () => {
+        requestEmail(
+            { email, role: 'ADMIN' },
+            {
+                onSuccess: () => {
+                    setShowCodeInput(true);
+                    setTimeLeft(300);
+                    setTimerColor('red');
+                    setCodeError('');
+                }
+            }
+        );
+    };
+
+    const handleVerifyCode = () => {
+        setCodeError('');
+        confirmCode(
+            { email, role: 'ADMIN', code },
+            {
+                onSuccess: () => {
+                    setTimerColor('green');
+                    setTimeLeft(0);
+                },
+                onError: () => {
+                    setCodeError('유효하지 않은 인증 코드입니다.');
+                }
+            }
+        );
+    };
+
+    const canProceedNext = timerColor === 'green';
 
     return (
         <main className="flex flex-col items-center justify-center mt-3 py-16">
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)} className="w-[700px]">
-                    <div className="flex flex-col w-full gap-10">
-                        <p className="font-bold text-[28px] text-center">
-                            {step === 3 ? 'Reset Password' : 'Forgot Password'}
+                    <div className="flex flex-col w-full">
+                        <p className="pc-title-l-700 text-center mb-10">
+                            {step === 2 ? 'Reset Password' : 'Forgot Password'}
                         </p>
 
-                        {/* Step 1: 이름 + 이메일 */}
                         {step === 1 && (
-                            <>
-                                <Input name="fullName" label="Full Name" placeholder="ex)Jane Doe" />
-                                <EmailSection />
-                                <Button
-                                    type="button"
-                                    priority="primary"
-                                    size="md"
-                                    halfWidth
-                                    onClick={() => setStep(2)} // 실제론 이메일 인증 요청 API 호출 후 진행
-                                >
-                                    Next
-                                </Button>
-                            </>
-                        )}
+                            <section className="flex flex-col gap-8">
+                                <Input name="fullName" label="Full Name" placeholder="ex)Jane/John Doe" />
 
-                        {/* Step 2: 인증 코드 입력 */}
-                        {step === 2 && (
-                            <>
-                                <Input name="code" label="Verification Code" placeholder="ex)123456" />
-                                <div className="text-sm text-gray600 leading-relaxed">
-                                    <p>• The verification code is valid for 5 minutes.</p>
-                                    <p>• If you didn’t receive the code, press the ‘Request’ button again.</p>
+                                <Input
+                                    name="email"
+                                    label="ID"
+                                    placeholder="ex)abcd@email.com"
+                                    buttonSlot={
+                                        <Button
+                                            priority="secondary"
+                                            fullWidth
+                                            onClick={handleRequestEmail}
+                                            isDisabled={!email?.trim()}
+                                        >
+                                            Request
+                                        </Button>
+                                    }
+                                />
+
+                                {showCodeInput && (
+                                    <Input
+                                        name="code"
+                                        label="Verification Code"
+                                        placeholder=""
+                                        maxLength={20}
+                                        state={timerColor === 'green' ? 'filled' : codeError ? 'error' : 'default'}
+                                        description={`• The verification code is valid for 5 minutes from the time received.\n• If you don't receive verification code, please press the ‘Request’ button again.`}
+                                        rightSlot={
+                                            timeLeft > 0 && (
+                                                <span className="font-semibold text-danger600">{timerText}</span>
+                                            )
+                                        }
+                                        buttonSlot={
+                                            <Button
+                                                priority="secondary"
+                                                fullWidth
+                                                onClick={handleVerifyCode}
+                                                isDisabled={!code?.trim()}
+                                            >
+                                                {confirmPending ? 'Verifying...' : 'Verify'}
+                                            </Button>
+                                        }
+                                        validationMessage={codeError}
+                                    />
+                                )}
+
+                                <div className="flex justify-center mt-12">
+                                    <Button
+                                        type="button"
+                                        priority="primary"
+                                        size="md"
+                                        halfWidth
+                                        onClick={() => setStep(2)}
+                                        isDisabled={!canProceedNext}
+                                    >
+                                        Next
+                                    </Button>
                                 </div>
-                                <Button
-                                    type="button"
-                                    priority="primary"
-                                    size="md"
-                                    halfWidth
-                                    onClick={() => setStep(3)} // 실제론 인증코드 검증 후만 넘어감
-                                >
-                                    Next
-                                </Button>
-                            </>
+                            </section>
                         )}
 
-                        {/* Step 3: 비밀번호 재설정 */}
-                        {step === 3 && (
-                            <>
+                        {step === 2 && (
+                            <section className="flex flex-col gap-8">
                                 <Input
                                     name="password"
                                     label="New Password"
@@ -117,20 +205,22 @@ const ForgotPasswordPage = () => {
                                     placeholder="ex)123@abcd"
                                     icon={showConfirmPassword ? <IoMdEye /> : <IoMdEyeOff />}
                                     handleClickIcon={toggleConfirmPassword}
-                                    description="• Enter the same password"
+                                    description="• Enter the same password."
                                     state={confirmPasswordState}
                                 />
 
-                                <Button type="submit" priority="primary" size="md" halfWidth>
-                                    Change
-                                </Button>
-                            </>
+                                <div className="flex justify-center mt-12">
+                                    <Button type="submit" priority="primary" size="md" halfWidth>
+                                        Change
+                                    </Button>
+                                </div>
+                            </section>
                         )}
 
-                        <div className="text-center text-gray-500 text-[16px] mt-4">
+                        <div className="text-center text-gray-500 pc-body-m-500 mt-4">
                             If you don't remember information entered when joining,
                             <br />
-                            please contact abc@staylinker.co.kr
+                            Please contact abc@staylinker.co.kr
                         </div>
                     </div>
                 </form>
