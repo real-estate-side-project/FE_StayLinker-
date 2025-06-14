@@ -2,7 +2,7 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
@@ -108,7 +108,7 @@ const ForgotPasswordPage = () => {
                 <form onSubmit={methods.handleSubmit(onSubmit)} className="w-[700px]">
                     <div className="flex flex-col w-full">
                         <p className="pc-title-l-700 text-center mb-10">
-                            {step === 2 ? '비밀번호 찾기' : '비밀번호 재설정'}
+                            {step === 2 ? '비밀번호 재설정' : '비밀번호 찾기'}
                         </p>
 
                         {step === 1 && (

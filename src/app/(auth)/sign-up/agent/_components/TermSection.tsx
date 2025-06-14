@@ -12,7 +12,14 @@ const TermsSection = () => {
         const newValue = nextState === 'on' ? 'on' : 'off';
 
         // 전체 약관 이름 배열
-        const terms = ['termsOfUse', 'privacyPolicy', 'thirdPartyConsent', 'locationConsent', 'marketingConsent'];
+        const terms = [
+            'age',
+            'termsOfUse',
+            'privacyPolicy',
+            'thirdPartyConsent',
+            'locationConsent',
+            'marketingConsent'
+        ];
 
         terms.forEach((term) => {
             setValue(term, newValue); // 각 항목 업데이트

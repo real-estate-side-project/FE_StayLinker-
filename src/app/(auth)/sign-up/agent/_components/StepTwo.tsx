@@ -3,7 +3,7 @@
 import Button from '@/components/Buttons/Button';
 import Dropdown from '@/components/DropDown/DropDown';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';

@@ -1,7 +1,7 @@
 'use client';
 
 import Input from '@/components/Inputs/Input';
-import { useCheckDuplicateNickname } from '@/querys/ValidationQuerys';
+import { useCheckDuplicateNickname } from '@/querys/auth/ValidationQuerys';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 

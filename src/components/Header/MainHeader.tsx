@@ -23,7 +23,7 @@ const MainHeader = () => {
     };
 
     return (
-        <header className="absolute top-0 left-0 w-full h-24 z-50 bg-white/20 backdrop-blur-[50px] flex justify-between items-center px-60">
+        <header className="absolute top-0 left-0 w-full h-24 bg-white/20 backdrop-blur-[50px] flex justify-between items-center px-60">
             <div role="banner" className="flex items-center gap-12">
                 <Link href={'/'}>
                     <Image src="/svg/whiteLogo.svg" alt="스테이링커 로고" width={210} height={47} />

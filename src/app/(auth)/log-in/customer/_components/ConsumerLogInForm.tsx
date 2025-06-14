@@ -3,7 +3,8 @@
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
 import Input from '@/components/Inputs/Input';
-import { useConsumerLogin } from '@/querys/ConsumerQuerys';
+import { useToast } from '@/providers/ToastProvider';
+import { useConsumerLogin } from '@/querys/auth/ConsumerQuerys';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
@@ -23,6 +24,7 @@ const ConsumerLogInForm = () => {
     const email = watch('email');
     const password = watch('password');
     const isFormValid = email.trim() !== '' && password.trim() !== '';
+    const toast = useToast();
 
     const { mutate: login } = useConsumerLogin();
 

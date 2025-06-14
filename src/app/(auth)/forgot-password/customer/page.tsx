@@ -2,7 +2,7 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
@@ -20,23 +20,23 @@ const ForgotPasswordPage = () => {
     const methods = useForm({
         mode: 'onChange',
         defaultValues: {
-            fullName: '',
             email: '',
-            code: '',
-            password: '',
-            confirmPassword: ''
+            verificationCode: '',
+            newPassword: '',
+            retypeNewPassword: '',
+            role: 'CONSUMER'
         }
     });
 
     const { watch } = methods;
     const email = watch('email');
-    const code = watch('code');
-    const password = watch('password');
-    const confirmPassword = watch('confirmPassword');
+    const code = watch('verificationCode');
+    const password = watch('newPassword');
+    const confirmPassword = watch('retypeNewPassword');
 
     const passwordsMatch = password && confirmPassword && password === confirmPassword;
     const confirmPasswordState = confirmPassword ? (passwordsMatch ? 'filled' : 'error') : undefined;
-    const passwordState = methods.formState.errors.password ? 'error' : password ? 'filled' : undefined;
+    const passwordState = methods.formState.errors.newPassword ? 'error' : password ? 'filled' : undefined;
 
     const { mutate: requestEmail } = useRequestEmailVerification();
     const { mutate: confirmCode, isPending: confirmPending } = useConfirmEmailCode();
@@ -57,7 +57,7 @@ const ForgotPasswordPage = () => {
                 if (next <= 0) {
                     clearInterval(timer);
                     setTimerText('00:00');
-                    setCodeError('인증시간이 만료되었습니다. 다시 요청해주세요.');
+                    setCodeError('Timeout occurred. Please re-request.');
                 } else {
                     const min = String(Math.floor(next / 60));
                     const sec = String(next % 60).padStart(2, '0');
@@ -133,7 +133,7 @@ const ForgotPasswordPage = () => {
 
                                 {showCodeInput && (
                                     <Input
-                                        name="code"
+                                        name="verificationCode"
                                         label="Verification Code"
                                         placeholder=""
                                         maxLength={20}
@@ -176,7 +176,7 @@ const ForgotPasswordPage = () => {
                         {step === 2 && (
                             <section className="flex flex-col gap-8">
                                 <Input
-                                    name="password"
+                                    name="newPassword"
                                     label="New Password"
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder="ex)123@abcd"
@@ -199,7 +199,7 @@ const ForgotPasswordPage = () => {
                                 />
 
                                 <Input
-                                    name="confirmPassword"
+                                    name="retypeNewPassword"
                                     label="Confirm new password"
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     placeholder="ex)123@abcd"

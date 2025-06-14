@@ -1,5 +1,5 @@
 import { useModal } from '@/providers/ModalProvider';
-import { BusinessService } from '@/service/BusinessService';
+import { BusinessService } from '@/service/auth/BusinessService';
 import { BusinessInfoVerifyParams, BusinessLoginParams } from '@/types/business.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';

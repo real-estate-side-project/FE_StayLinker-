@@ -3,7 +3,7 @@
 import Dropdown from '@/components/DropDown/DropDown';
 import Input from '@/components/Inputs/Input';
 import Pagination from '@/components/Pagination';
-import { useBusinessInfoVerify } from '@/querys/BusinessQuerys';
+import { useBusinessInfoVerify } from '@/querys/auth/BusinessQuerys';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';

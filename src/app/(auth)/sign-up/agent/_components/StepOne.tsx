@@ -156,6 +156,7 @@ const StepOne = () => {
                                         return;
                                     }
                                     console.log('선택된 파일:', file.name);
+                                    setBusinessLicenseFile(file);
                                 }
                             }}
                         />
@@ -191,6 +192,7 @@ const StepOne = () => {
                                         return;
                                     }
                                     console.log('선택된 파일:', file.name);
+                                    setOfficeLicenseFile(file);
                                 }
                             }}
                         />

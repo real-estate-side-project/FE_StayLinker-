@@ -25,7 +25,7 @@ const Modal = ({ modal }: ModalProps) => {
     }, []);
 
     return (
-        <div className="fixed top-0 bottom-0 left-0 right-0 z-30 flex justify-center items-center backdrop-brightness-75 backdrop-blur-sm">
+        <div className="fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center backdrop-brightness-75 backdrop-blur-sm">
             <div className={`flex flex-col items-center justify-center ${backgroundClassName} rounded-2xl gap-4`}>
                 <div className="font-medium text-base">{label}</div>
                 {modal.customButtons ? (

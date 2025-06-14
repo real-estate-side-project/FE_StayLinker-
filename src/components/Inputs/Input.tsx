@@ -135,7 +135,7 @@ const Input = ({
             control={control}
             rules={rules}
             render={({ field }) => (
-                <div className="w-full flex flex-col gap-2 mb-5">
+                <div className="w-full flex flex-col gap-2 mb-5 z-0 ">
                     {/* Label */}
                     {label && (
                         <label htmlFor={inputId} className={labelVariant({ state: resolvedState })}>
