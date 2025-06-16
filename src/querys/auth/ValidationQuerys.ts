@@ -1,4 +1,4 @@
-import { ValidationService } from '@/service/validationService';
+import { ValidationService } from '@/service/auth/validationService';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 // 닉네임 중복체크

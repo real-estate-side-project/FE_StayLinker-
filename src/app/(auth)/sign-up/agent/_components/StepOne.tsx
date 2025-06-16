@@ -4,7 +4,8 @@ import Button from '@/components/Buttons/Button';
 import DateInput from '@/components/Inputs/DateInput';
 import Input from '@/components/Inputs/Input';
 import { useModal } from '@/providers/ModalProvider';
-import { ChangeEvent, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 import AgentSearchModal from './AgentSearchModal';
 import AgentSearchResultCard from './AgentSearchResultCard';
 
@@ -39,27 +40,22 @@ const StepOne = () => {
                     }}
                 />
             ),
-            onConfirm: async () => {
-                if (confirmHandler) {
-                    await confirmHandler();
-                }
-            },
-            onCancel: () => modal.close(),
-            confirmButtonContent: { children: '검색' },
-            cancelButtonContent: { children: '취소' }
+            hasCancel: false,
+            backgroundClassName: 'bg-white/70',
+            customButtons: (
+                <div className="flex gap-[2px] w-[84px] h-[36px] my-8">
+                    <Button priority="gray" onClick={modal.close}>
+                        닫기 <Image src="/svg/vector.svg" alt="alert icon" width={20} height={20} />
+                    </Button>
+                </div>
+            )
         });
     };
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>, setFile: (file: File | null) => void) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            if (file.size > 10 * 1024 * 1024) {
-                alert('파일 크기는 10MB를 초과할 수 없습니다.');
-                e.target.value = '';
-                return;
-            }
-            setFile(file);
-        }
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const handleClick = () => {
+        inputRef.current?.click();
     };
 
     //목데이터용 유즈이펙트
@@ -80,7 +76,6 @@ const StepOne = () => {
     }, []);
     return (
         <>
-            {' '}
             {/* 중개사무소 조회 */}
             <section className="flex flex-col gap-6">
                 <div className="flex justify-between">
@@ -126,6 +121,7 @@ const StepOne = () => {
                 </>
             )}
             <Input name="businessCode" label="사업자 등록번호" placeholder="‘-’ 없이 입력해주세요." maxLength={30} />
+
             {/* 서류제출 */}
             <section className="flex flex-col gap-6">
                 <p className="pc-title-s-700">서류 제출</p>
@@ -135,48 +131,72 @@ const StepOne = () => {
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <p className="pc-title-s-500">사업자 등록증 첨부</p>
-                            <span className="text-gray500 text-sm">(최대 10MB)</span>
+                            <span className="text-gray500 text-sm">(최대 5MB)</span>
                         </div>
                         <p className="text-gray500 pc-body-m-500">
                             {businessLicenseFile ? businessLicenseFile.name : '파일을 선택해주세요.'}
                         </p>
                     </div>
-                    <div>
-                        <Button priority="secondary" size="sm" type="button">
+                    <>
+                        <Button onClick={handleClick} priority="secondary" size="sm" type="button">
                             첨부하기
-                            <input
-                                id="businessLicense"
-                                type="file"
-                                accept="image/*,.pdf"
-                                onChange={(e) => handleFileChange(e, setBusinessLicenseFile)}
-                                className="hidden"
-                            />
                         </Button>
-                    </div>
+
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            className="hidden"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                        e.target.value = ''; // 선택된 파일 초기화
+                                        return;
+                                    }
+                                    console.log('선택된 파일:', file.name);
+                                    setBusinessLicenseFile(file);
+                                }
+                            }}
+                        />
+                    </>
                 </div>
                 {/* 중개사무소 등록증 첨부 */}
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             <p className="pc-title-s-500">중개사무소 등록증 첨부</p>
-                            <span className="text-gray500 text-sm">(최대 10MB)</span>
+                            <span className="text-gray500 text-sm">(최대 5MB)</span>
                         </div>
                         <p className="text-gray500 pc-body-m-500">
                             {officeLicenseFile ? officeLicenseFile.name : '파일을 선택해주세요.'}
                         </p>
                     </div>
-                    <div>
-                        <Button priority="secondary" size="sm" type="button">
+                    <>
+                        <Button onClick={handleClick} priority="secondary" size="sm" type="button">
                             첨부하기
-                            <input
-                                id="officeLicense"
-                                type="file"
-                                accept="image/*,.pdf"
-                                onChange={(e) => handleFileChange(e, setOfficeLicenseFile)}
-                                className="hidden"
-                            />
                         </Button>
-                    </div>
+
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            className="hidden"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    if (file.size > 5 * 1024 * 1024) {
+                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                        e.target.value = ''; // 선택된 파일 초기화
+                                        return;
+                                    }
+                                    console.log('선택된 파일:', file.name);
+                                    setOfficeLicenseFile(file);
+                                }
+                            }}
+                        />
+                    </>
                 </div>
             </section>
         </>

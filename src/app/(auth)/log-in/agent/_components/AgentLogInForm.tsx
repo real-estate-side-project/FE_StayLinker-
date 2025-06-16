@@ -3,7 +3,7 @@
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
 import Input from '@/components/Inputs/Input';
-import { useBusinessLogin } from '@/querys/BusinessQuerys';
+import { useBusinessLogin } from '@/querys/auth/BusinessQuerys';
 import { BusinessLoginParams } from '@/types/business.type';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
