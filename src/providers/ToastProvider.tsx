@@ -33,7 +33,7 @@ export function ToastProvider({ children }: PropsWithChildren) {
 
     return (
         <ToastContext.Provider value={value}>
-            <div className="z-30 fixed left-0 right-0 flex flex-col items-center">
+            <div className="absolute left-0 right-0 flex flex-col items-center">
                 {toasts.map((toast) => (
                     <Toast key={toast.id} toast={toast} color={toast.color} />
                 ))}

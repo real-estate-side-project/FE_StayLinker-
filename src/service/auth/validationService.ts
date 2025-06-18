@@ -65,9 +65,32 @@ const confirmEmailCode = async (email: string, role: string, code: string) => {
     }
 };
 
+const resetPassword = async (
+    email: string,
+    role: 'ADMIN' | 'CONSUMER' | 'BUSINESS',
+    verificationCode: string,
+    newPassword: string,
+    retypeNewPassword: string
+) => {
+    try {
+        const response = await http.post('/email/confirm', {
+            email,
+            role,
+            verificationCode,
+            newPassword,
+            retypeNewPassword
+        });
+
+        return response.data;
+    } catch (error: any) {
+        throw new Error(error?.response?.data?.message || '비밀번호 재설정에 실패했습니다.');
+    }
+};
+
 export const ValidationService = {
     checkDuplicateNickname,
     getUserDetail,
     requestEmailVerification,
-    confirmEmailCode
+    confirmEmailCode,
+    resetPassword
 };

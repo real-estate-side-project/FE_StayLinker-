@@ -1,4 +1,4 @@
-import { useUserDetail } from '@/querys/ValidationQuerys';
+import { useUserDetail } from '@/querys/auth/ValidationQuerys';
 
 export const useAuth = () => {
     const { data, isLoading, isError, error, refetch } = useUserDetail();

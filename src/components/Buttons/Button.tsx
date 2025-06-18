@@ -9,7 +9,8 @@ const buttonVariant = cva(
                 primary: 'text-white',
                 secondary: 'bg-white',
                 tertiary: 'bg-white',
-                gray: 'bg-white'
+                gray: 'bg-white',
+                overlay: 'outline outline-1 outline-offset-[-1px] outline-white text-white font-pretendard'
             },
             size: {
                 sm: 'px-4 py-1.5 text-base rounded mo:py-1 mo:text-sm',
@@ -49,6 +50,11 @@ const buttonVariant = cva(
                 priority: 'gray',
                 isDisabled: false,
                 className: 'border-gray600 text-gray600 hover:border-gray800 hover:text-gray800'
+            },
+            {
+                priority: 'overlay',
+                isDisabled: false,
+                className: 'px-5 py-2 rounded-md'
             }
         ],
         defaultVariants: {

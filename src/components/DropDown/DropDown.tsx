@@ -4,11 +4,14 @@ import { cva, VariantProps } from 'class-variance-authority';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
+import DropdownMenu from './DropDownMenu';
 
-type DropdownItem = {
+export type DropdownItem = {
     label: string;
     value: string | number;
 };
+
+type DropdownDesign = 'highlight' | 'filled';
 
 type DropdownProps = {
     name: string;
@@ -20,14 +23,15 @@ type DropdownProps = {
     items: DropdownItem[];
     disabled?: boolean;
     onSelect?: (value: string | number) => void;
+    design?: DropdownDesign;
 } & VariantProps<typeof dropdownContainer>;
 
 const dropdownContainer = cva('flex flex-col relative', {
     variants: {
         size: {
-            sm: 'w-48',
+            sm: 'w-[99px]',
             md: 'w-64',
-            lg: 'w-80',
+            lg: 'w-80 ',
             full: 'w-full'
         }
     },
@@ -37,12 +41,12 @@ const dropdownContainer = cva('flex flex-col relative', {
 });
 
 const dropdownButton = cva(
-    'group relative w-full p-2 rounded-lg outline outline-1 outline-offset-[-1px] flex items-center justify-between border transition-colors text-ellipsis whitespace-nowrap border transition-all font-medium py-2 text-lg outline-none text-gray910',
+    'group relative w-full h-[43px] p-2 rounded-lg outline outline-1 outline-offset-[-1px] flex items-center justify-between border text-ellipsis whitespace-nowrap transition-all font-medium py-2 text-lg outline-none text-gray910',
     {
         variants: {
             error: {
                 true: 'border-danger600',
-                false: 'border-gray300 '
+                false: 'border-gray300'
             },
             disabled: {
                 true: 'bg-gray100 text-gray400 cursor-not-allowed',
@@ -60,33 +64,6 @@ const dropdownButton = cva(
         }
     }
 );
-
-export const dropdownList = cva(
-    'absolute top-full left-0 z-10 bg-white w-full max-h-60 overflow-y-auto mt-2 rounded-lg transition-all',
-    {
-        variants: {
-            bordered: {
-                true: 'border border-main400',
-                false: ''
-            }
-        },
-        defaultVariants: {
-            bordered: true
-        }
-    }
-);
-
-export const dropdownItem = cva('pc-body-m-500 inline-block px-2 py-1 rounded transition-colors', {
-    variants: {
-        selected: {
-            true: 'bg-main50 text-main400',
-            false: 'text-gray600 hover:text-main400 hover:bg-main50'
-        }
-    },
-    defaultVariants: {
-        selected: false
-    }
-});
 
 const textVariant = cva('font-medium text-lg mo:text-sm', {
     variants: {
@@ -112,7 +89,8 @@ const Dropdown = ({
     items,
     disabled,
     onSelect,
-    size
+    size,
+    design = 'highlight'
 }: DropdownProps) => {
     const { control, getValues, formState } = useFormContext();
     const selectRef = useRef<HTMLDivElement>(null);
@@ -156,7 +134,7 @@ const Dropdown = ({
                             className={dropdownButton({
                                 error: !!errorMessage,
                                 disabled: !!disabled,
-                                open: show
+                                open: design === 'highlight' ? show : false
                             })}
                             onClick={() => {
                                 if (!disabled) setShow((prev) => !prev);
@@ -167,25 +145,43 @@ const Dropdown = ({
                             </span>
                             <Image src="/svg/chevron-down.svg" alt="arrow-y" width={24} height={24} />
                         </button>
-                        {show && (
-                            <ul className={dropdownList()}>
-                                {items.map((item) => (
-                                    <li
-                                        key={item.value}
-                                        onClick={() => {
-                                            field.onChange(item.value);
-                                            setShow(false);
-                                            onSelect?.(item.value);
-                                        }}
-                                        className="px-4 py-2 cursor-pointer"
-                                    >
-                                        <span className={dropdownItem({ selected: selectedValue === item.value })}>
-                                            {item.label}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+
+                        {show &&
+                            (design === 'highlight' ? (
+                                <ul className="absolute top-full left-0 z-10 bg-white w-full max-h-60 overflow-y-auto mt-2 rounded-lg border border-main400">
+                                    {items.map((item) => (
+                                        <li
+                                            key={item.value}
+                                            onClick={() => {
+                                                field.onChange(item.value);
+                                                setShow(false);
+                                                onSelect?.(item.value);
+                                            }}
+                                            className="px-4 py-2 cursor-pointer"
+                                        >
+                                            <span
+                                                className={
+                                                    selectedValue === item.value
+                                                        ? 'text-main400 bg-main50 pc-body-m-500 rounded'
+                                                        : 'text-gray600 hover:text-main400 hover:bg-main50 pc-body-m-500'
+                                                }
+                                            >
+                                                {item.label}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <DropdownMenu
+                                    items={items}
+                                    selectedValue={selectedValue}
+                                    onSelect={(value) => {
+                                        field.onChange(value);
+                                        setShow(false);
+                                        onSelect?.(value);
+                                    }}
+                                />
+                            ))}
                     </div>
                 )}
             />

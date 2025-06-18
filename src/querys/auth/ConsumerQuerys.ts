@@ -1,29 +1,29 @@
-import { useModal } from '@/providers/ModalProvider';
-import { ConsumerService } from '@/service/ConsumerService';
+import { useToast } from '@/providers/ToastProvider';
+import { ConsumerService } from '@/service/auth/ConsumerService';
 import { ConsumerLoginParams } from '@/types/consumer.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 export const useConsumerLogin = () => {
-    const modal = useModal();
+    const toast = useToast();
     return useMutation({
         mutationKey: ['consumer', 'login'],
         mutationFn: (params: ConsumerLoginParams) => ConsumerService.loginConsumer(params),
         onSuccess: async (res: any) => {
             const accessToken = res.data.accessToken;
+
             if (accessToken) {
-                modal.open({
-                    message: '로그인 되었습니다.(소비자)',
-                    onConfirm: () => {
-                        setAccessToken('accessToken', accessToken);
-                        modal.close();
-                        window.location.href = '/';
-                    },
-                    hasCancel: false,
-                    confirmButtonContent: { children: '확인' }
+                setAccessToken('accessToken', accessToken);
+
+                toast.on({
+                    message: '로그인 되었습니다.',
+                    color: 'sub'
                 });
-            } else {
+
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
             }
         },
         onError: (error: any) => {
@@ -40,11 +40,9 @@ export const useConsumerLogin = () => {
                 errorMessage = error.message || 'An unexpected error occurred.';
             }
 
-            modal.open({
+            toast.on({
                 message: errorMessage,
-                onConfirm: () => modal.close(),
-                hasCancel: false,
-                confirmButtonContent: { children: '확인' }
+                color: 'danger'
             });
         }
     });

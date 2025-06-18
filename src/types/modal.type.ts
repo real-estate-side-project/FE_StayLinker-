@@ -15,11 +15,13 @@ export type ModalButtonContentType = {
 
 export type ModalType = {
     message: string | JSX.Element;
-    onConfirm: () => void;
+    onConfirm?: () => void;
     onCancel?: () => void | null;
     hasCancel?: boolean;
     confirmButtonContent?: ModalButtonContentType;
     cancelButtonContent?: ModalButtonContentType | null;
+    backgroundClassName?: string;
+    customButtons?: React.ReactNode;
 };
 
 export type ModalContextType = {
