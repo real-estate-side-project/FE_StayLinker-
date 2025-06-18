@@ -37,7 +37,7 @@ const MyPage = () => {
                 ))}
             </div>
             <div>
-                <p>{selectedService}</p>
+                <p className="text-2xl font-semibold mb-2">{selectedService}</p>
                 <hr />
                 {selectedComponent && React.createElement(selectedComponent)}
             </div>

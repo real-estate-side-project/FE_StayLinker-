@@ -3,29 +3,32 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { useRouter } from 'next/navigation';
 
 interface Article {
     image: string;
     title: string;
     summary: string;
+    id: string;
 }
 
 const slides: Article[] = [
-    { image: '/images/navi.png', title: '제목 1', summary: '이것은 첫 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 2', summary: '이것은 두 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 3', summary: '이것은 세 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 4', summary: '이것은 네 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 6', summary: '이것은 여섯 번째 슬라이드입니다.' },
-    { image: '/images/navi.png', title: '제목 7', summary: '이것은 일곱 번째 슬라이드입니다.' }
+    { image: '/images/navi.png', title: '제목 1', summary: '이것은 첫 번째 슬라이드입니다.', id: '1' },
+    { image: '/images/navi.png', title: '제목 2', summary: '이것은 두 번째 슬라이드입니다.', id: '2' },
+    { image: '/images/navi.png', title: '제목 3', summary: '이것은 세 번째 슬라이드입니다.', id: '3' },
+    { image: '/images/navi.png', title: '제목 4', summary: '이것은 네 번째 슬라이드입니다.', id: '4' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '5' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '6' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '7' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '8' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '9' },
+    { image: '/images/navi.png', title: '제목 5', summary: '이것은 다섯 번째 슬라이드입니다.', id: '10' },
+    { image: '/images/navi.png', title: '제목 6', summary: '이것은 여섯 번째 슬라이드입니다.', id: '11' },
+    { image: '/images/navi.png', title: '제목 7', summary: '이것은 일곱 번째 슬라이드입니다.', id: '12' }
 ];
 
 const App = ({ topic }: { topic: string }) => {
+    const router = useRouter();
     const [isFirst, setIsFirst] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -50,6 +53,7 @@ const App = ({ topic }: { topic: string }) => {
             {slides.map((slide: Article, index) => (
                 <SwiperSlide
                     key={index}
+                    onClick={() => router.push(`/korea-information/articles/${slide.id}`)}
                     style={{
                         width: '400px',
                         height: '388px',

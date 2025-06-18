@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import http from '@/http/http.interceptors.request';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { CommunityService } from '@/service/CommunityService';
 
 import SingleSelect from '@/components/Chips/SingleSelect';
 import Threads from '@/components/Threads';
@@ -24,13 +25,15 @@ interface FetchPostsParams {
 
 interface Thread {
     type: string;
-    useId: string;
+    userId: string;
+    postId: string;
     category: string;
     writer: string;
     title: string;
     summary: string;
     comment: string;
-    liked: number;
+    liked: boolean;
+    likedCount: number;
 }
 
 interface Page {
@@ -53,22 +56,70 @@ const fetchPosts = async ({ pageParam = null, boardType, sortBy }: FetchPostsPar
 const CommunityPage = () => {
     const router = useRouter();
     const [boardType, setBoardType] = useState('See All');
+    const [threadList, setThreadList] = useState<Thread[]>([]);
     const { register, handleSubmit, reset } = useForm<FormData>({ mode: 'onSubmit' });
 
     const goToWriteThread = () => {
         router.push('./community/components/WriteThread');
     };
 
+    const handleSearch = (query: string) => {
+        fetch(`/communtiy?search=${query}`)
+            .then((res) => res.json())
+            .then((data) => setThreadList(data));
+    };
+
+    const handleToggle = async (id: string) => {
+        const currentThread = threadList.find((t) => t.postId === id);
+        const wasLiked = currentThread?.liked;
+
+        if (wasLiked === undefined) return;
+
+        setThreadList((prev) =>
+            prev.map((thread) =>
+                thread.postId === id
+                    ? {
+                          ...thread,
+                          liked: !thread.liked,
+                          likedCount: thread.liked ? thread.likedCount - 1 : thread.likedCount + 1
+                      }
+                    : thread
+            )
+        );
+
+        try {
+            if (wasLiked) {
+                await CommunityService.deleteLikeAPI(id);
+            } else {
+                await CommunityService.postLikeAPI(id);
+            }
+        } catch (error) {
+            console.error('좋아요 API 실패', error);
+
+            setThreadList((prev) =>
+                prev.map((thread) =>
+                    thread.postId === id
+                        ? {
+                              ...thread,
+                              liked: wasLiked,
+                              likedCount: wasLiked ? thread.likedCount + 1 : thread.likedCount - 1
+                          }
+                        : thread
+                )
+            );
+        }
+    };
+
     return (
-        <div className="bg-[#F5F5F5] h-screen">
-            <div className="max-w-[1440px] mx-auto mt-36">
-                <div className="flex justify-between mt-7">
+        <div className="bg-[#F5F5F5] h-screen pt-14">
+            <div className="max-w-[1440px] mx-auto">
+                <div className="flex justify-between">
                     <SingleSelect
                         optionList={['See All', 'Information', 'Community', 'Sale']}
                         selectedOption={boardType}
                         setSelectedOption={setBoardType}
                     />
-                    <SearchBar />
+                    <SearchBar onSearch={handleSearch} />
                 </div>
                 <TopRating type={boardType} />
                 <div className="mt-[104px]">
@@ -81,6 +132,9 @@ const CommunityPage = () => {
                             <MdOutlineEdit />
                         </div>
                     </div>
+                    {/* threadList.map(() => (
+                    <Threads />
+                    )) */}
                     <Threads />
                 </div>
             </div>
