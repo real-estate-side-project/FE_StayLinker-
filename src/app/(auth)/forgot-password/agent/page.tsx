@@ -7,6 +7,14 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
+type FormValues = {
+    email: string;
+    role: 'ADMIN';
+    verificationCode: string;
+    newPassword: string;
+    retypeNewPassword: string;
+};
+
 const ForgotPasswordPage = () => {
     const [step, setStep] = useState<1 | 2>(1);
     const [showCodeInput, setShowCodeInput] = useState(false);
@@ -17,26 +25,26 @@ const ForgotPasswordPage = () => {
     const [timerText, setTimerText] = useState('');
     const [codeError, setCodeError] = useState('');
 
-    const methods = useForm({
+    const methods = useForm<FormValues>({
         mode: 'onChange',
         defaultValues: {
-            fullName: '',
             email: '',
-            code: '',
-            password: '',
-            confirmPassword: ''
+            role: 'ADMIN',
+            verificationCode: '',
+            newPassword: '',
+            retypeNewPassword: ''
         }
     });
 
     const { watch } = methods;
     const email = watch('email');
-    const code = watch('code');
-    const password = watch('password');
-    const confirmPassword = watch('confirmPassword');
+    const verificationCode = watch('verificationCode');
+    const newPassword = watch('newPassword');
+    const retypeNewPassword = watch('retypeNewPassword');
 
-    const passwordsMatch = password && confirmPassword && password === confirmPassword;
-    const confirmPasswordState = confirmPassword ? (passwordsMatch ? 'filled' : 'error') : undefined;
-    const passwordState = methods.formState.errors.password ? 'error' : password ? 'filled' : undefined;
+    const passwordsMatch = newPassword && retypeNewPassword && newPassword === retypeNewPassword;
+    const confirmPasswordState = retypeNewPassword ? (passwordsMatch ? 'filled' : 'error') : undefined;
+    const passwordState = methods.formState.errors.newPassword ? 'error' : newPassword ? 'filled' : undefined;
 
     const { mutate: requestEmail } = useRequestEmailVerification();
     const { mutate: confirmCode, isPending: confirmPending } = useConfirmEmailCode();
@@ -44,7 +52,7 @@ const ForgotPasswordPage = () => {
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: FormValues) => {
         console.log('최종 제출:', data);
     };
 
@@ -87,7 +95,7 @@ const ForgotPasswordPage = () => {
     const handleVerifyCode = () => {
         setCodeError('');
         confirmCode(
-            { email, role: 'ADMIN', code },
+            { email, role: 'ADMIN', code: verificationCode },
             {
                 onSuccess: () => {
                     setTimerColor('green');
@@ -114,12 +122,6 @@ const ForgotPasswordPage = () => {
                         {step === 1 && (
                             <section className="flex flex-col gap-8">
                                 <Input
-                                    name="bussinessNumber"
-                                    label="사업자등록번호"
-                                    placeholder="‘-’  없이 입력해주세요."
-                                />
-
-                                <Input
                                     name="email"
                                     label="ID"
                                     placeholder="ex)abcd@email.com"
@@ -137,12 +139,12 @@ const ForgotPasswordPage = () => {
 
                                 {showCodeInput && (
                                     <Input
-                                        name="code"
+                                        name="verificationCode"
                                         label="인증코드"
                                         placeholder=""
                                         maxLength={20}
                                         state={timerColor === 'green' ? 'filled' : codeError ? 'error' : 'default'}
-                                        description={`• 인증코드는 수신된 시간으로부터 5분간 유효합니다.\n• 인증코드를 받지 못하신 경우, ‘인증요청’버튼을 다시 눌러주세요.`}
+                                        description={`• 인증코드는 수신된 시간으로부터 5분간 유효합니다.\n• 인증코드를 받지 못하신 경우, &lsquo;인증요청&rsquo; 버튼을 다시 눌러주세요.`}
                                         rightSlot={
                                             timeLeft > 0 && (
                                                 <span className="font-semibold text-danger600">{timerText}</span>
@@ -153,7 +155,7 @@ const ForgotPasswordPage = () => {
                                                 priority="secondary"
                                                 fullWidth
                                                 onClick={handleVerifyCode}
-                                                isDisabled={!code?.trim()}
+                                                isDisabled={!verificationCode?.trim()}
                                             >
                                                 {confirmPending ? 'Verifying...' : 'Verify'}
                                             </Button>
@@ -180,7 +182,7 @@ const ForgotPasswordPage = () => {
                         {step === 2 && (
                             <section className="flex flex-col gap-8">
                                 <Input
-                                    name="password"
+                                    name="newPassword"
                                     label="새 비밀번호"
                                     type={showPassword ? 'text' : 'password'}
                                     placeholder="ex)123@abcd"
@@ -203,7 +205,7 @@ const ForgotPasswordPage = () => {
                                 />
 
                                 <Input
-                                    name="confirmPassword"
+                                    name="retypeNewPassword"
                                     label="새 비밀번호 확인"
                                     type={showConfirmPassword ? 'text' : 'password'}
                                     placeholder="ex)123@abcd"
@@ -222,7 +224,7 @@ const ForgotPasswordPage = () => {
                         )}
 
                         <div className="text-center text-gray-500 pc-body-m-500 mt-4">
-                            If you don't remember information entered when joining,
+                            If you don&apos;t remember information entered when joining,
                             <br />
                             Please contact abc@staylinker.co.kr
                         </div>

@@ -3,14 +3,13 @@
 import Dropdown from '@/components/DropDown/DropDown';
 import Input from '@/components/Inputs/Input';
 import Pagination from '@/components/Pagination';
-import { useBusinessInfoVerify } from '@/querys/auth/BusinessQuerys';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-type AgentSearchModalProps = {
-    onSelect: (data: any) => void;
-    onConfirmSubmit: () => Promise<void>;
+type AgentSearchFormValues = {
+    searchInput: string;
+    searchType: string;
 };
 
 const items = [
@@ -20,34 +19,19 @@ const items = [
     { label: '중개등록번호', value: 'CERTIFICATE' }
 ];
 
-const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) => {
-    const methods = useForm({
+const AgentSearchModal = () => {
+    const methods = useForm<AgentSearchFormValues>({
         mode: 'onChange',
         defaultValues: {
-            businessNumber: '',
-            registrationNumber: '',
-            name: '',
-            agentName: '',
-            registDate: ''
+            searchInput: '',
+            searchType: ''
         }
     });
+
     const [page, setPage] = useState(1);
-    const { mutateAsync } = useBusinessInfoVerify();
+    // const { mutateAsync } = useBusinessInfoVerify();
 
-    const handleConfirm = async () => {
-        const data = methods.getValues();
-        try {
-            const res = await mutateAsync(data);
-            onSelect(res.data);
-            await onConfirmSubmit();
-        } catch (error) {
-            console.error('검색 실패', error);
-        }
-    };
-
-    (methods as any).handleConfirm = handleConfirm;
-
-    const totalPages = 42; // 전체 페이지 수
+    const totalPages = 42;
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
@@ -63,19 +47,19 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
                             <Dropdown
                                 name="searchType"
                                 items={items}
-                                onSelect={(val) => console.log('선택된 값:', val)}
+                                // onSelect={(val: string) => methods.setValue('searchType', val)}
                                 design="filled"
                                 size="sm"
                             />
 
                             <div className="w-[335px]">
-                                <Input name="businessNumber" maxLength={30} placeholder="중개사무소를 검색해주세요." />
+                                <Input name="searchInput" maxLength={30} placeholder="중개사무소를 검색해주세요." />
                             </div>
 
                             <Image src="/svg/search.svg" alt="search icon" width={43} height={43} />
                         </div>
                         <hr className="w-full border-t border-gray500" />
-                        <div className="flex flex-col w-full  items-start gap-2 py-[89px] px-[84px]">
+                        <div className="flex flex-col w-full items-start gap-2 py-[89px] px-[84px]">
                             <div className="flex flex-col justify-center gap-12">
                                 <p className="pc-body-s-500 text-center whitespace-nowrap">
                                     중개사무소 개설 등록 당시 신고한 내역을 기준으로 검색해주세요.
@@ -84,7 +68,7 @@ const AgentSearchModal = ({ onSelect, onConfirmSubmit }: AgentSearchModalProps) 
                                     상호명 / 대표 성명 / 중개등록번호 (‘-’ 포함)
                                 </p>
                                 <p className="pc-body-s-500 text-center">
-                                    검색이 안된다면
+                                    검색이 안된다면{' '}
                                     <span className="text-information200 underline font-semibold">직접 입력</span> 을
                                     클릭해주세요
                                 </p>

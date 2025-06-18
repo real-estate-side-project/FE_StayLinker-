@@ -5,7 +5,6 @@ import Button from '@/components/Buttons/Button';
 import TextButton from '@/components/Buttons/TextButton';
 import Badge from '@/components/Chips/Badge';
 import Toggle from '@/components/Inputs/Toggle';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
@@ -63,9 +62,6 @@ type FormValues = {
 };
 
 const RealEstateDetailPage = () => {
-    const params = useParams();
-    const id = params.id as string;
-
     // const { data } = useGetRealEstateDetailInformation(id);
 
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);

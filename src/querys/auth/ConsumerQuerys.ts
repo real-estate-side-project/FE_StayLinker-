@@ -3,14 +3,36 @@ import { ConsumerService } from '@/service/auth/ConsumerService';
 import { ConsumerLoginParams } from '@/types/consumer.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
+
+interface LoginResponse {
+    accessToken: string;
+}
+
+export interface ConsumerSignUpParams {
+    email: string;
+    password: string;
+    confirmPassword: string;
+    nickname: string;
+    address: string;
+    phoneNumber: string;
+    languages: string[];
+    country: string;
+    birthDay: string;
+    name: string;
+}
+
+export interface ConsumerSignUpResponse {
+    msg: string;
+}
 
 export const useConsumerLogin = () => {
     const toast = useToast();
     return useMutation({
         mutationKey: ['consumer', 'login'],
         mutationFn: (params: ConsumerLoginParams) => ConsumerService.loginConsumer(params),
-        onSuccess: async (res: any) => {
+        onSuccess: async (res: { data: LoginResponse }) => {
             const accessToken = res.data.accessToken;
 
             if (accessToken) {
@@ -26,18 +48,20 @@ export const useConsumerLogin = () => {
                 }, 1500);
             }
         },
-        onError: (error: any) => {
+        onError: (error: AxiosError<{ message?: string }>) => {
             // error.status
             // 404: 이메일이 없는 경우
             // 409: 비밀번호가 맞지 않는 경우
+            const status = error.response?.status;
+            const serverMessage = error.message;
+
             let errorMessage = '';
 
-            if (error.status === 404) {
-                errorMessage = 'Please check your email.';
-            } else if (error.status === 409) {
+            if (status === 404) {
+            } else if (status === 409) {
                 errorMessage = 'Please check your password.';
             } else {
-                errorMessage = error.message || 'An unexpected error occurred.';
+                errorMessage = serverMessage || 'An unexpected error occurred.';
             }
 
             toast.on({
@@ -50,13 +74,15 @@ export const useConsumerLogin = () => {
 
 export const useConsumerSignUp = () => {
     const router = useRouter();
-    return useMutation({
+    return useMutation<ConsumerSignUpResponse, AxiosError, ConsumerSignUpParams>({
         mutationKey: ['consumer', 'signup'],
-        mutationFn: (params: any) => ConsumerService.signUpConsumer(params),
-        onSuccess: async (res: any) => {
-            alert('Sign up successful.');
+        mutationFn: (params) => ConsumerService.signUpConsumer(params).then((res) => res.data),
+        onSuccess: (res) => {
+            alert(res.msg || 'Sign up successful.');
             router.push('/log-in/customer');
         },
-        onError: (error: any) => {}
+        onError: (error) => {
+            console.error('Sign up error:', error);
+        }
     });
 };

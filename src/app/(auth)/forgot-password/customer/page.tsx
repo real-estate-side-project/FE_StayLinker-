@@ -7,6 +7,14 @@ import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
+type FormValues = {
+    email: string;
+    verificationCode: string;
+    newPassword: string;
+    retypeNewPassword: string;
+    role: 'CONSUMER' | 'ADMIN';
+};
+
 const ForgotPasswordPage = () => {
     const [step, setStep] = useState<1 | 2>(1);
     const [showCodeInput, setShowCodeInput] = useState(false);
@@ -17,7 +25,7 @@ const ForgotPasswordPage = () => {
     const [timerText, setTimerText] = useState('');
     const [codeError, setCodeError] = useState('');
 
-    const methods = useForm({
+    const methods = useForm<FormValues>({
         mode: 'onChange',
         defaultValues: {
             email: '',
@@ -44,7 +52,7 @@ const ForgotPasswordPage = () => {
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: FormValues) => {
         console.log('최종 제출:', data);
     };
 
@@ -72,7 +80,7 @@ const ForgotPasswordPage = () => {
 
     const handleRequestEmail = () => {
         requestEmail(
-            { email, role: 'ADMIN' },
+            { email, role: 'CONSUMER' },
             {
                 onSuccess: () => {
                     setShowCodeInput(true);
@@ -87,7 +95,7 @@ const ForgotPasswordPage = () => {
     const handleVerifyCode = () => {
         setCodeError('');
         confirmCode(
-            { email, role: 'ADMIN', code },
+            { email, role: 'CONSUMER', code },
             {
                 onSuccess: () => {
                     setTimerColor('green');
@@ -113,8 +121,6 @@ const ForgotPasswordPage = () => {
 
                         {step === 1 && (
                             <section className="flex flex-col gap-8">
-                                <Input name="fullName" label="Full Name" placeholder="ex)Jane/John Doe" />
-
                                 <Input
                                     name="email"
                                     label="ID"
@@ -138,7 +144,7 @@ const ForgotPasswordPage = () => {
                                         placeholder=""
                                         maxLength={20}
                                         state={timerColor === 'green' ? 'filled' : codeError ? 'error' : 'default'}
-                                        description={`• The verification code is valid for 5 minutes from the time received.\n• If you don't receive verification code, please press the ‘Request’ button again.`}
+                                        description={`• The verification code is valid for 5 minutes from the time received.\n• If you don't receive verification code, please press the &lsquo;Request&rsquo; button again.`}
                                         rightSlot={
                                             timeLeft > 0 && (
                                                 <span className="font-semibold text-danger600">{timerText}</span>
@@ -218,7 +224,7 @@ const ForgotPasswordPage = () => {
                         )}
 
                         <div className="text-center text-gray-500 pc-body-m-500 mt-4">
-                            If you don't remember information entered when joining,
+                            If you don&apos;t remember information entered when joining,
                             <br />
                             Please contact abc@staylinker.co.kr
                         </div>

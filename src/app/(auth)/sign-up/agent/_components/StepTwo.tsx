@@ -16,7 +16,7 @@ const StepTwo = () => {
     const code = useWatch({ control, name: 'code' });
 
     const { mutate: requestEmail } = useRequestEmailVerification();
-    const { mutate: confirmCode, isPending: confirmPending } = useConfirmEmailCode();
+    const { mutate: confirmCode } = useConfirmEmailCode();
 
     const [timeLeft, setTimeLeft] = useState(0);
     const [timerColor, setTimerColor] = useState<'red' | 'green'>('red');

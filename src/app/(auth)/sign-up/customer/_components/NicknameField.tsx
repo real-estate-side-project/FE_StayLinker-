@@ -6,12 +6,7 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const NicknameField = () => {
-    const {
-        watch,
-        setError,
-        clearErrors,
-        formState: { errors }
-    } = useFormContext();
+    const { watch, setError, clearErrors } = useFormContext();
 
     const nickname = watch('nickname');
     const { mutate: checkDuplicate, isSuccess, isError, reset } = useCheckDuplicateNickname();
@@ -34,7 +29,7 @@ const NicknameField = () => {
         }, 500);
 
         return () => clearTimeout(debounce);
-    }, [nickname]);
+    }, [nickname, checkDuplicate, clearErrors, setError, reset]);
 
     const state = isError ? 'error' : isSuccess ? 'filled' : 'default';
 

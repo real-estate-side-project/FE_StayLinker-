@@ -1,4 +1,5 @@
 import http from '@/http/http.interceptors.request';
+import { AxiosError } from 'axios';
 
 const checkDuplicateNickname = async (nickname: string) => {
     try {
@@ -82,8 +83,10 @@ const resetPassword = async (
         });
 
         return response.data;
-    } catch (error: any) {
-        throw new Error(error?.response?.data?.message || '비밀번호 재설정에 실패했습니다.');
+    } catch (error: unknown) {
+        const message =
+            (error as AxiosError<{ message?: string }>)?.response?.data?.message || '비밀번호 재설정에 실패했습니다.';
+        throw new Error(message);
     }
 };
 

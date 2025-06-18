@@ -6,10 +6,10 @@ export const useCheckDuplicateNickname = () => {
     return useMutation({
         mutationFn: (nickname: string) => ValidationService.checkDuplicateNickname(nickname),
         onSuccess: (data) => {
-            alert('Nickname is available.');
+            alert(data);
         },
         onError: (error) => {
-            alert('Nickname is not available.');
+            alert(error);
         }
     });
 };

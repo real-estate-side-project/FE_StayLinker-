@@ -23,7 +23,6 @@ export type BusinessInfoVerifyResponse = {
 
 const StepOne = () => {
     const [searchResult, setSearchResult] = useState<BusinessInfoVerifyResponse | null>(null);
-    const [confirmHandler, setConfirmHandler] = useState<(() => Promise<void>) | null>(null);
 
     const [businessLicenseFile, setBusinessLicenseFile] = useState<File | null>(null);
     const [officeLicenseFile, setOfficeLicenseFile] = useState<File | null>(null);
@@ -32,14 +31,7 @@ const StepOne = () => {
 
     const handleOpenAgentSearchModal = (): void => {
         modal.open({
-            message: (
-                <AgentSearchModal
-                    onSelect={(data) => setSearchResult(data)}
-                    onConfirmSubmit={async () => {
-                        modal.close();
-                    }}
-                />
-            ),
+            message: <AgentSearchModal />,
             hasCancel: false,
             backgroundClassName: 'bg-white/70',
             customButtons: (

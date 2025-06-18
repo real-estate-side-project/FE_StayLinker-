@@ -3,14 +3,28 @@ import { BusinessService } from '@/service/auth/BusinessService';
 import { BusinessInfoVerifyParams, BusinessLoginParams } from '@/types/business.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+
+interface BusinessLoginResponse {
+    accessToken: string;
+}
+
+interface BusinessInfo {
+    businessName: string;
+    agentName: string;
+    address: string;
+    businessCertificate: string;
+}
 
 export const useBusinessLogin = () => {
     const modal = useModal();
-    return useMutation({
+
+    return useMutation<{ data: BusinessLoginResponse }, AxiosError, BusinessLoginParams>({
         mutationKey: ['Business', 'login'],
-        mutationFn: (params: BusinessLoginParams) => BusinessService.loginBusiness(params),
-        onSuccess: async (res: any) => {
+        mutationFn: (params) => BusinessService.loginBusiness(params),
+        onSuccess: (res) => {
             const accessToken = res.data.accessToken;
+
             if (accessToken) {
                 modal.open({
                     message: '로그인 되었습니다.(사업자)',
@@ -22,10 +36,9 @@ export const useBusinessLogin = () => {
                     hasCancel: false,
                     confirmButtonContent: { children: '확인' }
                 });
-            } else {
             }
         },
-        onError: (error: any) => {
+        onError: (error) => {
             modal.open({
                 message: `${error.message}`,
                 onConfirm: () => modal.close(),
@@ -37,15 +50,13 @@ export const useBusinessLogin = () => {
 };
 
 export const useBusinessInfoVerify = () => {
-    return useMutation({
+    return useMutation<{ data: BusinessInfo[] }, AxiosError, BusinessInfoVerifyParams>({
         mutationKey: ['Business', 'info-verify'],
-        mutationFn: (params: BusinessInfoVerifyParams) => BusinessService.searchBusinessInfo(params),
-        onSuccess: (res: any) => {
-            // 성공 시 처리할 로직 추가 가능
-
+        mutationFn: (params) => BusinessService.searchBusinessInfo(params),
+        onSuccess: (res) => {
             console.log('중개사무소 조회 성공:', res.data);
         },
-        onError: (error: any) => {
+        onError: (error) => {
             console.error('중개사무소 조회 실패:', error);
         }
     });

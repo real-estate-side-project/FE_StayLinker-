@@ -8,12 +8,23 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 
+// 👉 form value 타입 정의
+type AgentSignUpFormValues = {
+    phoneNumber?: string;
+    registrationCode?: string;
+    qualificationCode?: string;
+    acquireDate?: string;
+    businessCode?: string;
+    // StepTwo 필드도 여기 추가 가능
+};
+
 const AgentSiginUpForm = () => {
-    const methods = useForm({
+    const methods = useForm<AgentSignUpFormValues>({
         mode: 'onChange',
         defaultValues: {}
     });
-    const onSubmit = (data: any) => {
+
+    const onSubmit = (data: AgentSignUpFormValues) => {
         console.log('Form submitted:', JSON.stringify(data, null, 2));
     };
 
@@ -33,6 +44,7 @@ const AgentSiginUpForm = () => {
                                 • 스테이링커는 중개사무소를 개설 등록한 대표자(개업공인중개사)가 회원가입 가능합니다.
                             </p>
                         </section>
+
                         {step === 1 && <StepOne />}
                         {step === 2 && <StepTwo />}
 
@@ -49,6 +61,7 @@ const AgentSiginUpForm = () => {
                                     <MdKeyboardArrowRight />
                                 </p>
                             </Button>
+
                             <div className="flex w-full justify-center text-gray-500 text-[16px]">
                                 <p>
                                     Already have an account?
