@@ -2,7 +2,7 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
@@ -84,7 +84,13 @@ const EmailSection = () => {
                 state={resolvedInputState}
                 validationMessage={''}
                 buttonSlot={
-                    <Button priority="secondary" fullWidth onClick={handleRequestEmail} isDisabled={!email?.trim()}>
+                    <Button
+                        priority="secondary"
+                        fullWidth
+                        onClick={handleRequestEmail}
+                        isDisabled={!email?.trim()}
+                        type="button"
+                    >
                         Request
                     </Button>
                 }
@@ -99,7 +105,13 @@ const EmailSection = () => {
                 description={`• The verification code is valid for 5 minutes from the time received.\n• If you don't receive verification code, please press the ‘Request’ button again.`}
                 rightSlot={timeLeft > 0 && <span className="font-semibold text-danger600">{timerText}</span>}
                 buttonSlot={
-                    <Button priority="secondary" fullWidth onClick={handleVerifyCode} isDisabled={!code?.trim()}>
+                    <Button
+                        priority="secondary"
+                        fullWidth
+                        onClick={handleVerifyCode}
+                        isDisabled={!code?.trim()}
+                        type="button"
+                    >
                         {confirmPending ? 'Verifying...' : 'Verify'}
                     </Button>
                 }

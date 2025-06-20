@@ -2,13 +2,13 @@
 
 import Button from '@/components/Buttons/Button';
 import Dropdown from '@/components/DropDown/DropDown';
-import Checkbox from '@/components/Inputs/Checkbox';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 import { languageOptions } from '../../customer/_utils/optionsData';
+import TermsSection from './TermSection';
 
 const StepTwo = () => {
     const { control, watch, formState } = useFormContext();
@@ -143,41 +143,19 @@ const StepTwo = () => {
                 description={`• 비밀번호를 다시 한 번 입력해주세요.`}
                 state={confirmPasswordState}
             />
-            <Dropdown
-                name="languages"
-                label="언어"
-                placeholder="ex)한국어"
-                items={languageOptions}
-                onSelect={() => {}}
-                size="full"
-                description={`• 주사용 언어를 선택해주세요.`}
-            />
-            <div className="w-[700px] inline-flex flex-col justify-start items-start gap-3">
-                {/* 전체 동의 */}
-                <Checkbox name="allAgree" mode="on-off">
-                    회원가입 약관 전체 동의하기
-                </Checkbox>
-
-                {/* 필수 약관 */}
-                <div className="px-4 inline-flex flex-col justify-start items-start gap-3 w-full">
-                    <Checkbox name="termsOfUse" mode="on-off">
-                        [필수] 이용약관 동의
-                    </Checkbox>
-
-                    <Checkbox name="privacyPolicy" mode="on-off">
-                        [필수] 개인정보 수집 및 이용 동의
-                    </Checkbox>
-
-                    <Checkbox name="thirdPartyConsent" mode="on-off">
-                        [필수] 개인정보 제3자 제공 동의
-                    </Checkbox>
-
-                    {/* 선택 약관 */}
-                    <Checkbox name="marketingConsent" mode="on-off">
-                        [선택] 마케팅 수신 동의
-                    </Checkbox>
-                </div>
+            <div className="flex flex-col gap-3">
+                <Dropdown
+                    name="languages"
+                    label="언어"
+                    placeholder="ex)한국어"
+                    items={languageOptions}
+                    onSelect={() => {}}
+                    size="full"
+                    description={`• 주사용 언어를 선택해주세요.`}
+                />
             </div>
+
+            <TermsSection />
         </>
     );
 };

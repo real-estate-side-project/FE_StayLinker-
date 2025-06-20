@@ -2,7 +2,7 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useConsumerSignUp } from '@/querys/ConsumerQuerys';
+import { useConsumerSignUp } from '@/querys/auth/ConsumerQuerys';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -186,14 +186,24 @@ const CustomerSignUpForm = () => {
                         <div className="flex w-full justify-between text-gray-500 text-[18px]">
                             <p>
                                 By creating an account, you agree to the Staylinker’s
-                                <Link href={`/`}>
-                                    <span className="text-sub500 underline"> Terms of Service </span>
-                                </Link>
+                                <a
+                                    href="/terms"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sub500 underline"
+                                >
+                                    Terms of Service
+                                </a>
                                 and
                                 <br />
-                                <Link href={`/`}>
-                                    <span className="text-sub500 underline"> Privacy Policy</span>
-                                </Link>
+                                <a
+                                    href="/privacy"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sub500 underline"
+                                >
+                                    Privacy Policy
+                                </a>
                             </p>
                         </div>
 
