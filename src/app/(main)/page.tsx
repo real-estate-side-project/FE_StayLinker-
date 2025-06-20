@@ -1,6 +1,12 @@
 import React from 'react';
-import { InformationSection, OurServiceSection, SearchSection, WishlistSection } from './components';
-
+import {
+    InformationSection,
+    OurServiceSection,
+    RecommendedSection,
+    SearchSection,
+    WishlistSection
+} from './components';
+import clsx from 'clsx';
 const MainPage = () => {
     return (
         <div className="flex flex-col gap-40 ">
@@ -9,8 +15,13 @@ const MainPage = () => {
                 <OurServiceSection />
                 <InformationSection />
             </div>
-            <div className="flex flex-col gap-40 items-start bg-bg50 py-40">
-                <WishlistSection />
+            <div>
+                <div className="flex flex-col gap-40 items-start bg-bg50 py-40">
+                    <WishlistSection />
+                </div>
+                <div className={clsx('flex flex-col gap-40 items-center bg-bg50', true && 'py-40')}>
+                    <RecommendedSection />
+                </div>
             </div>
         </div>
     );
