@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import { MdBookmark, MdOutlineEdit } from 'react-icons/md';
 
 type property = {
@@ -43,6 +43,7 @@ const Wishlist = () => {
             <div className="grid grid-cols-3 gap-10">
                 {wishlist.map((property: property) => (
                     <Link
+                        key={property.id}
                         href={`./page/${property.id}`}
                         className="w-[330px] p-6 bg-white rounded-lg border border-[#ebe5d9] flex flex-col gap-6 my-10"
                     >

@@ -1,8 +1,7 @@
 'use client';
-
 declare global {
     interface Window {
-        kakao: any;
+        kakao: typeof kakao;
     }
 }
 

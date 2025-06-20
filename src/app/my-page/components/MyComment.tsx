@@ -3,7 +3,7 @@ import Threads from '@/components/Threads';
 import React, { useState } from 'react';
 
 const MyComment = () => {
-    const [commentList, setCommentList] = useState([]);
+    // const [commentList, setCommentList] = useState([]);
     const [boardType, setBoardType] = useState('See All');
 
     // call commentList get api

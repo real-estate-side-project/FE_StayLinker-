@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import type { Swiper as SwiperClass } from 'swiper';
 import { useRouter } from 'next/navigation';
 
 interface Article {
@@ -27,20 +28,20 @@ const slides: Article[] = [
     { image: '/images/navi.png', title: '제목 7', summary: '이것은 일곱 번째 슬라이드입니다.', id: '12' }
 ];
 
-const App = ({ topic }: { topic: string }) => {
+// { topic }: { topic: string }
+const App = () => {
     const router = useRouter();
-    const [isFirst, setIsFirst] = useState(true);
     const [activeIndex, setActiveIndex] = useState(0);
 
-    const handleSlideChange = (swiper: any) => {
+    const handleSlideChange = (swiper: SwiperClass) => {
         setActiveIndex(swiper.realIndex);
     };
 
     // const [slides, setSlides] = useState([]);
-    const getSlides = (topic: string) => {
-        // call slides get api
-        // setSlides()
-    };
+    // const getSlides = (topic: string) => {
+    //     call slides get api
+    //     setSlides()
+    // };
 
     return (
         <Swiper

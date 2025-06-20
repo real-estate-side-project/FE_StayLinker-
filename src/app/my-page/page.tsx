@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { consumerSidebarData, businessSidebarData, componentMap } from './sidebarData';
+import { consumerSidebarData, componentMap } from './sidebarData';
 
 const MyPage = () => {
     // add later: check logged-in user type

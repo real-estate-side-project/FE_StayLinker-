@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { ChangeEvent, useState } from 'react';
 import MarketForm from './components/MarketForm';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import DropBox from '../DropBox';
 import { TbCameraPlus } from 'react-icons/tb';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
@@ -20,23 +20,20 @@ interface BaseForm {
     picture?: FileList;
 }
 
-interface MarketForm extends BaseForm {
+interface MarketFormType extends BaseForm {
     productName: string;
     price: number;
-    method: string;
-    address: string;
+    method: 'In-Person' | 'Delivery' | 'Both Options';
+    location: string;
 }
-
-type ThreadForm = BaseForm | MarketForm;
 
 const WriteThreadPage = () => {
     const {
         register,
         handleSubmit,
-        setValue,
         watch,
-        formState: { errors, isValid, isSubmitting }
-    } = useForm<ThreadForm>({
+        formState: { isValid, isSubmitting }
+    } = useForm<MarketFormType>({
         mode: 'onChange'
     });
     const [category, setCategory] = useState<string>('');
@@ -63,7 +60,7 @@ const WriteThreadPage = () => {
     };
     //
 
-    const tempFtn = (data: ThreadForm) => {
+    const tempFtn = (data: MarketFormType) => {
         console.log(data);
     };
 
@@ -172,9 +169,7 @@ const WriteThreadPage = () => {
                     className="hidden"
                 />
 
-                {category === 'Resale Market' && (
-                    <MarketForm register={register} setValue={setValue} detailInput={detailInput} />
-                )}
+                {category === 'Resale Market' && <MarketForm register={register} />}
 
                 <div className="h-60">
                     <div className="w-full border border-[#878787]"></div>

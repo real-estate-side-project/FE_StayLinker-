@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FaGripLinesVertical } from 'react-icons/fa6';
 
 const CommunityPost = () => {
-    const [threadList, setThreadList] = useState([]);
+    // const [threadList, setThreadList] = useState([]);
     const [isMyPost, setIsMyPost] = useState<boolean>(true);
     const [postType, setPostType] = useState<string>('See All');
 

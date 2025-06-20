@@ -1,27 +1,23 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import TopRating from './components/TopRating';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import http from '@/http/http.interceptors.request';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { CommunityService } from '@/service/CommunityService';
 
 import SingleSelect from '@/components/Chips/SingleSelect';
 import Threads from '@/components/Threads';
 import { MdOutlineEdit } from 'react-icons/md';
 import SearchBar from '@/components/SearchBar';
 
-interface FormData {
-    searchTerm: string;
-}
+// interface FormData {
+//     searchTerm: string;
+// }
 
-interface FetchPostsParams {
-    pageParam: string | null;
-    boardType: string;
-    sortBy: string;
-}
+// interface FetchPostsParams {
+//     pageParam: string | null;
+//     boardType: string;
+//     sortBy: string;
+// }
 
 interface Thread {
     type: string;
@@ -36,28 +32,29 @@ interface Thread {
     likedCount: number;
 }
 
-interface Page {
-    data: Thread[];
-}
+// interface Page {
+//     data: Thread[];
+// }
 
 // 후에 이 함수는 이동시킬까
-const fetchPosts = async ({ pageParam = null, boardType, sortBy }: FetchPostsParams) => {
-    const response = await http.get('/posts', {
-        params: {
-            cursor: pageParam ?? '',
-            boardType,
-            sortBy
-        }
-    });
+// const fetchPosts = async ({ pageParam = null, boardType, sortBy }: FetchPostsParams) => {
+//     const response = await http.get('/posts', {
+//         params: {
+//             cursor: pageParam ?? '',
+//             boardType,
+//             sortBy
+//         }
+//     });
 
-    return response.data;
-};
+//     return response.data;
+// };
 
 const CommunityPage = () => {
     const router = useRouter();
     const [boardType, setBoardType] = useState('See All');
     const [threadList, setThreadList] = useState<Thread[]>([]);
-    const { register, handleSubmit, reset } = useForm<FormData>({ mode: 'onSubmit' });
+    // const { register, handleSubmit, reset } = useForm<FormData>({ mode: 'onSubmit' });
+    console.log(threadList);
 
     const goToWriteThread = () => {
         router.push('./community/components/WriteThread');
@@ -69,46 +66,46 @@ const CommunityPage = () => {
             .then((data) => setThreadList(data));
     };
 
-    const handleToggle = async (id: string) => {
-        const currentThread = threadList.find((t) => t.postId === id);
-        const wasLiked = currentThread?.liked;
+    // const handleToggle = async (id: string) => {
+    //     const currentThread = threadList.find((t) => t.postId === id);
+    //     const wasLiked = currentThread?.liked;
 
-        if (wasLiked === undefined) return;
+    //     if (wasLiked === undefined) return;
 
-        setThreadList((prev) =>
-            prev.map((thread) =>
-                thread.postId === id
-                    ? {
-                          ...thread,
-                          liked: !thread.liked,
-                          likedCount: thread.liked ? thread.likedCount - 1 : thread.likedCount + 1
-                      }
-                    : thread
-            )
-        );
+    //     setThreadList((prev) =>
+    //         prev.map((thread) =>
+    //             thread.postId === id
+    //                 ? {
+    //                       ...thread,
+    //                       liked: !thread.liked,
+    //                       likedCount: thread.liked ? thread.likedCount - 1 : thread.likedCount + 1
+    //                   }
+    //                 : thread
+    //         )
+    //     );
 
-        try {
-            if (wasLiked) {
-                await CommunityService.deleteLikeAPI(id);
-            } else {
-                await CommunityService.postLikeAPI(id);
-            }
-        } catch (error) {
-            console.error('좋아요 API 실패', error);
+    //     try {
+    //         if (wasLiked) {
+    //             await CommunityService.deleteLikeAPI(id);
+    //         } else {
+    //             await CommunityService.postLikeAPI(id);
+    //         }
+    //     } catch (error) {
+    //         console.error('좋아요 API 실패', error);
 
-            setThreadList((prev) =>
-                prev.map((thread) =>
-                    thread.postId === id
-                        ? {
-                              ...thread,
-                              liked: wasLiked,
-                              likedCount: wasLiked ? thread.likedCount + 1 : thread.likedCount - 1
-                          }
-                        : thread
-                )
-            );
-        }
-    };
+    //         setThreadList((prev) =>
+    //             prev.map((thread) =>
+    //                 thread.postId === id
+    //                     ? {
+    //                           ...thread,
+    //                           liked: wasLiked,
+    //                           likedCount: wasLiked ? thread.likedCount + 1 : thread.likedCount - 1
+    //                       }
+    //                     : thread
+    //             )
+    //         );
+    //     }
+    // };
 
     return (
         <div className="bg-[#F5F5F5] h-screen pt-14">
@@ -121,7 +118,8 @@ const CommunityPage = () => {
                     />
                     <SearchBar onSearch={handleSearch} />
                 </div>
-                <TopRating type={boardType} />
+                {/* type={boardType} */}
+                <TopRating />
                 <div className="mt-[104px]">
                     <div className="flex justify-between">
                         <h3 className="font-bold text-[#070707] text-[28px] mb-10">Threads</h3>

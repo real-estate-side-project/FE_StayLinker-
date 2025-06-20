@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import ArticleCarousel from './components/ArticleCarousel';
 import SingleSelect from '@/components/Chips/SingleSelect';
-import SearchBar from '@/components/SearchBar';
 
 const KoreaInformationPage = () => {
     const [boardType, setBoardType] = useState<string>('See All');
@@ -36,7 +35,8 @@ const KoreaInformationPage = () => {
                     {(boardType === 'See All' ? topices : [boardType]).map((topic) => (
                         <div key={topic} className="mb-12">
                             <p className="text-[28px] font-bold mb-4">{topic}</p>
-                            <ArticleCarousel topic={topic} />
+                            {/* topic={topic} */}
+                            <ArticleCarousel />
                         </div>
                     ))}
                 </div>

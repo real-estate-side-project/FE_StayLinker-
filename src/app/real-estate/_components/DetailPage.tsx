@@ -64,7 +64,7 @@ type FormValues = {
 
 const RealEstateDetailPage = () => {
     const params = useParams();
-    const id = params.id as string;
+    // const id = params.id as string;
 
     // const { data } = useGetRealEstateDetailInformation(id);
 
