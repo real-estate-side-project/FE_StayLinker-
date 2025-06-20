@@ -2,17 +2,17 @@
 
 import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
-import { useConfirmEmailCode, useRequestEmailVerification } from '@/querys/auth/ValidationQuerys';
+import { useConfirmEmailCode, useRequestEmailVerification, useResetPassword } from '@/querys/auth/ValidationQuerys';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
 type FormValues = {
     email: string;
-    role: 'ADMIN';
     verificationCode: string;
     newPassword: string;
     retypeNewPassword: string;
+    role: 'TEMP_CONSUMER' | 'CONSUMER' | 'TEMP_BUSINESS' | 'BUSINESS';
 };
 
 const ForgotPasswordPage = () => {
@@ -26,13 +26,13 @@ const ForgotPasswordPage = () => {
     const [codeError, setCodeError] = useState('');
 
     const methods = useForm<FormValues>({
-        mode: 'onChange',
+        mode: 'onSubmit',
         defaultValues: {
             email: '',
-            role: 'ADMIN',
             verificationCode: '',
             newPassword: '',
-            retypeNewPassword: ''
+            retypeNewPassword: '',
+            role: 'TEMP_BUSINESS'
         }
     });
 
@@ -51,9 +51,15 @@ const ForgotPasswordPage = () => {
 
     const togglePassword = () => setShowPassword((prev) => !prev);
     const toggleConfirmPassword = () => setShowConfirmPassword((prev) => !prev);
-
+    const { mutate: resetPassword } = useResetPassword();
     const onSubmit = (data: FormValues) => {
-        console.log('최종 제출:', data);
+        resetPassword({
+            email: data.email,
+            verificationCode: data.verificationCode,
+            newPassword: data.newPassword,
+            retypeNewPassword: data.retypeNewPassword,
+            role: data.role
+        });
     };
 
     useEffect(() => {
@@ -111,7 +117,7 @@ const ForgotPasswordPage = () => {
     const canProceedNext = timerColor === 'green';
 
     return (
-        <main className="flex flex-col items-center justify-center mt-3 py-16">
+        <main className="flex flex-col items-center justify-center mt-14 mb-52 py-16">
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)} className="w-[700px]">
                     <div className="flex flex-col w-full">
@@ -121,9 +127,10 @@ const ForgotPasswordPage = () => {
 
                         {step === 1 && (
                             <section className="flex flex-col gap-8">
+                                <Input name="businessCode" label="사업자등록번호" placeholder="ex)123-45-67890" />
                                 <Input
                                     name="email"
-                                    label="ID"
+                                    label="이메일"
                                     placeholder="ex)abcd@email.com"
                                     buttonSlot={
                                         <Button
@@ -131,6 +138,7 @@ const ForgotPasswordPage = () => {
                                             fullWidth
                                             onClick={handleRequestEmail}
                                             isDisabled={!email?.trim()}
+                                            type="button"
                                         >
                                             Request
                                         </Button>
@@ -156,6 +164,7 @@ const ForgotPasswordPage = () => {
                                                 fullWidth
                                                 onClick={handleVerifyCode}
                                                 isDisabled={!verificationCode?.trim()}
+                                                type="button"
                                             >
                                                 {confirmPending ? 'Verifying...' : 'Verify'}
                                             </Button>

@@ -1,13 +1,9 @@
-import { useRouter } from 'next/navigation';
-import React from 'react';
-
 interface EllipsisProps {
     isMarket: boolean;
     isMain: boolean;
 }
 
 const Ellipsis = ({ isMarket, isMain }: EllipsisProps) => {
-    const router = useRouter();
     // ___ftn2-2(author): if author === loginUser > delet ftn!! & modify ftn!!( move and modify ftn action)
 
     // tem ftn name

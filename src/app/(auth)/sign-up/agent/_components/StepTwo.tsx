@@ -122,13 +122,6 @@ const StepTwo = () => {
                 icon={showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                 handleClickIcon={togglePassword}
                 description={`• 최소 6글자. 숫자와 특수문자 포함.\n• 대문자, 소문자 혼합.`}
-                rules={{
-                    validate: {
-                        minLength: (v) => v.length >= 6,
-                        hasNumberAndSpecial: (v) => /[0-9]/.test(v) && /[^A-Za-z0-9]/.test(v),
-                        hasMixedCase: (v) => /[a-z]/.test(v) && /[A-Z]/.test(v)
-                    }
-                }}
                 state={passwordState}
                 maxLength={50}
             />

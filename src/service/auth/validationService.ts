@@ -1,6 +1,7 @@
 import http from '@/http/http.interceptors.request';
 import { AxiosError } from 'axios';
 
+// 닉네임 중복검사
 const checkDuplicateNickname = async (nickname: string) => {
     try {
         const response = await http.get(`check/nickname`, {
@@ -66,20 +67,21 @@ const confirmEmailCode = async (email: string, role: string, code: string) => {
     }
 };
 
+// 비밀번호 찾기
 const resetPassword = async (
     email: string,
-    role: 'ADMIN' | 'CONSUMER' | 'BUSINESS',
     verificationCode: string,
     newPassword: string,
-    retypeNewPassword: string
+    retypeNewPassword: string,
+    role: 'ADMIN' | 'CONSUMER' | 'BUSINESS' | 'TEMP_CONSUMER' | 'TEMP_BUSINESS'
 ) => {
     try {
-        const response = await http.post('/email/confirm', {
+        const response = await http.post('/forgot/password', {
             email,
-            role,
             verificationCode,
             newPassword,
-            retypeNewPassword
+            retypeNewPassword,
+            role
         });
 
         return response.data;

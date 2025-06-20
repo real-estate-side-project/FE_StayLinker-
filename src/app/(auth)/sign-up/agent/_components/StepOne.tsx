@@ -5,33 +5,54 @@ import DateInput from '@/components/Inputs/DateInput';
 import Input from '@/components/Inputs/Input';
 import { useModal } from '@/providers/ModalProvider';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import AgentSearchModal from './AgentSearchModal';
 import AgentSearchResultCard from './AgentSearchResultCard';
 
-export type BusinessInfoVerifyResponse = {
+type AgentSignUpFormValues = {
     businessCode: string;
-    registrationCode: string;
-    agentName: string;
     businessName: string;
-    registDate: string;
-    mnnmAddress: string;
-    rdnmAddress: string;
-    estbsBeginDe: string;
-    estbsEndDe: string;
+    agentName: string;
+    registrationCode: string;
+    phoneNumber: string;
+    email: string;
+    password: string;
+    address: string;
+    businessCertificate: string;
+    nickName: string;
+    openingDate: string;
+};
+
+export type BusinessInfoVerifyResponse = {
+    businessName: string;
+    address: string;
+    businessCertificate: string;
+    agentName: string;
 };
 
 const StepOne = () => {
     const [searchResult, setSearchResult] = useState<BusinessInfoVerifyResponse | null>(null);
-
     const [businessLicenseFile, setBusinessLicenseFile] = useState<File | null>(null);
     const [officeLicenseFile, setOfficeLicenseFile] = useState<File | null>(null);
 
     const modal = useModal();
+    const { setValue } = useFormContext<AgentSignUpFormValues>();
+
+    const handleSelectBusinessInfo = (data: BusinessInfoVerifyResponse) => {
+        setSearchResult(data);
+
+        setValue('businessName', data.businessName);
+        setValue('agentName', data.agentName);
+        setValue('registrationCode', data.businessCertificate);
+        setValue('address', data.address);
+
+        modal.close();
+    };
 
     const handleOpenAgentSearchModal = (): void => {
         modal.open({
-            message: <AgentSearchModal />,
+            message: <AgentSearchModal onSelect={handleSelectBusinessInfo} />,
             hasCancel: false,
             backgroundClassName: 'bg-white/70',
             customButtons: (
@@ -44,28 +65,17 @@ const StepOne = () => {
         });
     };
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const businessLicenseInputRef = useRef<HTMLInputElement>(null);
+    const officeLicenseInputRef = useRef<HTMLInputElement>(null);
 
-    const handleClick = () => {
-        inputRef.current?.click();
+    const handleClickBusinessLicense = () => {
+        businessLicenseInputRef.current?.click();
     };
 
-    //목데이터용 유즈이펙트
-    useEffect(() => {
-        const mockSearchResult: BusinessInfoVerifyResponse = {
-            businessCode: '123-45-67890',
-            registrationCode: '경기-2023-12345',
-            agentName: '홍길동',
-            businessName: '길동이공인중개사사무소',
-            registDate: '2023-05-15',
-            mnnmAddress: '경기도 수원시 팔달구 정조로 123',
-            rdnmAddress: '팔달로 45번길 10',
-            estbsBeginDe: '2023-01-01T00:00:00.000Z',
-            estbsEndDe: '2030-12-31T23:59:59.999Z'
-        };
+    const handleClickOfficeLicense = () => {
+        officeLicenseInputRef.current?.click();
+    };
 
-        setSearchResult(mockSearchResult);
-    }, []);
     return (
         <>
             {/* 중개사무소 조회 */}
@@ -78,7 +88,7 @@ const StepOne = () => {
                         </p>
                     </div>
                     <div className="w-[100px] h-[43px] mt-3">
-                        <Button priority="secondary" onClick={handleOpenAgentSearchModal}>
+                        <Button priority="secondary" onClick={handleOpenAgentSearchModal} type="button">
                             조회하기
                         </Button>
                     </div>
@@ -88,30 +98,28 @@ const StepOne = () => {
                     <AgentSearchResultCard
                         agentName={searchResult.agentName}
                         businessName={searchResult.businessName}
-                        registrationCode={searchResult.registrationCode}
-                        address={`${searchResult.mnnmAddress} ${searchResult.rdnmAddress}`}
+                        registrationCode={searchResult.businessCertificate}
+                        address={`${searchResult.address}`}
                     />
                 )}
             </section>
+
             {/* 기본정보 입력 */}
             <Input name="phoneNumber" label="중개사무소 전화번호" placeholder="‘-’ 없이 입력해주세요." maxLength={30} />
+            {/* 이 값 없는듯? */}
             <Input
-                name="registrationCode"
+                name="nickName"
                 label="부동산 사무실 등록번호"
                 placeholder="‘-’ 를 반드시 포함해주세요."
                 maxLength={30}
             />
-            {searchResult && (
-                <>
-                    <Input
-                        name="qualificationCode"
-                        label="공인중개사 자격증번호"
-                        placeholder="‘-’ 없이 입력해주세요."
-                        maxLength={30}
-                    />
-                    <DateInput name="acquireDate" label="공인중개사 자격증 취득일" />
-                </>
-            )}
+            <Input
+                name="businessCertificate"
+                label="공인중개사 자격증번호"
+                placeholder="‘-’ 없이 입력해주세요."
+                maxLength={30}
+            />
+            <DateInput name="openingDate" label="공인중개사 자격증 취득일" />
             <Input name="businessCode" label="사업자 등록번호" placeholder="‘-’ 없이 입력해주세요." maxLength={30} />
 
             {/* 서류제출 */}
@@ -130,30 +138,28 @@ const StepOne = () => {
                         </p>
                     </div>
                     <>
-                        <Button onClick={handleClick} priority="secondary" size="sm" type="button">
+                        <Button onClick={handleClickBusinessLicense} priority="secondary" size="sm" type="button">
                             첨부하기
                         </Button>
 
                         <input
-                            ref={inputRef}
+                            ref={businessLicenseInputRef}
                             type="file"
                             accept=".pdf,.jpg,.jpeg,.png"
                             className="hidden"
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
-                                if (file) {
-                                    if (file.size > 5 * 1024 * 1024) {
-                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
-                                        e.target.value = ''; // 선택된 파일 초기화
-                                        return;
-                                    }
-                                    console.log('선택된 파일:', file.name);
+                                if (file && file.size <= 5 * 1024 * 1024) {
                                     setBusinessLicenseFile(file);
+                                } else if (file) {
+                                    alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                    e.target.value = '';
                                 }
                             }}
                         />
                     </>
                 </div>
+
                 {/* 중개사무소 등록증 첨부 */}
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1">
@@ -166,25 +172,22 @@ const StepOne = () => {
                         </p>
                     </div>
                     <>
-                        <Button onClick={handleClick} priority="secondary" size="sm" type="button">
+                        <Button onClick={handleClickOfficeLicense} priority="secondary" size="sm" type="button">
                             첨부하기
                         </Button>
 
                         <input
-                            ref={inputRef}
+                            ref={officeLicenseInputRef}
                             type="file"
                             accept=".pdf,.jpg,.jpeg,.png"
                             className="hidden"
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
-                                if (file) {
-                                    if (file.size > 5 * 1024 * 1024) {
-                                        alert('파일 크기는 5MB를 초과할 수 없습니다.');
-                                        e.target.value = ''; // 선택된 파일 초기화
-                                        return;
-                                    }
-                                    console.log('선택된 파일:', file.name);
+                                if (file && file.size <= 5 * 1024 * 1024) {
                                     setOfficeLicenseFile(file);
+                                } else if (file) {
+                                    alert('파일 크기는 5MB를 초과할 수 없습니다.');
+                                    e.target.value = '';
                                 }
                             }}
                         />

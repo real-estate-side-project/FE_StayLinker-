@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Buttons/Button';
+import { useBusinessApply } from '@/querys/auth/BusinessQuerys';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -8,24 +9,42 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 
-// 👉 form value 타입 정의
-type AgentSignUpFormValues = {
-    phoneNumber?: string;
-    registrationCode?: string;
-    qualificationCode?: string;
-    acquireDate?: string;
-    businessCode?: string;
-    // StepTwo 필드도 여기 추가 가능
+export type AgentSignUpFormValues = {
+    businessCode: string;
+    businessName: string;
+    agentName: string;
+    registrationCode: string;
+    phoneNumber: string;
+    email: string;
+    password: string;
+    address: string;
+    businessCertificate: string;
+    nickName: string;
+    openingDate: string;
 };
 
 const AgentSiginUpForm = () => {
     const methods = useForm<AgentSignUpFormValues>({
-        mode: 'onChange',
-        defaultValues: {}
+        mode: 'onSubmit',
+        defaultValues: {
+            businessName: '',
+            agentName: '',
+            registrationCode: '',
+            address: '',
+            phoneNumber: '',
+            businessCertificate: '',
+            openingDate: '',
+            businessCode: '',
+            email: '',
+            password: '',
+            nickName: ''
+        }
     });
+    const { mutate } = useBusinessApply();
 
     const onSubmit = (data: AgentSignUpFormValues) => {
         console.log('Form submitted:', JSON.stringify(data, null, 2));
+        mutate(data); // 바로 요청
     };
 
     const [step, setStep] = useState(1);
@@ -50,17 +69,27 @@ const AgentSiginUpForm = () => {
 
                         {/* 다음 , 가입 버튼 */}
                         <div className="flex flex-col w-full items-center justify-center gap-4 mt-8">
-                            <Button
-                                priority="primary"
-                                size="md"
-                                halfWidth
-                                onClick={() => setStep((prev) => (prev === 1 ? 2 : 1))}
-                            >
-                                <p className="flex items-center justify-center gap-2 pc-body-l-500">
-                                    {step === 1 ? '다음' : '가입하기'}
-                                    <MdKeyboardArrowRight />
-                                </p>
-                            </Button>
+                            {step === 1 ? (
+                                <Button
+                                    priority="primary"
+                                    size="md"
+                                    halfWidth
+                                    onClick={() => setStep((prev) => (prev === 1 ? 2 : 1))}
+                                    type={step === 1 ? 'button' : 'submit'}
+                                >
+                                    <p className="flex items-center justify-center gap-2 pc-body-l-500">
+                                        다음
+                                        <MdKeyboardArrowRight />
+                                    </p>
+                                </Button>
+                            ) : (
+                                <Button priority="primary" size="md" halfWidth type="submit">
+                                    <p className="flex items-center justify-center gap-2 pc-body-l-500">
+                                        가입하기
+                                        <MdKeyboardArrowRight />
+                                    </p>
+                                </Button>
+                            )}
 
                             <div className="flex w-full justify-center text-gray-500 text-[16px]">
                                 <p>

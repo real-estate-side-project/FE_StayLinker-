@@ -1,10 +1,10 @@
+import { useModal } from '@/providers/ModalProvider';
 import { useToast } from '@/providers/ToastProvider';
 import { ConsumerService } from '@/service/auth/ConsumerService';
 import { ConsumerLoginParams } from '@/types/consumer.type';
 import { setAccessToken } from '@/utils/manageCookie';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
 
 interface LoginResponse {
     accessToken: string;
@@ -73,13 +73,21 @@ export const useConsumerLogin = () => {
 };
 
 export const useConsumerSignUp = () => {
-    const router = useRouter();
+    const modal = useModal();
+
     return useMutation<ConsumerSignUpResponse, AxiosError, ConsumerSignUpParams>({
         mutationKey: ['consumer', 'signup'],
         mutationFn: (params) => ConsumerService.signUpConsumer(params).then((res) => res.data),
-        onSuccess: (res) => {
-            alert(res.msg || 'Sign up successful.');
-            router.push('/log-in/customer');
+        onSuccess: () => {
+            modal.open({
+                message: 'sign up completed successfully.',
+                onConfirm: () => {
+                    modal.close();
+                    window.location.href = '/log-in/customer';
+                },
+                hasCancel: false,
+                confirmButtonContent: { children: 'confirm' }
+            });
         },
         onError: (error) => {
             console.error('Sign up error:', error);
