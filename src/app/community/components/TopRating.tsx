@@ -74,9 +74,9 @@ const TopRating = () => {
                                 <p>{el.writer}</p>
                             </Link>
                         </div>
-                        <div className="flex justify-center gap-1">
-                            <TiHeartOutline />
-                            <div>{el.liked}</div>
+                        <div className="flex justify-center gap-1 items-center">
+                            <TiHeartOutline size={24} />
+                            <div className="text-lg">{el.liked}</div>
                         </div>
                     </div>
                 ))}

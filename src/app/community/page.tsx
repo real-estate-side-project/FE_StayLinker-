@@ -108,7 +108,7 @@ const CommunityPage = () => {
     // };
 
     return (
-        <div className="bg-[#F5F5F5] h-screen pt-14">
+        <div className="bg-[#F5F5F5] min-h-screen pt-14 pb-10">
             <div className="max-w-[1440px] mx-auto">
                 <div className="flex justify-between">
                     <SingleSelect
@@ -123,11 +123,11 @@ const CommunityPage = () => {
                 <div className="mt-[104px]">
                     <div className="flex justify-between">
                         <h3 className="font-bold text-[#070707] text-[28px] mb-10">Threads</h3>
-                        <div className="h-9 w-24 px-4 py-1.5 bg-[#fc861c] rounded border border-[#f45900] justify-center items-center gap-1 flex">
+                        <div className="h-9 px-4 py-1.5 bg-[#fc861c] rounded border border-[#f45900] justify-center items-center gap-1 flex">
                             <button onClick={goToWriteThread} className="ml-3 text-white font-medium">
                                 Write
                             </button>
-                            <MdOutlineEdit />
+                            <MdOutlineEdit size={24} color="white" />
                         </div>
                     </div>
                     {/* threadList.map(() => (
