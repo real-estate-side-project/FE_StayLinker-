@@ -86,7 +86,8 @@ export const WishlistSection = () => {
             <div className="flex gap-10 items-center w-screen px-[calc(50%-720px)] snap-x snap-mandatory overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {wishlist.map((item) => (
                     <div key={item.title} className="snap-center">
-                        <PropertyCard {...item} />
+                        {/* {...item} */}
+                        <PropertyCard />
                     </div>
                 ))}
             </div>

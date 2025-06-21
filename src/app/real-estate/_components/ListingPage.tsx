@@ -1,7 +1,7 @@
 'use client';
 
 import { GoodsType, HouseType, RealEstatePagination } from '@/types/realEstate.type';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import Map from './Map';
 import SideBar from './SideBar';
 // import { useGetRealEstates } from '@/querys/real-estate/RealEstateQueries';
@@ -89,7 +89,10 @@ const ListingPage = () => {
 
     return (
         <main className="flex">
-            <SideBar data={formattedData} />
+            <Suspense fallback={null}>
+                <SideBar data={formattedData} />
+            </Suspense>
+
             <Map data={formattedData} />
         </main>
     );

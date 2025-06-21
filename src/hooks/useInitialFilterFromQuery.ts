@@ -1,3 +1,5 @@
+'use client';
+
 import { FilterOption } from '@/types/realEstate.type';
 import { useSearchParams } from 'next/navigation';
 
