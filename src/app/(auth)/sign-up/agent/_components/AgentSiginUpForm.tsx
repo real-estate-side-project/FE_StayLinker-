@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/Buttons/Button';
+import { useBusinessApply } from '@/querys/auth/BusinessQuerys';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -8,13 +9,42 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import StepOne from './StepOne';
 import StepTwo from './StepTwo';
 
+export type AgentSignUpFormValues = {
+    businessCode: string;
+    businessName: string;
+    agentName: string;
+    registrationCode: string;
+    phoneNumber: string;
+    email: string;
+    password: string;
+    address: string;
+    businessCertificate: string;
+    nickName: string;
+    openingDate: string;
+};
+
 const AgentSiginUpForm = () => {
-    const methods = useForm({
-        mode: 'onChange',
-        defaultValues: {}
+    const methods = useForm<AgentSignUpFormValues>({
+        mode: 'onSubmit',
+        defaultValues: {
+            businessName: '',
+            agentName: '',
+            registrationCode: '',
+            address: '',
+            phoneNumber: '',
+            businessCertificate: '',
+            openingDate: '',
+            businessCode: '',
+            email: '',
+            password: '',
+            nickName: ''
+        }
     });
-    const onSubmit = (data: any) => {
+    const { mutate } = useBusinessApply();
+
+    const onSubmit = (data: AgentSignUpFormValues) => {
         console.log('Form submitted:', JSON.stringify(data, null, 2));
+        mutate(data); // 바로 요청
     };
 
     const [step, setStep] = useState(1);
@@ -33,22 +63,34 @@ const AgentSiginUpForm = () => {
                                 • 스테이링커는 중개사무소를 개설 등록한 대표자(개업공인중개사)가 회원가입 가능합니다.
                             </p>
                         </section>
+
                         {step === 1 && <StepOne />}
                         {step === 2 && <StepTwo />}
 
                         {/* 다음 , 가입 버튼 */}
                         <div className="flex flex-col w-full items-center justify-center gap-4 mt-8">
-                            <Button
-                                priority="primary"
-                                size="md"
-                                halfWidth
-                                onClick={() => setStep((prev) => (prev === 1 ? 2 : 1))}
-                            >
-                                <p className="flex items-center justify-center gap-2 pc-body-l-500">
-                                    {step === 1 ? '다음' : '가입하기'}
-                                    <MdKeyboardArrowRight />
-                                </p>
-                            </Button>
+                            {step === 1 ? (
+                                <Button
+                                    priority="primary"
+                                    size="md"
+                                    halfWidth
+                                    onClick={() => setStep((prev) => (prev === 1 ? 2 : 1))}
+                                    type={step === 1 ? 'button' : 'submit'}
+                                >
+                                    <p className="flex items-center justify-center gap-2 pc-body-l-500">
+                                        다음
+                                        <MdKeyboardArrowRight />
+                                    </p>
+                                </Button>
+                            ) : (
+                                <Button priority="primary" size="md" halfWidth type="submit">
+                                    <p className="flex items-center justify-center gap-2 pc-body-l-500">
+                                        가입하기
+                                        <MdKeyboardArrowRight />
+                                    </p>
+                                </Button>
+                            )}
+
                             <div className="flex w-full justify-center text-gray-500 text-[16px]">
                                 <p>
                                     Already have an account?

@@ -7,9 +7,7 @@ export type BusinessLoginParams = {
 };
 
 export type BusinessInfoVerifyParams = {
-    businessNumber: string;
-    registrationNumber: string;
-    name: string;
-    agentName: string;
-    registDate: string;
+    type: string;
+    pageNumber: number;
+    keyword: string;
 };

@@ -1,23 +1,19 @@
 import Ellipsis from '@/app/community/components/Ellipsis';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineChat } from 'react-icons/hi';
 import { HiMiniArrowUpTray } from 'react-icons/hi2';
 import { MdChatBubbleOutline, MdMoreHoriz } from 'react-icons/md';
 import { TiHeartOutline } from 'react-icons/ti';
 
-interface Thread {
-    userId: string;
-    category: string;
-    writer: string;
-    title: string;
-    summary: string;
-    comment: number;
-    liked: number;
-}
-
-interface ThreadsProps {
-    thread: Thread;
-}
+// interface Thread {
+//     userId: string;
+//     category: string;
+//     writer: string;
+//     title: string;
+//     summary: string;
+//     comment: number;
+//     liked: number;
+// }
 
 const thread = {
     category: 'Community',

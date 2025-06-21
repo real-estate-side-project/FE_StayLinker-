@@ -1,14 +1,14 @@
 'use client';
 
 import Checkbox from '@/components/Inputs/Checkbox';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { CheckboxSelectType } from '@/types/input.type';
+import { useFormContext } from 'react-hook-form';
 import { MdOutlineArrowForwardIos } from 'react-icons/md';
 
 const TermsSection = () => {
-    const { setValue, getValues, control } = useFormContext();
-    const allAgree = useWatch({ control, name: 'allAgree' });
+    const { setValue } = useFormContext();
 
-    const handleAllAgreeChange = (nextState: any) => {
+    const handleAllAgreeChange = (nextState: CheckboxSelectType) => {
         const newValue = nextState === 'on' ? 'on' : 'off';
 
         // 전체 약관 이름 배열
@@ -22,7 +22,7 @@ const TermsSection = () => {
         ];
 
         terms.forEach((term) => {
-            setValue(term, newValue); // 각 항목 업데이트
+            setValue(term, newValue);
         });
     };
 
@@ -37,9 +37,6 @@ const TermsSection = () => {
 
             {/* 필수 약관 */}
             <div className="px-4 inline-flex flex-col justify-start items-start gap-3 w-full">
-                <Checkbox name="age" mode="on-off">
-                    <div className="flex items-center justify-around gap-2">[필수] 만 14세 이상입니다.</div>
-                </Checkbox>
                 <Checkbox name="termsOfUse" mode="on-off">
                     <div className="flex items-center justify-around gap-2">
                         [필수] 이용약관 동의
@@ -75,6 +72,9 @@ const TermsSection = () => {
                             style={{ cursor: 'pointer' }}
                         />
                     </div>
+                </Checkbox>
+                <Checkbox name="age" mode="on-off">
+                    <div className="flex items-center justify-around gap-2">[필수] 만 14세 이상입니다.</div>
                 </Checkbox>
                 <Checkbox name="marketingConsent" mode="on-off">
                     <div className="flex items-center justify-around gap-2">
