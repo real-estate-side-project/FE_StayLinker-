@@ -15,6 +15,10 @@ import { TiHeartOutline } from 'react-icons/ti';
 //     liked: number;
 // }
 
+// interface ThreadsProps {
+//     thread: Thread;
+// }
+
 const thread = {
     category: 'Community',
     userId: 'asdf',
@@ -31,10 +35,6 @@ const Threads = () => {
     const isMarket = thread.category === 'market';
     const isMain = thread.userId === 'middleWare userId check';
     const [view, setView] = useState(false);
-
-    const handleLikeClick = () => {
-        console.log('like api call');
-    };
 
     const handleChat = () => {
         console.log('chat call');
@@ -57,7 +57,7 @@ const Threads = () => {
                             setView((prev) => !prev);
                         }}
                     >
-                        <MdMoreHoriz />
+                        <MdMoreHoriz size={24} />
                     </button>
                     {view && <Ellipsis isMarket={isMarket} isMain={isMain} />}
                 </div>
@@ -69,23 +69,23 @@ const Threads = () => {
                     <p className="text-[#070707] text-lg font-medium">{thread.summary}</p>
                 </div>
 
-                <div className="flex gap-1">
-                    <button onClick={() => handleLikeClick()} className="flex items-center gap-1">
-                        <TiHeartOutline />
+                <div className="flex gap-4">
+                    <button className="flex items-center gap-1">
+                        <TiHeartOutline size={24} />
                         <p className="text-lg">{thread.liked}</p>
                     </button>
                     <button onClick={() => callComment()} className="flex items-center gap-1">
-                        <MdChatBubbleOutline />
+                        <MdChatBubbleOutline size={24} />
                         <p className="text-lg">{thread.comment}</p>
                     </button>
                     {isMarket && (
                         <button onClick={() => handleChat()} className="flex items-center gap-1">
-                            <HiOutlineChat />
+                            <HiOutlineChat size={24} />
                             <p className="text-lg">1:1</p>
                         </button>
                     )}
                     <button onClick={() => {}}>
-                        <HiMiniArrowUpTray />
+                        <HiMiniArrowUpTray size={24} />
                     </button>
                 </div>
             </div>

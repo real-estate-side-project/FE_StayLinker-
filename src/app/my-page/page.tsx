@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { consumerSidebarData, businessSidebarData, componentMap } from './sidebarData';
+import { consumerSidebarData, componentMap } from './sidebarData';
 
 const MyPage = () => {
     // add later: check logged-in user type
@@ -37,7 +37,7 @@ const MyPage = () => {
                 ))}
             </div>
             <div>
-                <p>{selectedService}</p>
+                <p className="text-2xl font-semibold mb-2">{selectedService}</p>
                 <hr />
                 {selectedComponent && React.createElement(selectedComponent)}
             </div>

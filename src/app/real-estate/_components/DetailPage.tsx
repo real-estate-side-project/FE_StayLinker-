@@ -62,6 +62,9 @@ type FormValues = {
 };
 
 const RealEstateDetailPage = () => {
+    const params = useParams();
+    // const id = params.id as string;
+
     // const { data } = useGetRealEstateDetailInformation(id);
 
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);

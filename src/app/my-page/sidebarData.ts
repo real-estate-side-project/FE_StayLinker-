@@ -47,7 +47,7 @@ export const adminSidebarData = [
     }
 ];
 
-export const componentMap: { [key: string]: React.ComponentType<any> } = {
+export const componentMap: { [key: string]: React.ComponentType<unknown> } = {
     Wishlist,
     CommunityPost,
     MyComment

@@ -1,22 +1,23 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import { TiHeartOutline } from 'react-icons/ti';
 
-interface TopRatingProps {
-    type: string;
-}
+// interface TopRatingProps {
+//     type: string;
+// }
 
 // tem, recheck api, maybeM commen type
-interface Item {
-    id: number;
-    title: string;
-    content: string;
-    writer: string;
-    liked: number;
-}
-
-const TopRating = ({ type }: TopRatingProps) => {
-    const [topThreads, setTopThreads] = useState<Item[]>([
+// interface Item {
+//     id: number;
+//     title: string;
+//     content: string;
+//     writer: string;
+//     liked: number;
+// }
+// { type }: TopRatingProps
+const TopRating = () => {
+    // const [topThreads, setTopThreads] = useState<Item[]>([]);
+    const topThreads = [
         {
             id: 1,
             title: 'BEST Korean Diner by Foodie fighter Friend',
@@ -52,12 +53,12 @@ const TopRating = ({ type }: TopRatingProps) => {
             writer: 'writer2',
             liked: 3
         }
-    ]);
+    ];
 
-    const callTopThread = () => {
-        // ftn0: call type thread list limt in latest 1 month -> setTopthreads
-        // 필요한 개수 만큼의 데이터만 받아와야함(6개 or 5개)
-    };
+    // const callTopThread = () => {
+    //     ftn0: call type thread list limt in latest 1 month -> setTopthreads
+    //     필요한 개수 만큼의 데이터만 받아와야함(6개 or 5개)
+    // };
 
     return (
         <div className="h-[300px] mt-8">
@@ -73,9 +74,9 @@ const TopRating = ({ type }: TopRatingProps) => {
                                 <p>{el.writer}</p>
                             </Link>
                         </div>
-                        <div className="flex justify-center gap-1">
-                            <TiHeartOutline />
-                            <div>{el.liked}</div>
+                        <div className="flex justify-center gap-1 items-center">
+                            <TiHeartOutline size={24} />
+                            <div className="text-lg">{el.liked}</div>
                         </div>
                     </div>
                 ))}

@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
-import { MdOutlineAddLocationAlt } from 'react-icons/md';
+import React from 'react';
+import { UseFormRegister } from 'react-hook-form';
 
-interface MarketFormProps {
-    register: any;
-    setValue: any;
-    detailInput: string;
+// interface FormValues {
+//     productName: string;
+//     price: number;
+//     method: 'In-Person' | 'Delivery' | 'Both Options';
+//     location: string;
+// }
+
+interface BaseForm {
+    title: string;
+    detail: string;
+    picture?: FileList;
 }
 
-const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
-    const [isMapOpen, setIsMapOpen] = useState<boolean>(false);
+interface MarketFormType extends BaseForm {
+    productName: string;
+    price: number;
+    method: 'In-Person' | 'Delivery' | 'Both Options';
+    location: string;
+}
+
+interface MarketFormProps {
+    register: UseFormRegister<MarketFormType>;
+}
+
+const MarketForm = ({ register }: MarketFormProps) => {
+    // const [isMapOpen, setIsMapOpen] = useState<boolean>(false);
 
     // 미리보기 사진에 x 추가
     // 라디오 라벨 인풋구조 재확인
@@ -42,7 +60,7 @@ const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
                 <div className="flex gap-6">
                     <label className="flex gap-2 cursor-pointer">
                         <input
-                            {...register('method', { reauired: 'Choose a trading method' })}
+                            {...register('method', { required: 'Choose a trading method' })}
                             type="radio"
                             value="In-Person"
                             className="cursor-pointer"
@@ -69,9 +87,9 @@ const MarketForm = ({ register, setValue, detailInput }: MarketFormProps) => {
                     className="border-b border-[#878787] text-lg outline-none w-[360px] cursor-pointer mr-2"
                     placeholder=" Don't expose too much detailed information."
                 />
-                <button onClick={() => setIsMapOpen(true)}>
+                {/* <button onClick={() => setIsMapOpen(true)}>
                     <MdOutlineAddLocationAlt />
-                </button>
+                </button> */}
             </div>
         </>
     );
