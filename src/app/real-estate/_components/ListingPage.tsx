@@ -1,7 +1,6 @@
 'use client';
 
 import { GoodsType, HouseType, RealEstatePagination } from '@/types/realEstate.type';
-import { useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import Map from './Map';
 import SideBar from './SideBar';
@@ -71,9 +70,6 @@ const data = {
 };
 
 const ListingPage = () => {
-    const searchParams = useSearchParams();
-    const queryString = searchParams.toString();
-
     // const { data } = useGetRealEstates(queryString);
 
     const formattedData = useMemo(() => {
@@ -87,7 +83,7 @@ const ListingPage = () => {
                 goodsType: item.goodsType as GoodsType
             }))
         } satisfies RealEstatePagination;
-    }, [data]);
+    }, []);
 
     if (!formattedData) return null;
 

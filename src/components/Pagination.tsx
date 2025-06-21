@@ -9,10 +9,32 @@ interface PaginationProps {
 }
 
 const Pagination = ({ currentPage, totalPages, handleChangePage, visiblePageCount = 10 }: PaginationProps) => {
+    // const renderPageNumbers = (): JSX.Element[] => {
+    //     const pages = [];
+    //     const startPage = Math.max(1, currentPage);
+    //     const endPage = Math.min(currentPage + visiblePageCount - 1, totalPages);
+
+    //     for (let i = startPage; i <= endPage; i++) {
+    //         pages.push(
+    //             <button
+    //                 key={i}
+    //                 onClick={() => handleChangePage(i)}
+    //                 className={`flex items-center justify-center w-10 h-10 rounded-md font-bold text-lg cursor-pointer ${
+    //                     i === currentPage ? 'bg-main400 text-white' : 'bg-white text-gray910'
+    //                 }`}
+    //             >
+    //                 {i}
+    //             </button>
+    //         );
+    //     }
+
+    //     return pages;
+    // };
+
     const renderPageNumbers = (): JSX.Element[] => {
         const pages = [];
-        const startPage = currentPage;
-        const endPage = Math.min(currentPage + visiblePageCount - 1, totalPages);
+        const startPage = Math.floor((currentPage - 1) / visiblePageCount) * visiblePageCount + 1;
+        const endPage = Math.min(startPage + visiblePageCount - 1, totalPages);
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(

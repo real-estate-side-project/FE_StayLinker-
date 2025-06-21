@@ -3,6 +3,7 @@ import { ConsumerLoginParams, ConsumerSignUpParams } from '@/types/consumer.type
 
 const consumer = '/consumer';
 
+// 소비자 로그인
 const loginConsumer = async (params: ConsumerLoginParams) => {
     try {
         const response = await http.post(`${consumer}/login`, params);
@@ -17,6 +18,7 @@ const loginConsumer = async (params: ConsumerLoginParams) => {
     }
 };
 
+// 소비자 회원가입
 const signUpConsumer = async (params: ConsumerSignUpParams) => {
     try {
         const response = await http.post(`${consumer}/signup`, params);

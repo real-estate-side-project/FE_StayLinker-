@@ -1,5 +1,5 @@
 import Ellipsis from '@/app/community/components/Ellipsis';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { HiOutlineChat } from 'react-icons/hi';
 import { HiMiniArrowUpTray } from 'react-icons/hi2';
 import { MdChatBubbleOutline, MdMoreHoriz } from 'react-icons/md';

@@ -3,14 +3,20 @@
 import Button from '@/components/Buttons/Button';
 import Checkbox from '@/components/Inputs/Checkbox';
 import Input from '@/components/Inputs/Input';
-import { useToast } from '@/providers/ToastProvider';
 import { useConsumerLogin } from '@/querys/auth/ConsumerQuerys';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
 
+type FormValues = {
+    email: string;
+    password: string;
+    rememberMe?: 'on' | 'off';
+    saveID?: 'on' | 'off';
+};
+
 const ConsumerLogInForm = () => {
-    const methods = useForm({
+    const methods = useForm<FormValues>({
         defaultValues: {
             email: '',
             password: '',
@@ -24,11 +30,10 @@ const ConsumerLogInForm = () => {
     const email = watch('email');
     const password = watch('password');
     const isFormValid = email.trim() !== '' && password.trim() !== '';
-    const toast = useToast();
 
     const { mutate: login } = useConsumerLogin();
 
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: FormValues) => {
         const { email, password } = data;
 
         login({ email, password });

@@ -1,6 +1,6 @@
 const MarketingPage = () => {
     return (
-        <div className="max-w-3xl mx-auto px-4 py-12 space-y-8 text-gray-800 leading-relaxed">
+        <div className="mx-60 my-32 space-y-8 text-gray-800 leading-relaxed">
             <h1 className="text-3xl font-bold text-center mb-8">마케팅 정보 수신 동의</h1>
 
             <section>

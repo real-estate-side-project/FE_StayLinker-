@@ -4,7 +4,6 @@ import Button from '@/components/Buttons/Button';
 import Input from '@/components/Inputs/Input';
 import { useConsumerSignUp } from '@/querys/auth/ConsumerQuerys';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
@@ -53,7 +52,7 @@ const CustomerSignUpForm = () => {
             saveID: 'off'
         }
     });
-    const router = useRouter();
+
     const { mutate: signUp } = useConsumerSignUp();
 
     const [showPassword, setShowPassword] = useState(false);
@@ -72,9 +71,10 @@ const CustomerSignUpForm = () => {
     const passwordState = methods.formState.errors.password ? 'error' : password ? 'filled' : undefined;
 
     const onSubmit = (data: FormValues) => {
-        console.log('Form submitted:', JSON.stringify(data, null, 2));
+        // console.log('Form submitted:', JSON.stringify(data, null, 2));
         const birthDay = `${data.year}-${data.month}-${data.date}`;
 
+        //ui에 없는 값 (address, phoneNumber, country)은 임시로 설정
         const payload = {
             email: data.email,
             password: data.password,
@@ -88,18 +88,9 @@ const CustomerSignUpForm = () => {
             country: 'KR'
         };
 
-        console.log('payload', JSON.stringify(payload, null, 2));
+        // console.log('payload', JSON.stringify(payload, null, 2));
 
-        signUp(payload, {
-            onSuccess: () => {
-                alert('회원가입이 완료되었습니다.');
-                router.push('/log-in/customer');
-            },
-            onError: (err) => {
-                console.error('회원가입 실패:', err);
-                alert('회원가입에 실패했습니다.');
-            }
-        });
+        signUp(payload);
     };
 
     const togglePassword = () => setShowPassword((prev) => !prev);
