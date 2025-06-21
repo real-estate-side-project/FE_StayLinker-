@@ -1,21 +1,23 @@
 import Image from 'next/image';
-import { MdBookmark, MdAttachMoney } from 'react-icons/md';
+import { MdAttachMoney, MdBookmark } from 'react-icons/md';
 
-interface PropertyCardProps {
-    image?: string;
-    price: number;
-    title: string;
-    location: string;
-    description: string;
-}
+// interface PropertyCardProps {
+//     image?: string;
+//     price: number;
+//     title: string;
+//     location: string;
+//     description: string;
+// }
 
-export const PropertyCard = ({
-    image = '/images/ImagePlaceholder.png',
-    price,
-    title,
-    location,
-    description
-}: PropertyCardProps) => {
+// {
+//     image = '/images/ImagePlaceholder.png',
+//     price,
+//     title,
+//     location,
+//     description
+// }: PropertyCardProps
+
+export const PropertyCard = () => {
     return (
         <div className="p-6 flex flex-col gap-6 border border-bg500 bg-white rounded-lg">
             <div className="w-[280px] h-[240px] relative">
