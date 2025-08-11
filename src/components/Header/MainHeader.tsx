@@ -69,14 +69,18 @@ const MainHeader = () => {
                     <>
                         <Image src="/svg/bell-default-white.svg" alt="alert icon" width={32} height={32} />
                         <MdGTranslate size={32} className="text-white" />
-                        <p className="pc-body-s-500 text-white">{nickname}</p>
+                        <Link href={'/my-page'}>
+                            <p className="pc-body-s-500 text-white">{nickname}</p>
+                        </Link>
                         <button onClick={handleLogout} className="pc-body-s-500 text-white">
                             Logout
                         </button>
                         {isBusiness && (
-                            <Button priority="overlay" size="md" icon={<MdAdd />} iconPosition="right">
-                                Add Property
-                            </Button>
+                            <Link href={'/real-estate/add-property'}>
+                                <Button priority="overlay" size="md" icon={<MdAdd />} iconPosition="right">
+                                    Add Property
+                                </Button>
+                            </Link>
                         )}
                     </>
                 ) : (
